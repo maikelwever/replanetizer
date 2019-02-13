@@ -61,6 +61,19 @@ namespace RatchetEdit
             GetModelNames();
 
             SelectTool(Tool.ToolType.Translate);
+            GetRecentlyOpenedFiles();
+        }
+
+        private void GetRecentlyOpenedFiles() {
+            if (Properties.Settings.Default.RecentlyOpenedFiles.Count == 0) {
+                openRecentToolStripMenuItem.Enabled = false;
+            } else {
+                openRecentToolStripMenuItem.Enabled = true;
+                openRecentToolStripMenuItem.DropDownItems.Clear();
+                foreach (String recentlyOpenedFile in Properties.Settings.Default.RecentlyOpenedFiles) {
+                    openRecentToolStripMenuItem.DropDownItems.Insert(0, new ToolStripMenuItem(recentlyOpenedFile));
+                }
+            }
         }
 
         private void InitializeObjectTree() {
@@ -116,6 +129,19 @@ namespace RatchetEdit
 
             UpdateEditorValues();
             InvalidateView();
+
+            StoreInRecentlyOpened(fileName);
+        }
+
+        private void StoreInRecentlyOpened(String fileName) {
+            Properties.Settings.Default.RecentlyOpenedFiles.Remove(fileName);
+            Properties.Settings.Default.RecentlyOpenedFiles.Add(fileName);
+
+            while (Properties.Settings.Default.RecentlyOpenedFiles.Count > 10) {
+                Properties.Settings.Default.RecentlyOpenedFiles.RemoveAt(0);
+            }
+
+            GetRecentlyOpenedFiles();
         }
 
         public void GenerateObjectTree()
