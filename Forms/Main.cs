@@ -71,12 +71,19 @@ namespace RatchetEdit
                 openRecentToolStripMenuItem.Enabled = true;
                 openRecentToolStripMenuItem.DropDownItems.Clear();
                 foreach (String recentlyOpenedFile in Properties.Settings.Default.RecentlyOpenedFiles) {
-                    String shortenedTitle = recentlyOpenedFile.Substring(recentlyOpenedFile.Length - (Math.Min(30, recentlyOpenedFile.Length)));
+                    String shortenedTitle = recentlyOpenedFile.Substring(recentlyOpenedFile.Length - (Math.Min(20, recentlyOpenedFile.Length)));
                     ToolStripMenuItem newItem = new ToolStripMenuItem("..." + shortenedTitle);
                     newItem.AutoSize = true;
+                    newItem.Click += new EventHandler(this.onRecentlyOpenedClickedHandler);
+                    newItem.Tag = recentlyOpenedFile;
                     openRecentToolStripMenuItem.DropDownItems.Insert(0, newItem);
                 }
             }
+        }
+
+        private void onRecentlyOpenedClickedHandler(object sender, EventArgs e) {
+            Button btnSender = sender as Button;
+            this.LoadLevel(btnSender.Tag as String);
         }
 
         private void InitializeObjectTree() {
