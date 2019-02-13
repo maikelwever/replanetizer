@@ -71,7 +71,8 @@ namespace RatchetEdit
                 openRecentToolStripMenuItem.Enabled = true;
                 openRecentToolStripMenuItem.DropDownItems.Clear();
                 foreach (String recentlyOpenedFile in Properties.Settings.Default.RecentlyOpenedFiles) {
-                    openRecentToolStripMenuItem.DropDownItems.Insert(0, new ToolStripMenuItem(recentlyOpenedFile));
+                    String shortenedTitle = recentlyOpenedFile.Substring(recentlyOpenedFile.Length - (Math.Min(30, recentlyOpenedFile.Length)));
+                    openRecentToolStripMenuItem.DropDownItems.Insert(0, new ToolStripMenuItem("..." + shortenedTitle));
                 }
             }
         }
