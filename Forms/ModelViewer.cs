@@ -11,7 +11,7 @@ namespace RatchetEdit
 {
     public partial class ModelViewer : Form
     {
-        private Main mainForm;
+        private LevelUserControl mainForm;
         private Level level;
         private Model selectedModel;
 
@@ -28,7 +28,7 @@ namespace RatchetEdit
 
         private TreeNode mobyNode, tieNode, shrubNode, weaponNode;
 
-        public ModelViewer(Main main, Model model)
+        public ModelViewer(LevelUserControl main, Model model)
         {
             InitializeComponent();
 
@@ -132,7 +132,7 @@ namespace RatchetEdit
             }
         }
 
-        private void SelectModel(Model model)
+        public void SelectModel(Model model)
         {
             if (model == null) return;
 

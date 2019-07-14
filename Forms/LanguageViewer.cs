@@ -7,8 +7,8 @@ namespace RatchetEdit
 {
     public partial class LanguageViewer : Form
     {
-        Main main;
-        public LanguageViewer(Main main)
+        LevelUserControl main;
+        public LanguageViewer(LevelUserControl main)
         {
             InitializeComponent();
             this.main = main;

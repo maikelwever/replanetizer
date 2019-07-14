@@ -6,8 +6,8 @@ namespace RatchetEdit
 {
     public partial class UIViewer : Form
     {
-        Main main;
-        public UIViewer(Main main)
+        LevelUserControl main;
+        public UIViewer(LevelUserControl main)
         {
             InitializeComponent();
             this.main = main;

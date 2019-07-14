@@ -6,21 +6,13 @@ using System.Collections.Generic;
 using RatchetEdit.Serializers;
 using RatchetEdit.LevelObjects;
 using static RatchetEdit.Utilities;
+using System.Drawing;
 
 namespace RatchetEdit
 {
     public partial class Main : Form
     {
-        Dictionary<int, string> mobNames, tieNames;
-
-        public Level level;
-        public ModelViewer modelViewer;
-        public TextureViewer textureViewer;
-        public SpriteViewer spriteViewer;
-        public UIViewer uiViewer;
-        public LanguageViewer languageViewer;
-
-        bool suppressTreeViewSelectEvent = false;
+        public Dictionary<int, string> mobNames, tieNames;
 
         public Main()
         {
@@ -31,8 +23,6 @@ namespace RatchetEdit
         {
             mobNames = GetModelNames("/ModelLists/ModelListRC1.txt");
             tieNames = GetModelNames("/ModelLists/TieModelsRC1.txt");
-            objectTree.Init(mobNames, tieNames);
-            glControl.SelectTool(glControl.translateTool);
         }
 
         private void mapOpenBtn_Click(object sender, EventArgs e)
@@ -43,21 +33,30 @@ namespace RatchetEdit
             }
         }
 
+        public LevelUserControl GetActiveTab()
+        {
+            if (tabControl1.SelectedIndex == -1)
+            {
+                return null;
+            }
+            return (LevelUserControl)tabControl1.TabPages[tabControl1.SelectedIndex].Controls[0];
+        }
+
         void LoadLevel(string fileName)
         {
-            level = new Level(fileName);
-            if (!level.valid) return;
+            bool hasNoTabs = tabControl1.SelectedIndex == -1;
 
-            glControl.LoadLevel(level);
+            TabPage newPage = new TabPage();
+            newPage.Text = fileName.Substring(Math.Max(0, fileName.Length - 20));
+            newPage.Controls.Add(new LevelUserControl(this, fileName));
 
-            //Enable all the buttons in the view tab
-            foreach (ToolStripMenuItem menuButton in ViewToolStipItem.DropDownItems)
+            tabControl1.TabPages.Add(newPage);
+            tabControl1.SelectTab(tabControl1.TabCount - 1);
+
+            if (hasNoTabs)
             {
-                menuButton.Enabled = true;
+                UpdateMenuButtons();
             }
-
-            objectTree.UpdateEntries(level);
-            UpdateProperties(null);
         }
 
         private Dictionary<int, string> GetModelNames(string fileName) {
@@ -84,83 +83,49 @@ namespace RatchetEdit
             return modelNames;
         }
 
-        public LevelObject GetSelectedObject()
-        {
-            return glControl.selectedObject;
-        }
-
-        public void UpdateProperties(LevelObject obj)
-        {
-            properties.SelectedObject = obj;
-            properties.Refresh();
-        }
-
         #region Open Viewers
         private void OpenModelViewer()
         {
-            if ((modelViewer == null || modelViewer.IsDisposed))
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                if((GetSelectedObject() is ModelObject modelObj))
-                {
-                    modelViewer = new ModelViewer(this, modelObj.model);
-                    modelViewer.Show();
-                }
-            }
-            else
-            {
-                modelViewer.BringToFront();
+                activeTab.OpenModelViewer();
             }
         }
 
         public void OpenTextureViewer()
         {
-            if (textureViewer == null || textureViewer.IsDisposed)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                textureViewer = new TextureViewer(this);
-                textureViewer.Show();
-            }
-            else
-            {
-                textureViewer.BringToFront();
+                activeTab.OpenTextureViewer();
             }
         }
 
         public void OpenSpriteViewer()
         {
-            if (spriteViewer == null || spriteViewer.IsDisposed)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                spriteViewer = new SpriteViewer(this);
-                spriteViewer.Show();
-            }
-            else
-            {
-                spriteViewer.BringToFront();
+                activeTab.OpenSpriteViewer();
             }
         }
 
         public void OpenUISpriteViewer()
         {
-            if (uiViewer == null || uiViewer.IsDisposed)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                uiViewer = new UIViewer(this);
-                uiViewer.Show();
-            }
-            else
-            {
-                uiViewer.BringToFront();
+                activeTab.OpenUISpriteViewer();
             }
         }
 
         public void OpenLanguageViewer()
         {
-            if (languageViewer == null || languageViewer.IsDisposed)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                languageViewer = new LanguageViewer(this);
-                languageViewer.Show();
-            }
-            else
-            {
-                languageViewer.BringToFront();
+                activeTab.OpenLanguageViewer();
             }
         }
         #endregion
@@ -198,226 +163,215 @@ namespace RatchetEdit
         }
         #endregion MenuButtons
 
-        private void glControl1_Paint(object sender, PaintEventArgs e)
-        {
-            if (!glControl.initialized) return;
-
-            //Update ui label texts
-            camXLabel.Text = String.Format("X: {0}", fRound(glControl.camera.position.X, 2).ToString());
-            camYLabel.Text = String.Format("Y: {0}", fRound(glControl.camera.position.Y, 2).ToString());
-            camZLabel.Text = String.Format("Z: {0}", fRound(glControl.camera.position.Z, 2).ToString());
-            pitchLabel.Text = String.Format("Pitch: {0}", fRound(fToDegrees(glControl.camera.rotation.X), 2).ToString());
-            yawLabel.Text = String.Format("Yaw: {0}", fRound(fToDegrees(glControl.camera.rotation.Z), 2).ToString());
-
-
-        }
-
         //Called every frame
         private void tickTimer_Tick(object sender, EventArgs e)
         {
-            glControl.Tick();
-        }
-
-        private void cloneBtn_Click(object sender, EventArgs e)
-        {
-            if (!(GetSelectedObject() is Moby moby)) return;
-            glControl.CloneMoby(moby);
-        }
-
-        public int GetShaderID()
-        {
-            return glControl.shaderID;
-        }
-
-        void InvalidateView()
-        {
-            glControl.invalidate = true;
-        }
-
-        private void EnableCheck(object sender, EventArgs e)
-        {
-
-        }
-
-        private void translateToolBtn_Click(object sender, EventArgs e)
-        {
-            glControl.SelectTool(glControl.translateTool);
-        }
-
-        private void rotateToolBtn_Click(object sender, EventArgs e)
-        {
-            glControl.SelectTool(glControl.rotationTool);
-        }
-
-        private void scaleToolBtn_Click(object sender, EventArgs e)
-        {
-            glControl.SelectTool(glControl.scalingTool);
-        }
-
-        private void splineToolBtn_Click(object sender, EventArgs e)
-        {
-            glControl.SelectTool(glControl.vertexTranslator);
-        }
-
-        private void deleteBtn_Click(object sender, EventArgs e)
-        {
-            glControl.DeleteObject(GetSelectedObject());
-        }
-
-
-        private void objectTreeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            if (suppressTreeViewSelectEvent)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                suppressTreeViewSelectEvent = false;
-                return;
+                activeTab.Tick();
             }
-
-            if (e.Node.Parent == null) return;
-            
-
-            if (e.Node.Parent == objectTree.splineNode)
-            {
-                glControl.SelectObject(level.splines[e.Node.Index]);
-            }
-            else if (e.Node.Parent == objectTree.cameraNode)
-            {
-                glControl.SelectObject(level.gameCameras[e.Node.Index]);
-            }
-            else if (e.Node.Parent == objectTree.cuboidNode)
-            {
-                glControl.SelectObject(level.cuboids[e.Node.Index]);
-            }
-            else if (e.Node.Parent == objectTree.type0CNode)
-            {
-                glControl.SelectObject(level.type0Cs[e.Node.Index]);
-            }
-
-            if (e.Node.Parent.Parent == null) return;
-
-            if (e.Node.Parent.Parent == objectTree.mobyNode)
-            {
-                glControl.SelectObject(level.mobs[(int)e.Node.Tag]);
-            }
-            else if (e.Node.Parent.Parent == objectTree.tieNode)
-            {
-                glControl.SelectObject(level.ties[(int)e.Node.Tag]);
-            }
-            else if (e.Node.Parent == objectTree.shrubNode)
-            {
-                glControl.SelectObject(level.shrubs[e.Node.Index]);
-            }
-
-            glControl.camera.MoveBehind(GetSelectedObject());
-        }
-
-
-        private void propertyGrid1_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            InvalidateView();
         }
 
         private void mobyCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableMoby = mobyCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableMoby = mobyCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void tieCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableTie = tieCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableTie = tieCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void shrubCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableShrub = shrubCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableShrub = shrubCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void collCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableCollision = collCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableCollision = collCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void terrainCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableTerrain = terrainCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableTerrain = terrainCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void splineCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableSpline = splineCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableSpline = splineCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void skyboxCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableSkybox = skyboxCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableSkybox = skyboxCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void cuboidCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableCuboid = cuboidCheck.Checked;
-            InvalidateView();
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
+            {
+                activeTab.GetGLControl().enableCuboid = cuboidCheck.Checked;
+                activeTab.InvalidateView();
+            }
         }
 
         private void type0CCheck_CheckedChanged(object sender, EventArgs e)
         {
-            glControl.enableType0C = type0CCheck.Checked;
-            InvalidateView();
-        }
-
-        private void glControl_MouseDoubleClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            OpenModelViewer();
-        }
-
-        private void glControl_ObjectClick(object sender, RatchetEventArgs e)
-        {
-            /*if(e.SelectedObject is ModelObject modelObject)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                modelViewer = new ModelViewer(this, modelObject.model);
-                modelViewer.Show();
-            }*/
-            UpdateProperties(e.Object);
-        }
-
-        private void glControl_ObjectDeleted(object sender, RatchetEventArgs e)
-        {
-            switch (e.Object)
-            {
-                case Moby moby:
-                    objectTree.mobyNode.Nodes[level.mobs.IndexOf(moby)].Remove();
-                    level.mobs.Remove(moby);
-                    break;
-                case Tie tie:
-                    objectTree.tieNode.Nodes[level.ties.IndexOf(tie)].Remove();
-                    level.ties.Remove(tie);
-                    break;
-                case Shrub shrub:
-                    level.shrubs.Remove(shrub);
-                    break;
+                activeTab.GetGLControl().enableType0C = type0CCheck.Checked;
+                activeTab.InvalidateView();
             }
-            UpdateProperties(e.Object);
+        }
+
+        private void tabControl1_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index == tabControl1.SelectedIndex)
+            {
+                e.Graphics.DrawString(this.tabControl1.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 4, e.Bounds.Top + 4);
+                e.Graphics.DrawString("x", e.Font, Brushes.Black, e.Bounds.Right - 15, e.Bounds.Top + 4);
+            }
+            else
+            {
+                e.Graphics.DrawString(this.tabControl1.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 9, e.Bounds.Top + 4);
+            }
+            e.DrawFocusRectangle();
+        }
+
+        private void tabControl1_MouseUp(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < this.tabControl1.TabPages.Count; i++)
+            {
+                Rectangle r = tabControl1.GetTabRect(i);
+                //Getting the position of the "x" mark.
+                Rectangle closeButton = new Rectangle(r.Right - 15, r.Top + 4, 9, 7);
+                if (closeButton.Contains(e.Location))
+                {
+                    LevelUserControl activeTab = GetActiveTab();
+                    if (activeTab != null)
+                    {
+                        activeTab.PrepareForClose();
+                    }
+
+                    if (i + 1 < tabControl1.TabCount)
+                    {
+                        tabControl1.SelectedIndex = i + 1;
+                    }
+                    else if (i - 1 >= 0)
+                    {
+                        tabControl1.SelectedIndex = i - 1;
+                    }
+                    tabControl1.TabPages.RemoveAt(i);
+                }
+            }
+        }
+
+        private void UpdateMenuButtons()
+        {
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab == null)
+            {
+                mapSaveBtn.Enabled = false;
+                mapSaveAsBtn.Enabled = false;
+                foreach (ToolStripMenuItem menuButton in WindowToolStripItem.DropDownItems)
+                {
+                    menuButton.Enabled = false;
+                }
+                foreach (ToolStripMenuItem menuButton in ViewToolStipItem.DropDownItems)
+                {
+                    menuButton.Checked = false;
+                    menuButton.Enabled = false;
+                }
+            }
+            else
+            {
+                // mapSaveBtn.Enabled = true;  // Uncomment this when the save button has an event handler
+                mapSaveAsBtn.Enabled = true;
+
+                foreach (ToolStripMenuItem menuButton in WindowToolStripItem.DropDownItems)
+                {
+                    menuButton.Enabled = true;
+                }
+                foreach (ToolStripMenuItem menuButton in ViewToolStipItem.DropDownItems)
+                {
+                    menuButton.Enabled = true;
+                }
+
+                CustomGLControl glControl = activeTab.GetGLControl();
+                mobyCheck.Checked = glControl.enableMoby;
+                tieCheck.Checked = glControl.enableTie;
+                shrubCheck.Checked = glControl.enableShrub;
+                collCheck.Checked = glControl.enableCollision;
+                terrainCheck.Checked = glControl.enableTerrain;
+                splineCheck.Checked = glControl.enableSpline;
+                skyboxCheck.Checked = glControl.enableSkybox;
+                cuboidCheck.Checked = glControl.enableCuboid;
+                type0CCheck.Checked = glControl.enableType0C;
+
+                activeTab.InvalidateView();
+            }
+        }
+
+        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            UpdateMenuButtons();
         }
 
         private void mapSaveAsBtn_Click(object sender, EventArgs e)
         {
-            if (mapSaveDialog.ShowDialog() == DialogResult.OK)
+            LevelUserControl activeTab = GetActiveTab();
+            if (activeTab != null)
             {
-                string pathName = Path.GetDirectoryName(mapSaveDialog.FileName);
+                if (mapSaveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string pathName = Path.GetDirectoryName(mapSaveDialog.FileName);
 
-                GameplaySerializer gameplaySerializer = new GameplaySerializer();
-                gameplaySerializer.Save(level, mapSaveDialog.FileName);
-                EngineSerializer engineSerializer = new EngineSerializer();
-                engineSerializer.Save(level, pathName);
-                Console.WriteLine(pathName);
+                    GameplaySerializer gameplaySerializer = new GameplaySerializer();
+                    gameplaySerializer.Save(activeTab.level, mapSaveDialog.FileName);
+                    EngineSerializer engineSerializer = new EngineSerializer();
+                    engineSerializer.Save(activeTab.level, pathName);
+                    Console.WriteLine(pathName);
+                }
             }
-            InvalidateView();
         }
     }
 }

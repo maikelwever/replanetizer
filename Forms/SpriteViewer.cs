@@ -5,9 +5,9 @@ namespace RatchetEdit
 {
     public partial class SpriteViewer : Form
     {
-        Main main;
+        LevelUserControl main;
 
-        public SpriteViewer(Main main)
+        public SpriteViewer(LevelUserControl main)
         {
             InitializeComponent();
             this.main = main;

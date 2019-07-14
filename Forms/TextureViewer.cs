@@ -11,7 +11,7 @@ namespace RatchetEdit
 {
     public partial class TextureViewer : Form
     {
-        public Main main;
+        public LevelUserControl main;
         public TextureConfig conf;
         public ModelViewer mod;
         public UIViewer uiView;
@@ -20,7 +20,7 @@ namespace RatchetEdit
 
         public List<ListViewItem> virtualCache = new List<ListViewItem>();
 
-        public TextureViewer(Main main)
+        public TextureViewer(LevelUserControl main)
         {
             InitializeComponent();
             this.main = main;
