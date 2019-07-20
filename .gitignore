@@ -1,5 +1,4 @@
-/.vs/RatchetEdit
-/packages
-/.vs
-/[Oo]bj
-/[Bb]in
+packages
+.vs
+[Oo]bj
+[Bb]in
