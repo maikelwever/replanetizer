@@ -136,7 +136,7 @@ namespace RatchetEdit.Models
             indBuff = indexList.ToArray();
         }
 
-        public void DrawCol(CustomGLControl glControl)
+        public void DrawCol(RenderManager glControl)
         {
             Matrix4 worldView = glControl.worldView;
             GL.UniformMatrix4(glControl.matrixID, false, ref worldView);

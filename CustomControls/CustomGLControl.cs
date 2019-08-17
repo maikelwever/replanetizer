@@ -572,6 +572,7 @@ namespace RatchetEdit
 
         protected override void OnPaint(PaintEventArgs e)
         {
+            /*
             base.OnPaint(e);
             if (DesignMode) { return; }
             //Console.WriteLine("Painting");
@@ -632,6 +633,7 @@ namespace RatchetEdit
             GL.DisableVertexAttribArray(1);
 
             SwapBuffers();
+            */
         }
     }
 

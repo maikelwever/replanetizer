@@ -48,7 +48,7 @@ namespace RatchetEdit.LevelObjects
         public abstract void Rotate(Vector3 vector);
         public abstract void Translate(Vector3 vector);
         public abstract void Scale(Vector3 scale);
-        public abstract void Render(CustomGLControl glControl, bool selected);
+        public abstract void Render(RenderManager glControl, bool selected);
 
         public virtual void UpdateTransformMatrix() { } // Not required to implement
 

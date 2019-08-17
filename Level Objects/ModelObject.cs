@@ -17,7 +17,7 @@ namespace RatchetEdit.LevelObjects
         [Category("Attributes"), TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Model")]
         public Model model { get; set; }
 
-        public override void Render(CustomGLControl glControl, bool selected = false)
+        public override void Render(RenderManager glControl, bool selected = false)
         {
             if (model == null || model.vertexBuffer == null || model.textureConfig.Count == 0) return;
             Matrix4 mvp = modelMatrix * glControl.worldView;  //Has to be done in this order to work correctly
@@ -30,7 +30,7 @@ namespace RatchetEdit.LevelObjects
             }
         }
 
-        public void RenderModelMesh(CustomGLControl glControl)
+        public void RenderModelMesh(RenderManager glControl)
         {
             if (model == null || model.vertexBuffer == null || modelMatrix == null) return;
 

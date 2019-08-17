@@ -100,13 +100,13 @@ namespace RatchetEdit
         public Level() { }
 
         //Engine file constructor
-        public Level(string enginePath)
+        public Level(string path)
         {
 
-            path = Path.GetDirectoryName(enginePath);
+            //path = Path.GetDirectoryName(enginePath);
 
             // Engine elements
-            using (EngineParser engineParser = new EngineParser(enginePath))
+            using (EngineParser engineParser = new EngineParser(path + @"/engine.ps3"))
             {
                 game = engineParser.DetectGame();
 

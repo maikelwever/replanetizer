@@ -77,7 +77,7 @@ namespace RatchetEdit.LevelObjects
         }
 
 
-        public override void Render(CustomGLControl glControl, bool selected)
+        public override void Render(RenderManager glControl, bool selected)
         {
             throw new NotImplementedException();
         }

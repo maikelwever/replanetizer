@@ -181,7 +181,7 @@ namespace RatchetEdit.LevelObjects
             return bytes;
         }
 
-		public override void Render(CustomGLControl glControl, bool selected = false)
+		public override void Render(RenderManager glControl, bool selected = false)
 		{
 			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 				Matrix4 mvp = modelMatrix * glControl.worldView;

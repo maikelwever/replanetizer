@@ -102,7 +102,7 @@ namespace RatchetEdit.LevelObjects
             throw new NotImplementedException();
         }
 
-        public override void Render(CustomGLControl glControl, bool selected = false) {
+        public override void Render(RenderManager glControl, bool selected = false) {
             GL.UseProgram(glControl.colorShaderID);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             Matrix4 mvp = modelMatrix * glControl.worldView;

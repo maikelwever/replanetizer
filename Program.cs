@@ -1,5 +1,6 @@
 using System;
-using System.Windows.Forms;
+using Gtk;
+using OpenTK;
 
 namespace RatchetEdit
 {
@@ -11,9 +12,20 @@ namespace RatchetEdit
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            // OpenGL
+			Toolkit.Init(new ToolkitOptions
+			{
+				Backend = PlatformBackend.PreferNative,
+				EnableHighResolution = true
+			});
+
+			// GTK
+			Application.Init();
+            Builder builder = new Builder();
+            builder.AddFromFile("MainWindow.glade");
+			MainWindow win = new MainWindow(builder);
+			win.Show();
+			Application.Run();
         }
     }
 }
