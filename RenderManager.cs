@@ -29,6 +29,7 @@ namespace RatchetEdit
 
         private int currentSplineVertex;
         public LevelObject selectedObject;
+        private int VAO;
 
         private Vector3 prevMouseRay;
         private int lastMouseX, lastMouseY;
@@ -46,10 +47,10 @@ namespace RatchetEdit
         public event EventHandler<RatchetEventArgs> ObjectClick;
         public event EventHandler<RatchetEventArgs> ObjectDeleted;
 
-
         private Gtk.Window parent;
         public readonly ViewportArea ViewportWidget;
-        private int VertexArrayID;
+        private bool wantsToMove = false;
+        private bool mouseInViewport = false;
 
         public RenderManager(Gtk.Window parent)
         {
@@ -100,7 +101,7 @@ namespace RatchetEdit
         {
             ViewportWidget.MakeCurrent();
 
-            GL.GenVertexArrays(1, out int VAO);
+            GL.GenVertexArrays(1, out VAO);
             GL.BindVertexArray(VAO);
 
             //Setup openGL variables
@@ -157,14 +158,14 @@ namespace RatchetEdit
 
         void TickBeforeRender()
         {
+            MouseState state = Mouse.GetCursorState();
+
             float deltaTime = 0.016f;
 
             KeyboardState keyState = OpenTK.Input.Keyboard.GetState();
             float moveSpeed = keyState.IsKeyDown(Key.LShift) ? 40 : 10;
 
-            MouseState state = Mouse.GetCursorState();
-
-            if (state.IsButtonDown(MouseButton.Right))
+            if (mouseInViewport && state.IsButtonDown(MouseButton.Right))
             {
                 camera.rotation.Z -= (state.X - lastMouseX) * camera.speed * 0.016f;
                 camera.rotation.X -= (state.Y - lastMouseY) * camera.speed * 0.016f;
@@ -358,7 +359,7 @@ namespace RatchetEdit
 
             float xAxis = 0, yAxis = 0, zAxis = 0;
 
-            if (this.ViewportWidget.IsFocus)
+            if (this.mouseInViewport)
             {
                 if (keyState.IsKeyDown(Key.W)) yAxis++;
                 if (keyState.IsKeyDown(Key.S)) yAxis--;
@@ -398,6 +399,7 @@ namespace RatchetEdit
             }
 
             this.ViewportWidget.GrabFocus();
+            wantsToMove = true;
         }
 
         /// <summary>
@@ -425,7 +427,7 @@ namespace RatchetEdit
                 return;
             }
 
-            this.ViewportWidget.GrabFocus();
+            wantsToMove = false;
         }
 
         /// <summary>
@@ -436,6 +438,7 @@ namespace RatchetEdit
         [ConnectBefore]
         private void OnViewportMouseLeave(object o, LeaveNotifyEventArgs args)
         {
+            mouseInViewport = false;
         }
 
         /// <summary>
@@ -446,6 +449,12 @@ namespace RatchetEdit
         [ConnectBefore]
         private void OnViewportMouseEnter(object o, EnterNotifyEventArgs args)
         {
+            mouseInViewport = true;
+        }
+
+        public void Dispose()
+        {
+            GL.DeleteVertexArrays(1, ref VAO);
         }
     }
 
