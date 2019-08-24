@@ -1,15 +1,8 @@
 using System;
 using Gtk;
-using UI = Gtk.Builder.ObjectAttribute;
-
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics;
-using Gdk;
-using System.Collections.Generic;
 using UIElement = Gtk.Builder.ObjectAttribute;
 
-namespace RatchetEdit
+namespace RatchetEdit.UI
 {
     class MainWindow : Gtk.Window
     {

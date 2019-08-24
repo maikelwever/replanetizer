@@ -30,7 +30,7 @@ using Gtk;
 using OpenTK;
 using OpenTK.Graphics;
 
-namespace RatchetEdit
+namespace RatchetEdit.UI
 {
 	/// <summary>
 	/// The <see cref="ViewportArea"/> is a GTK widget for which an OpenGL context can be used to draw arbitrary graphics.

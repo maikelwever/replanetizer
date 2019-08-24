@@ -11,6 +11,7 @@ using RatchetEdit.LevelObjects;
 using RatchetEdit.Models;
 using RatchetEdit.Tools;
 using Key = OpenTK.Input.Key;
+using RatchetEdit.UI;
 
 namespace RatchetEdit
 {

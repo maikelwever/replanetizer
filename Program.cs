@@ -1,6 +1,7 @@
 using System;
 using Gtk;
 using OpenTK;
+using RatchetEdit.UI;
 
 namespace RatchetEdit
 {
@@ -22,7 +23,7 @@ namespace RatchetEdit
 			// GTK
 			Application.Init();
             Builder builder = new Builder();
-            builder.AddFromFile("MainWindow.glade");
+            builder.AddFromFile("UI/MainWindow.glade");
 			MainWindow win = new MainWindow(builder);
 			win.Show();
 			Application.Run();

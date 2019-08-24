@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>RatchetEdit</RootNamespace>
     <AssemblyName>RatchetEdit</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
@@ -83,7 +83,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="ViewportArea.cs" />
     <Compile Include="CustomControls\ObjectTreeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -189,8 +188,6 @@
     <Compile Include="Tools\RotationTool.cs" />
     <Compile Include="Tools\TranslationTool.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="MainWindow.cs" />
-    <Compile Include="RenderManager.cs" />
     <EmbeddedResource Include="CustomControls\ObjectTreeView.resx">
       <DependentUpon>ObjectTreeView.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,9 +257,12 @@
     <None Include="ModelLists\TieModelsRC1.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="MainWindow.glade">
+    <Compile Include="UI\MainWindow.cs" />
+    <None Include="UI\MainWindow.glade">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="UI\ViewportArea.cs" />
+    <Compile Include="RenderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -284,6 +284,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\spline_tool.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UI\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
