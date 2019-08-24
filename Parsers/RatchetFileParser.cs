@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using RatchetEdit.Models;
 using RatchetEdit.Headers;
 using RatchetEdit.LevelObjects;
 using RatchetEdit.Models.Animations;
 using static RatchetEdit.DataFunctions;
+using RatchetEdit.UI;
 
 namespace RatchetEdit.Parsers
 {
@@ -22,9 +22,7 @@ namespace RatchetEdit.Parsers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Console.WriteLine("Couldn't load engine file.");
-                Application.Exit();
+                ErrorHelper.ShowErrorAndQuit("Couldn't load engine file.");
                 return;
             }
         }

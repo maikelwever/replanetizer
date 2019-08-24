@@ -50,7 +50,7 @@ namespace RatchetEdit.Models
             }
         }
 
-        public void Draw(RenderManager glControl)
+        public void Draw(RenderManagerBase glControl)
         {
             Matrix4 worldView = glControl.worldView;
             GL.UniformMatrix4(glControl.matrixID, false, ref worldView);

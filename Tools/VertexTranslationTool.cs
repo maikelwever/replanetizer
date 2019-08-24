@@ -19,7 +19,7 @@ namespace RatchetEdit.Tools
             };
         }
 
-        public override void Render(Vector3 position, CustomGLControl control)
+        public override void Render(Vector3 position, RenderManagerBase control)
         {
             GetVBO();
 

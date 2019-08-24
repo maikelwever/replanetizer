@@ -8,11 +8,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>RatchetEdit</RootNamespace>
     <AssemblyName>RatchetEdit</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,8 +37,8 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.11.0.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
-      <HintPath>packages\Magick.NET-Q16-AnyCPU.7.11.0\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
+    <Reference Include="Magick.NET-Q16-AnyCPU, Version=7.14.2.0, Culture=neutral, PublicKeyToken=2004825badfa91ec, processorArchitecture=MSIL">
+      <HintPath>packages\Magick.NET-Q16-AnyCPU.7.14.2\lib\net40\Magick.NET-Q16-AnyCPU.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <HintPath>packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
@@ -78,45 +79,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
-    <Compile Include="CustomControls\ObjectTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CustomControls\ObjectTreeView.Designer.cs">
-      <DependentUpon>ObjectTreeView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControls\CustomGLControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="DataFunctions.cs" />
-    <Compile Include="Forms\LanguageViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\LanguageViewer.Designer.cs">
-      <DependentUpon>LanguageViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SpriteViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SpriteViewer.Designer.cs">
-      <DependentUpon>SpriteViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\TextureViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\TextureViewer.Designer.cs">
-      <DependentUpon>TextureViewer.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\UIViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\UIViewer.Designer.cs">
-      <DependentUpon>UIViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Headers\EngineHeader.cs" />
     <Compile Include="Headers\GameplayHeader.cs" />
     <Compile Include="Headers\Headers.cs" />
@@ -157,20 +124,8 @@
     <Compile Include="Serializers\ModelWriter.cs" />
     <Compile Include="Parsers\GameplayParser.cs" />
     <Compile Include="Parsers\EngineParser.cs" />
-    <Compile Include="Forms\Main.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Main.Designer.cs">
-      <DependentUpon>Main.cs</DependentUpon>
-    </Compile>
     <Compile Include="Level.cs" />
     <Compile Include="Models\Model.cs" />
-    <Compile Include="Forms\ModelViewer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\ModelViewer.Designer.cs">
-      <DependentUpon>ModelViewer.cs</DependentUpon>
-    </Compile>
     <Compile Include="Parsers\VramParser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -187,31 +142,9 @@
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\RotationTool.cs" />
     <Compile Include="Tools\TranslationTool.cs" />
+    <Compile Include="UI\ErrorHelper.cs" />
+    <Compile Include="UI\RatchetEventArgs.cs" />
     <Compile Include="Utilities.cs" />
-    <EmbeddedResource Include="CustomControls\ObjectTreeView.resx">
-      <DependentUpon>ObjectTreeView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CustomControls\CustomGLControl.resx">
-      <DependentUpon>CustomGLControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\LanguageViewer.resx">
-      <DependentUpon>LanguageViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Main.resx">
-      <DependentUpon>Main.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ModelViewer.resx">
-      <DependentUpon>ModelViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SpriteViewer.resx">
-      <DependentUpon>SpriteViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\TextureViewer.resx">
-      <DependentUpon>TextureViewer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\UIViewer.resx">
-      <DependentUpon>UIViewer.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -285,8 +218,6 @@
   <ItemGroup>
     <None Include="Resources\spline_tool.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="UI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

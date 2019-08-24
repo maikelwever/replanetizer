@@ -33,6 +33,6 @@ namespace RatchetEdit.Tools
         }
 
         public abstract ToolType GetToolType();
-        public abstract void Render(Vector3 position, CustomGLControl control);
+        public abstract void Render(Vector3 position, RenderManagerBase control);
     }
 }

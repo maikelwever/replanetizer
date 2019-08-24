@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using static RatchetEdit.DataFunctions;
+using RatchetEdit.UI;
 
 namespace RatchetEdit.Parsers
 {
@@ -20,8 +20,7 @@ namespace RatchetEdit.Parsers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                MessageBox.Show("vram.ps3 missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //Application.Exit();
+                ErrorHelper.ShowErrorAndQuit("vram.ps3 missing!", "Missing file");
                 return;
             }
             valid = true;

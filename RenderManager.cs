@@ -15,19 +15,22 @@ using RatchetEdit.UI;
 
 namespace RatchetEdit
 {
-    public class RenderManager
+    public class RenderManagerBase
     {
-
         public Level level;
 
         public Matrix4 worldView;
-        private Matrix4 projection;
-        private Matrix4 view;
-        private int width, height;
+        protected Matrix4 projection;
+        protected Matrix4 view;
+        protected int width, height;
 
         public int shaderID, colorShaderID, collisionShaderID;
         public int matrixID, colorID;
 
+    }
+
+    public class RenderManager : RenderManagerBase
+    {
         private int currentSplineVertex;
         public LevelObject selectedObject;
         private int VAO;

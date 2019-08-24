@@ -35,7 +35,6 @@ namespace RatchetEdit.UI
 	/// <summary>
 	/// The <see cref="ViewportArea"/> is a GTK widget for which an OpenGL context can be used to draw arbitrary graphics.
 	/// </summary>
-	[CLSCompliant(false)]
 	[ToolboxItem(true)]
 	public class ViewportArea : GLArea
 	{
@@ -149,15 +148,6 @@ namespace RatchetEdit.UI
 
 			gdkGLContext.Realize();
 			return gdkGLContext;
-		}
-
-		/// <inheritdoc />
-		public override void Destroy()
-		{
-			GC.SuppressFinalize(this);
-			Dispose(true);
-
-			base.Destroy();
 		}
 
 		/// <inheritdoc />

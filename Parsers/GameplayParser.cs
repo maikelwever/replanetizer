@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using RatchetEdit.LevelObjects;
 using RatchetEdit.Models;
 using RatchetEdit.Headers;
 using static RatchetEdit.DataFunctions;
+using RatchetEdit.UI;
 
 namespace RatchetEdit.Parsers
 {
@@ -23,8 +23,7 @@ namespace RatchetEdit.Parsers
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                MessageBox.Show("gameplay file missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Application.Exit();
+                ErrorHelper.ShowErrorAndQuit("gameplay file missing!", "Missing file");
                 return;
             }
             gameplayHeader = new GameplayHeader(game, fileStream);
