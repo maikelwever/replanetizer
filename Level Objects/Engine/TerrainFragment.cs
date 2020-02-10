@@ -34,25 +34,25 @@ namespace RatchetEdit.LevelObjects
         public uint off_2C;     // Always 0
 
 
-        public TerrainFragment(FileStream fs, TerrainHead head, byte[] tfragBlock, int num)
+        public TerrainFragment(Decoder decoder, FileStream fs, TerrainHead head, byte[] tfragBlock, int num)
         {
             int offset = num * 0x30;
 
-            off_00 = ReadFloat(tfragBlock, offset + 0x00);
-            off_04 = ReadFloat(tfragBlock, offset + 0x04);
-            off_08 = ReadFloat(tfragBlock, offset + 0x08);
-            off_0C = ReadFloat(tfragBlock, offset + 0x0C);
+            off_00 = decoder.Float(tfragBlock, offset + 0x00);
+            off_04 = decoder.Float(tfragBlock, offset + 0x04);
+            off_08 = decoder.Float(tfragBlock, offset + 0x08);
+            off_0C = decoder.Float(tfragBlock, offset + 0x0C);
 
 
-            off_1C = ReadUshort(tfragBlock, offset + 0x1C);
-            off_1E = ReadUshort(tfragBlock, offset + 0x1E);
-            off_20 = ReadUshort(tfragBlock, offset + 0x20);
+            off_1C = decoder.Ushort(tfragBlock, offset + 0x1C);
+            off_1E = decoder.Ushort(tfragBlock, offset + 0x1E);
+            off_20 = decoder.Ushort(tfragBlock, offset + 0x20);
 
-            off_24 = ReadUint(tfragBlock, offset + 0x24);
-            off_28 = ReadUint(tfragBlock, offset + 0x28);
-            off_2C = ReadUint(tfragBlock, offset + 0x2C);
+            off_24 = decoder.Uint(tfragBlock, offset + 0x24);
+            off_28 = decoder.Uint(tfragBlock, offset + 0x28);
+            off_2C = decoder.Uint(tfragBlock, offset + 0x2C);
 
-            model = new TerrainModel(fs, head, tfragBlock, num);
+            model = new TerrainModel(decoder, fs, head, tfragBlock, num);
             modelMatrix = Matrix4.Identity;
         }
 

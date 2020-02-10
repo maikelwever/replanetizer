@@ -9,16 +9,16 @@ namespace RatchetEdit.Parsers
 {
     public class EngineParser : RatchetFileParser, IDisposable
     {
-        EngineHeader engineHead;
+        public EngineHeader engineHead;
 
-        public EngineParser(string engineFile) : base(engineFile)
+        public EngineParser(Decoder decoder, string engineFile) : base(decoder, engineFile)
         {
-            engineHead = new EngineHeader(fileStream);
+            engineHead = new EngineHeader(decoder, fileStream);
         }
 
-        public List<Model> GetMobyModels()
+        public List<Model> GetMobyModels(Decoder decoder)
         {
-            return GetMobyModels(engineHead.mobyModelPointer);
+            return GetMobyModels(decoder, engineHead.mobyModelPointer);
         }
 
         public List<Model> GetTieModels()
@@ -56,9 +56,9 @@ namespace RatchetEdit.Parsers
             return GetTerrainModels(engineHead.terrainPointer);
         }
 
-        public SkyboxModel GetSkyboxModel()
+        public SkyboxModel GetSkyboxModel(Decoder decoder)
         {
-            return GetSkyboxModel(engineHead.skyboxPointer);
+            return GetSkyboxModel(decoder, engineHead.skyboxPointer);
         }
 
         public List<UiElement> GetUiElements()
@@ -71,9 +71,9 @@ namespace RatchetEdit.Parsers
             return GetPlayerAnimations(engineHead.playerAnimationPointer, ratchet);
         }
 
-        public List<Model> GetWeapons()
+        public List<Model> GetWeapons(Decoder decoder)
         {
-            return GetWeapons(engineHead.weaponPointer, engineHead.weaponCount);
+            return GetWeapons(decoder, engineHead.weaponPointer, engineHead.weaponCount);
         }
 
         public byte[] GetLightConfig()

@@ -58,7 +58,7 @@ namespace RatchetEdit.Models
 
         public MobyModel() { }
 
-        public MobyModel(FileStream fs, short modelID, int offset)
+        public MobyModel(Decoder decoder, FileStream fs, short modelID, int offset)
         {
             id = modelID;
             if (offset == 0x00)
@@ -70,10 +70,10 @@ namespace RatchetEdit.Models
 
                 
             // Header
-            byte[] headBlock = ReadBlock(fs, offset, HEADERSIZE);
+            byte[] headBlock = decoder.Block(fs, offset, HEADERSIZE);
 
-            int meshPointer = ReadInt(headBlock, 0x00);
-            null1 = ReadInt(headBlock, 0x04);
+            int meshPointer = decoder.Int(headBlock, 0x00);
+            null1 = decoder.Int(headBlock, 0x04);
 
             boneCount = headBlock[0x08];
             lpBoneCount = headBlock[0x09];
@@ -88,25 +88,25 @@ namespace RatchetEdit.Models
             lpRenderDist = headBlock[0x0E];
             count8 = headBlock[0x0F];
 
-            int type10Pointer = ReadInt(headBlock, 0x10);
-            int boneMatrixPointer = ReadInt(headBlock, 0x14);
-            int boneDataPointer = ReadInt(headBlock, 0x18);
-            int attachmentPointer = ReadInt(headBlock, 0x1C);
+            int type10Pointer = decoder.Int(headBlock, 0x10);
+            int boneMatrixPointer = decoder.Int(headBlock, 0x14);
+            int boneDataPointer = decoder.Int(headBlock, 0x18);
+            int attachmentPointer = decoder.Int(headBlock, 0x1C);
 
-            null2 = ReadInt(headBlock, 0x20);
-            size = ReadFloat(headBlock, 0x24);
-            int soundPointer = ReadInt(headBlock, 0x28);
-            null3 = ReadInt(headBlock, 0x2C);
+            null2 = decoder.Int(headBlock, 0x20);
+            size = decoder.Float(headBlock, 0x24);
+            int soundPointer = decoder.Int(headBlock, 0x28);
+            null3 = decoder.Int(headBlock, 0x2C);
 
             if (null1 != 0 || null2 != 0 || null3 != 0) { Console.WriteLine("Warning: null in model header wan't null"); }
 
-            unk1 = ReadFloat(headBlock, 0x30);
-            unk2 = ReadFloat(headBlock, 0x34);
-            unk3 = ReadFloat(headBlock, 0x38);
-            unk4 = ReadFloat(headBlock, 0x3C);
+            unk1 = decoder.Float(headBlock, 0x30);
+            unk2 = decoder.Float(headBlock, 0x34);
+            unk3 = decoder.Float(headBlock, 0x38);
+            unk4 = decoder.Float(headBlock, 0x3C);
 
-            color2 = ReadUint(headBlock, 0x40);
-            unk6 = ReadUint(headBlock, 0x44);
+            color2 = decoder.Uint(headBlock, 0x40);
+            unk6 = decoder.Uint(headBlock, 0x44);
 
             // Animation block
             byte[] animationPointerBlock = ReadBlock(fs, offset + 0x48, animationCount * 0x04);
@@ -114,14 +114,14 @@ namespace RatchetEdit.Models
             for (int i = 0; i < animationCount; i++)
             {
                 //animations.Add(new Animation());
-                animations.Add(new Animation(fs, offset, ReadInt(animationPointerBlock, i * 0x04), boneCount));
+                animations.Add(new Animation(decoder, fs, offset, decoder.Int(animationPointerBlock, i * 0x04), boneCount));
             }
 
             // Type 10 ( has something to do with collision )
             if (type10Pointer > 0)
             {
                 byte[] type10Head = ReadBlock(fs, offset + type10Pointer, 0x10);
-                int type10Length = ReadInt(type10Head, 0x04) + ReadInt(type10Head, 0x08) + ReadInt(type10Head, 0x0C);
+                int type10Length = decoder.Int(type10Head, 0x04) + decoder.Int(type10Head, 0x08) + decoder.Int(type10Head, 0x0C);
                 type10Block = ReadBlock(fs, offset + type10Pointer, 0x10 + type10Length);
             }
 
@@ -132,7 +132,7 @@ namespace RatchetEdit.Models
                 byte[] boneMatrixBlock = ReadBlock(fs, offset + boneMatrixPointer, boneCount * 0x40);
                 for (int i = 0; i < boneCount; i++)
                 {
-                    boneMatrices.Add(new BoneMatrix(boneMatrixBlock, i));
+                    boneMatrices.Add(new BoneMatrix(decoder, boneMatrixBlock, i));
                 }
             }
 
@@ -144,7 +144,7 @@ namespace RatchetEdit.Models
                 byte[] boneDataBlock = ReadBlock(fs, offset + boneDataPointer, boneCount * 0x10);
                 for (int i = 0; i < boneCount; i++)
                 {
-                    boneDatas.Add(new BoneData(boneDataBlock, i));
+                    boneDatas.Add(new BoneData(decoder, boneDataBlock, i));
                 }
             }
 
@@ -153,14 +153,14 @@ namespace RatchetEdit.Models
             // Attachments
             if (attachmentPointer > 0)
             {
-                int attachmentCount = ReadInt(ReadBlock(fs, offset + attachmentPointer, 4), 0);
+                int attachmentCount = decoder.Int(ReadBlock(fs, offset + attachmentPointer, 4), 0);
                 if (attachmentCount > 0)
                 {
                     byte[] headerBlock = ReadBlock(fs, offset + attachmentPointer + 4, attachmentCount * 4);
                     for (int i = 0; i < attachmentCount; i++)
                     {
-                        int attachmentOffset = ReadInt(headerBlock, i * 4);
-                        attachments.Add(new Attachment(fs, offset + attachmentOffset));
+                        int attachmentOffset = decoder.Int(headerBlock, i * 4);
+                        attachments.Add(new Attachment(decoder, fs, offset + attachmentOffset));
                     }
                 }
                 else
@@ -184,7 +184,7 @@ namespace RatchetEdit.Models
                 byte[] soundBlock = ReadBlock(fs, offset + soundPointer, soundCount * 0x20);
                 for (int i = 0; i < soundCount; i++)
                 {
-                    modelSounds.Add(new ModelSound(soundBlock, i));
+                    modelSounds.Add(new ModelSound(decoder, soundBlock, i));
                 }
             }
 
@@ -193,49 +193,49 @@ namespace RatchetEdit.Models
             {
                 byte[] meshHeader = ReadBlock(fs, offset + meshPointer, 0x20);
 
-                int texCount = ReadInt(meshHeader, 0x00);
-                int otherCount = ReadInt(meshHeader, 0x04);
-                int texBlockPointer = offset + ReadInt(meshHeader, 0x08);
-                int otherBlockPointer = offset + ReadInt(meshHeader, 0x0C);
-                int vertPointer = offset + ReadInt(meshHeader, 0x10);
-                int indexPointer = offset + ReadInt(meshHeader, 0x14);
-                ushort vertexCount = ReadUshort(meshHeader, 0x18);
-                ushort otherVertCount = ReadUshort(meshHeader, 0x1a);
+                int texCount = decoder.Int(meshHeader, 0x00);
+                int otherCount = decoder.Int(meshHeader, 0x04);
+                int texBlockPointer = offset + decoder.Int(meshHeader, 0x08);
+                int otherBlockPointer = offset + decoder.Int(meshHeader, 0x0C);
+                int vertPointer = offset + decoder.Int(meshHeader, 0x10);
+                int indexPointer = offset + decoder.Int(meshHeader, 0x14);
+                ushort vertexCount = decoder.Ushort(meshHeader, 0x18);
+                ushort otherVertCount = decoder.Ushort(meshHeader, 0x1a);
 
                 int otherPointer = vertPointer + vertexCount * 0x28;
 
-                vertexCount2 = ReadUshort(meshHeader, 0x1C);     //These vertices are not affected by color2
+                vertexCount2 = decoder.Ushort(meshHeader, 0x1C);     //These vertices are not affected by color2
 
                 int faceCount = 0;
 
                 //Texture configuration
                 if (texBlockPointer > 0)
                 {
-                    textureConfig = GetTextureConfigs(fs, texBlockPointer, texCount, TEXTUREELEMENTSIZE);
+                    textureConfig = GetTextureConfigs(decoder, fs, texBlockPointer, texCount, TEXTUREELEMENTSIZE);
                     faceCount = GetFaceCount();
                 }
 
                 if (vertPointer > 0 && vertexCount > 0)
                 {
                     //Get vertex buffer float[vertX, vertY, vertZ, normX, normY, normZ, U, V, reserved, reserved]
-                    vertexBuffer = GetVertices(fs, vertPointer, vertexCount, VERTELEMENTSIZE);
+                    vertexBuffer = GetVertices(decoder, fs, vertPointer, vertexCount, VERTELEMENTSIZE);
                 }
 
                 if (indexPointer > 0 && faceCount > 0)
                 {
                     //Index buffer
-                    indexBuffer = GetIndices(fs, indexPointer, faceCount);
+                    indexBuffer = GetIndices(decoder, fs, indexPointer, faceCount);
                 }
                 if (otherPointer > 0)
                 {
                     otherBuffer.AddRange(ReadBlockNopad(fs, otherPointer, otherVertCount * 0x20));
-                    otherTextureConfigs = GetTextureConfigs(fs, otherBlockPointer, otherCount, 0x10);
+                    otherTextureConfigs = GetTextureConfigs(decoder, fs, otherBlockPointer, otherCount, 0x10);
                     int otherfaceCount = 0;
                     foreach (TextureConfig tex in otherTextureConfigs)
                     {
                         otherfaceCount += tex.size;
                     }
-                    otherIndexBuffer.AddRange(GetIndices(fs, indexPointer + faceCount * sizeof(ushort), otherfaceCount));
+                    otherIndexBuffer.AddRange(GetIndices(decoder, fs, indexPointer + faceCount * sizeof(ushort), otherfaceCount));
                 }
             }
         }

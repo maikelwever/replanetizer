@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using RatchetEdit;
+
 using static RatchetEdit.DataFunctions;
 
 namespace RatchetEdit.Headers
@@ -45,51 +48,54 @@ namespace RatchetEdit.Headers
         public int texture2dPointer;            // TODO
         public int uiElementPointer;
 
+        private Decoder decoder;
+
 
         public EngineHeader() { }
 
-        public EngineHeader(FileStream engineFile)
+        public EngineHeader(Decoder decoder, FileStream engineFile)
         {
+            this.decoder = decoder;
             byte[] engineHeadBlock = new byte[RAC1ENGINESIZE];
             engineFile.Read(engineHeadBlock, 0, RAC1ENGINESIZE);
 
-            mobyModelPointer = ReadInt(engineHeadBlock, 0x00);
-            renderDefPointer = ReadInt(engineHeadBlock, 0x04);
-            type08Pointer = ReadInt(engineHeadBlock, 0x08);
-            type0CPointer = ReadInt(engineHeadBlock, 0x0C);
+            mobyModelPointer = decoder.Int(engineHeadBlock, 0x00);
+            renderDefPointer = decoder.Int(engineHeadBlock, 0x04);
+            type08Pointer = decoder.Int(engineHeadBlock, 0x08);
+            type0CPointer = decoder.Int(engineHeadBlock, 0x0C);
 
-            skyboxPointer = ReadInt(engineHeadBlock, 0x10);
-            collisionPointer = ReadInt(engineHeadBlock, 0x14);
-            playerAnimationPointer = ReadInt(engineHeadBlock, 0x18);
-            tieModelPointer = ReadInt(engineHeadBlock, 0x1C);
+            skyboxPointer = decoder.Int(engineHeadBlock, 0x10);
+            collisionPointer = decoder.Int(engineHeadBlock, 0x14);
+            playerAnimationPointer = decoder.Int(engineHeadBlock, 0x18);
+            tieModelPointer = decoder.Int(engineHeadBlock, 0x1C);
 
-            tieModelCount = ReadInt(engineHeadBlock, 0x20);
-            tiePointer = ReadInt(engineHeadBlock, 0x24);
-            tieCount = ReadInt(engineHeadBlock, 0x28);
-            shrubModelPointer = ReadInt(engineHeadBlock, 0x2C);
+            tieModelCount = decoder.Int(engineHeadBlock, 0x20);
+            tiePointer = decoder.Int(engineHeadBlock, 0x24);
+            tieCount = decoder.Int(engineHeadBlock, 0x28);
+            shrubModelPointer = decoder.Int(engineHeadBlock, 0x2C);
 
-            shrubModelCount = ReadInt(engineHeadBlock, 0x30);
-            shrubPointer = ReadInt(engineHeadBlock, 0x34);
-            shrubCount = ReadInt(engineHeadBlock, 0x38);
-            terrainPointer = ReadInt(engineHeadBlock, 0x3C);
+            shrubModelCount = decoder.Int(engineHeadBlock, 0x30);
+            shrubPointer = decoder.Int(engineHeadBlock, 0x34);
+            shrubCount = decoder.Int(engineHeadBlock, 0x38);
+            terrainPointer = decoder.Int(engineHeadBlock, 0x3C);
 
-            type40Pointer = ReadInt(engineHeadBlock, 0x40);
-            type44Pointer = ReadInt(engineHeadBlock, 0x44);
-            soundConfigPointer = ReadInt(engineHeadBlock, 0x48);
-            weaponPointer = ReadInt(engineHeadBlock, 0x4C);
+            type40Pointer = decoder.Int(engineHeadBlock, 0x40);
+            type44Pointer = decoder.Int(engineHeadBlock, 0x44);
+            soundConfigPointer = decoder.Int(engineHeadBlock, 0x48);
+            weaponPointer = decoder.Int(engineHeadBlock, 0x4C);
 
-            weaponCount = ReadInt(engineHeadBlock, 0x50);
-            texturePointer = ReadInt(engineHeadBlock, 0x54);
-            textureCount = ReadInt(engineHeadBlock, 0x58);
-            lightPointer = ReadInt(engineHeadBlock, 0x5C);
+            weaponCount = decoder.Int(engineHeadBlock, 0x50);
+            texturePointer = decoder.Int(engineHeadBlock, 0x54);
+            textureCount = decoder.Int(engineHeadBlock, 0x58);
+            lightPointer = decoder.Int(engineHeadBlock, 0x5C);
 
-            lightCount = ReadInt(engineHeadBlock, 0x60);
-            lightConfigPointer = ReadInt(engineHeadBlock, 0x64);
-            textureConfigMenuPointer = ReadInt(engineHeadBlock, 0x68);
-            textureConfigMenuCount = ReadInt(engineHeadBlock, 0x6C);
+            lightCount = decoder.Int(engineHeadBlock, 0x60);
+            lightConfigPointer = decoder.Int(engineHeadBlock, 0x64);
+            textureConfigMenuPointer = decoder.Int(engineHeadBlock, 0x68);
+            textureConfigMenuCount = decoder.Int(engineHeadBlock, 0x6C);
 
-            texture2dPointer = ReadInt(engineHeadBlock, 0x70);
-            uiElementPointer = ReadInt(engineHeadBlock, 0x74);
+            texture2dPointer = decoder.Int(engineHeadBlock, 0x70);
+            uiElementPointer = decoder.Int(engineHeadBlock, 0x74);
         }
 
         public byte[] Serialize()

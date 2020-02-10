@@ -9,7 +9,7 @@ namespace RatchetEdit.Models.Animations
         public short bb;
         public Vector4 col3;
 
-        public BoneMatrix(byte[] boneBlock, int num)
+        public BoneMatrix(Decoder decoder, byte[] boneBlock, int num)
         {
             int offset = num * 0x40;
             mat1 = ReadMatrix4(boneBlock, offset);
@@ -35,7 +35,7 @@ namespace RatchetEdit.Models.Animations
             mat1.M33 = 1;
             */
 
-            bb = ReadShort(boneBlock, offset + 0x3E);
+            bb = decoder.Short(boneBlock, offset + 0x3E);
             //mat1.Transpose();
             //mat1.Invert();
         }

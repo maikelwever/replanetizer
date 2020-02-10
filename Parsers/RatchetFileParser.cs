@@ -13,9 +13,12 @@ namespace RatchetEdit.Parsers
     public class RatchetFileParser
     {
         protected FileStream fileStream;
+        public Decoder decoder;
 
-        protected RatchetFileParser(string filePath)
+
+        protected RatchetFileParser(Decoder decoder, string filePath)
         {
+            this.decoder = decoder;
             try
             {
                 fileStream = File.OpenRead(filePath);
@@ -29,10 +32,10 @@ namespace RatchetEdit.Parsers
             }
         }
 
-        protected List<Model> GetMobyModels(int mobyModelPointer)
+        protected List<Model> GetMobyModels(Decoder decoder, int mobyModelPointer)
         {
             //Get the moby count from the start of the section
-            int mobyModelCount = ReadInt(ReadBlock(fileStream, mobyModelPointer, 4), 0);
+            int mobyModelCount = decoder.Int(ReadBlock(fileStream, mobyModelPointer, 4), 0);
 
             List<Model> mobyModels = new List<Model>(mobyModelCount);
 
@@ -40,9 +43,9 @@ namespace RatchetEdit.Parsers
             byte[] mobyIDBlock = ReadBlock(fileStream, mobyModelPointer + 4, mobyModelCount * 8);
             for (int i = 0; i < mobyModelCount; i++)
             {
-                short modelID = ReadShort(mobyIDBlock, (i * 8) + 2);
-                int offset = ReadInt(mobyIDBlock, (i * 8) + 4);
-                mobyModels.Add(new MobyModel(fileStream, modelID, offset));
+                short modelID = decoder.Short(mobyIDBlock, (i * 8) + 2);
+                int offset = decoder.Int(mobyIDBlock, (i * 8) + 4);
+                mobyModels.Add(new MobyModel(decoder, fileStream, modelID, offset));
             }
             return mobyModels;
         }
@@ -55,7 +58,7 @@ namespace RatchetEdit.Parsers
             byte[] levelBlock = ReadBlock(fileStream, tieModelPointer, tieModelCount * 0x40);
             for (int i = 0; i < tieModelCount; i++)
             {
-                tieModelList.Add(new TieModel(fileStream, levelBlock, i));
+                tieModelList.Add(new TieModel(decoder, fileStream, levelBlock, i));
             }
 
             return tieModelList;
@@ -69,7 +72,7 @@ namespace RatchetEdit.Parsers
             byte[] shrubBlock = ReadBlock(fileStream, shrubModelPointer, shrubModelCount * 0x40);
             for (int i = 0; i < shrubModelCount; i++)
             {
-                shrubModelList.Add(new ShrubModel(fileStream, shrubBlock, i));
+                shrubModelList.Add(new ShrubModel(decoder, fileStream, shrubBlock, i));
             }
             return shrubModelList;
         }
@@ -141,7 +144,7 @@ namespace RatchetEdit.Parsers
 
             for (int i = 0; i < head.headCount; i++)
             {
-                tFrags.Add(new TerrainFragment(fileStream, head, tfragBlock, i));
+                tFrags.Add(new TerrainFragment(decoder, fileStream, head, tfragBlock, i));
             }
 
             /*
@@ -168,9 +171,9 @@ namespace RatchetEdit.Parsers
             return tFrags;
         }
 
-        protected SkyboxModel GetSkyboxModel(int skyboxPointer)
+        protected SkyboxModel GetSkyboxModel(Decoder decoder, int skyboxPointer)
         {
-            return new SkyboxModel(fileStream, skyboxPointer);
+            return new SkyboxModel(decoder, fileStream, skyboxPointer);
         }
 
         protected GameType DetectGame(int offset)
@@ -220,14 +223,14 @@ namespace RatchetEdit.Parsers
 
                 for (int i = 0; i < count; i++)
                 {
-                    animations.Add(new Animation(fileStream, ReadInt(headBlock, i * 4), 0, boneCount, true));
+                    animations.Add(new Animation(decoder, fileStream, decoder.Int(headBlock, i * 4), 0, boneCount, true));
                 }
             }
 
             return animations;
         }
 
-        protected List<Model> GetWeapons(int weaponPointer, int count)
+        protected List<Model> GetWeapons(Decoder decoder, int weaponPointer, int count)
         {
             List<Model> weaponModels = new List<Model>(count);
 
@@ -235,9 +238,9 @@ namespace RatchetEdit.Parsers
             byte[] mobyIDBlock = ReadBlock(fileStream, weaponPointer, count * 0x10);
             for (int i = 0; i < count; i++)
             {
-                short modelID = ReadShort(mobyIDBlock, (i * 0x10) + 2);
-                int offset = ReadInt(mobyIDBlock, (i * 0x10) + 4);
-                weaponModels.Add(new MobyModel(fileStream, modelID, offset));
+                short modelID = decoder.Short(mobyIDBlock, (i * 0x10) + 2);
+                int offset = decoder.Int(mobyIDBlock, (i * 0x10) + 4);
+                weaponModels.Add(new MobyModel(decoder, fileStream, modelID, offset));
             }
             return weaponModels;
         }

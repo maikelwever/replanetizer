@@ -93,7 +93,7 @@ namespace RatchetEdit.Models
         }
 
         //Get texture configs of different types using elemsize
-        public static List<TextureConfig> GetTextureConfigs(FileStream fs, int texturePointer, int textureCount, int elemSize, bool negate = false)
+        public static List<TextureConfig> GetTextureConfigs(Decoder decoder, FileStream fs, int texturePointer, int textureCount, int elemSize, bool negate = false)
         {
             int IDoffset = 0, startOffset = 0, sizeOffset = 0, modeOffset = 0;
 
@@ -119,10 +119,10 @@ namespace RatchetEdit.Models
             for (int i = 0; i < textureCount; i++)
             {
                 TextureConfig textureConfig = new TextureConfig();
-                textureConfig.ID = ReadInt(texBlock, (i * elemSize) + IDoffset);
-                textureConfig.start = ReadInt(texBlock, (i * elemSize) + startOffset);
-                textureConfig.size = ReadInt(texBlock, (i * elemSize) + sizeOffset);
-                textureConfig.mode = ReadInt(texBlock, (i * elemSize) + modeOffset);
+                textureConfig.ID = decoder.Int(texBlock, (i * elemSize) + IDoffset);
+                textureConfig.start = decoder.Int(texBlock, (i * elemSize) + startOffset);
+                textureConfig.size = decoder.Int(texBlock, (i * elemSize) + sizeOffset);
+                textureConfig.mode = decoder.Int(texBlock, (i * elemSize) + modeOffset);
                 if (negate)
                 {
                     if (i == 0) neg = textureConfig.start;
@@ -135,7 +135,7 @@ namespace RatchetEdit.Models
         }
 
         //Get vertices with UV's baked in
-        public float[] GetVertices(FileStream fs, int vertexPointer, int vertexCount, int elemSize)
+        public float[] GetVertices(Decoder decoder, FileStream fs, int vertexPointer, int vertexCount, int elemSize)
         {
             float[] vertexBuffer = new float[vertexCount * 8];
             weights = new uint[vertexCount];
@@ -144,18 +144,18 @@ namespace RatchetEdit.Models
             byte[] vertBlock = ReadBlock(fs, vertexPointer, vertexCount * elemSize);
             for (int i = 0; i < vertexCount; i++)
             {
-                vertexBuffer[(i * 8) + 0] = (ReadFloat(vertBlock, (i * elemSize) + 0x00));    //VertexX
-                vertexBuffer[(i * 8) + 1] = (ReadFloat(vertBlock, (i * elemSize) + 0x04));    //VertexY
-                vertexBuffer[(i * 8) + 2] = (ReadFloat(vertBlock, (i * elemSize) + 0x08));    //VertexZ
-                vertexBuffer[(i * 8) + 3] = (ReadFloat(vertBlock, (i * elemSize) + 0x0C));    //NormX
-                vertexBuffer[(i * 8) + 4] = (ReadFloat(vertBlock, (i * elemSize) + 0x10));    //NormY
-                vertexBuffer[(i * 8) + 5] = (ReadFloat(vertBlock, (i * elemSize) + 0x14));    //NormZ
-                vertexBuffer[(i * 8) + 6] = (ReadFloat(vertBlock, (i * elemSize) + 0x18));    //UVu
-                vertexBuffer[(i * 8) + 7] = (ReadFloat(vertBlock, (i * elemSize) + 0x1C));    //UVv
+                vertexBuffer[(i * 8) + 0] = (decoder.Float(vertBlock, (i * elemSize) + 0x00));    //VertexX
+                vertexBuffer[(i * 8) + 1] = (decoder.Float(vertBlock, (i * elemSize) + 0x04));    //VertexY
+                vertexBuffer[(i * 8) + 2] = (decoder.Float(vertBlock, (i * elemSize) + 0x08));    //VertexZ
+                vertexBuffer[(i * 8) + 3] = (decoder.Float(vertBlock, (i * elemSize) + 0x0C));    //NormX
+                vertexBuffer[(i * 8) + 4] = (decoder.Float(vertBlock, (i * elemSize) + 0x10));    //NormY
+                vertexBuffer[(i * 8) + 5] = (decoder.Float(vertBlock, (i * elemSize) + 0x14));    //NormZ
+                vertexBuffer[(i * 8) + 6] = (decoder.Float(vertBlock, (i * elemSize) + 0x18));    //UVu
+                vertexBuffer[(i * 8) + 7] = (decoder.Float(vertBlock, (i * elemSize) + 0x1C));    //UVv
                 if(elemSize == 0x28)
                 {
-                    weights[i] = (ReadUint(vertBlock, (i * elemSize) + 0x20));
-                    ids[i] = (ReadUint(vertBlock, (i * elemSize) + 0x24));
+                    weights[i] = (decoder.Uint(vertBlock, (i * elemSize) + 0x20));
+                    ids[i] = (decoder.Uint(vertBlock, (i * elemSize) + 0x24));
                 }
 
 
@@ -268,7 +268,7 @@ namespace RatchetEdit.Models
         }
 
         //Get vertices with UV's located somewhere else
-        public static float[] GetVertices(FileStream fs, int vertexPointer, int UVPointer, int vertexCount, int vertexElemSize, int UVElemSize)
+        public static float[] GetVertices(Decoder decoder, FileStream fs, int vertexPointer, int UVPointer, int vertexCount, int vertexElemSize, int UVElemSize)
         {
             float[] vertexBuffer = new float[vertexCount * 8];
 
@@ -276,28 +276,28 @@ namespace RatchetEdit.Models
             byte[] UVBlock = ReadBlock(fs, UVPointer, vertexCount * UVElemSize);
             for (int i = 0; i < vertexCount; i++)
             {
-                vertexBuffer[(i * 8) + 0] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x00));    //VertexX
-                vertexBuffer[(i * 8) + 1] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x04));    //VertexY
-                vertexBuffer[(i * 8) + 2] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x08));    //VertexZ
-                vertexBuffer[(i * 8) + 3] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x0C));    //NormX
-                vertexBuffer[(i * 8) + 4] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x10));    //NormY
-                vertexBuffer[(i * 8) + 5] = (ReadFloat(vertBlock, (i * vertexElemSize) + 0x14));    //NormZ
+                vertexBuffer[(i * 8) + 0] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x00));    //VertexX
+                vertexBuffer[(i * 8) + 1] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x04));    //VertexY
+                vertexBuffer[(i * 8) + 2] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x08));    //VertexZ
+                vertexBuffer[(i * 8) + 3] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x0C));    //NormX
+                vertexBuffer[(i * 8) + 4] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x10));    //NormY
+                vertexBuffer[(i * 8) + 5] = (decoder.Float(vertBlock, (i * vertexElemSize) + 0x14));    //NormZ
 
-                vertexBuffer[(i * 8) + 6] = (ReadFloat(UVBlock, (i * UVElemSize) + 0x00));    //UVu
-                vertexBuffer[(i * 8) + 7] = (ReadFloat(UVBlock, (i * UVElemSize) + 0x04));    //UVv
+                vertexBuffer[(i * 8) + 6] = (decoder.Float(UVBlock, (i * UVElemSize) + 0x00));    //UVu
+                vertexBuffer[(i * 8) + 7] = (decoder.Float(UVBlock, (i * UVElemSize) + 0x04));    //UVv
             }
             return vertexBuffer;
         }
 
         //Get indices
-        public static ushort[] GetIndices(FileStream fs, int indexPointer, int faceCount, int offset = 0)
+        public static ushort[] GetIndices(Decoder decoder, FileStream fs, int indexPointer, int faceCount, int offset = 0)
         {
             ushort[] indexBuffer = new ushort[faceCount];
             byte[] indexBlock = ReadBlock(fs, indexPointer, faceCount * sizeof(ushort));
 
             for (int i = 0; i < faceCount; i++)
             {
-                ushort face = ReadUshort(indexBlock, i * sizeof(ushort));
+                ushort face = decoder.Ushort(indexBlock, i * sizeof(ushort));
                 indexBuffer[i] = (ushort)(face - offset);
             }
 

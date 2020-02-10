@@ -17,21 +17,21 @@ namespace RatchetEdit.Models
 
         List<List<TextureConfig>> textureConfigs;
 
-        public SkyboxModel(FileStream fs, int offset)
+        public SkyboxModel(Decoder decoder, FileStream fs, int offset)
         {
             if (offset == 0) return;
 
             size = 1.0f;
-            byte[] skyBlockHead = ReadBlock(fs, offset, 0x1C);
+            byte[] skyBlockHead = decoder.Block(fs, offset, 0x1C);
 
-            off_00 = ReadInt(skyBlockHead, 0x00);
-            off_04 = ReadShort(skyBlockHead, 0x04);
-            off_08 = ReadInt(skyBlockHead, 0x08);
-            off_0C = ReadInt(skyBlockHead, 0x0C);
+            off_00 = decoder.Int(skyBlockHead, 0x00);
+            off_04 = decoder.Short(skyBlockHead, 0x04);
+            off_08 = decoder.Int(skyBlockHead, 0x08);
+            off_0C = decoder.Int(skyBlockHead, 0x0C);
 
-            short faceGroupCount = ReadShort(skyBlockHead, 0x06);
-            int vertOffset = ReadInt(skyBlockHead, 0x14);
-            int faceOffset = ReadInt(skyBlockHead, VERTELEMSIZE);
+            short faceGroupCount = decoder.Short(skyBlockHead, 0x06);
+            int vertOffset = decoder.Int(skyBlockHead, 0x14);
+            int faceOffset = decoder.Int(skyBlockHead, VERTELEMSIZE);
 
             int vertexCount = (int)((faceOffset - vertOffset) / VERTELEMSIZE);
 
@@ -41,10 +41,10 @@ namespace RatchetEdit.Models
             byte[] faceGroupBlock = ReadBlock(fs, offset + 0x1C, faceGroupCount * 4);
             for (int i = 0; i < faceGroupCount; i++)
             {
-                int faceGroupOffset = ReadInt(faceGroupBlock, (i * 4));
-                short texCount = ReadShort(ReadBlock(fs, faceGroupOffset + 0x02, 0x02), 0);
+                int faceGroupOffset = decoder.Int(faceGroupBlock, (i * 4));
+                short texCount = decoder.Short(ReadBlock(fs, faceGroupOffset + 0x02, 0x02), 0);
 
-                var texconfigs = new List<TextureConfig>(GetTextureConfigs(fs, faceGroupOffset + 0x10, texCount, 0x10));
+                var texconfigs = new List<TextureConfig>(GetTextureConfigs(decoder, fs, faceGroupOffset + 0x10, texCount, 0x10));
                 textureConfig.AddRange(texconfigs);
                 textureConfigs.Add(texconfigs);
             }
@@ -53,7 +53,7 @@ namespace RatchetEdit.Models
             Console.WriteLine("vertexCount: " + vertexCount.ToString());
             vertexBuffer = GetVerticesUV(fs, vertOffset, vertexCount, VERTELEMSIZE);
 
-            indexBuffer = GetIndices(fs, faceOffset, faceCount);
+            indexBuffer = GetIndices(decoder, fs, faceOffset, faceCount);
 
         }
 

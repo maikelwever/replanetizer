@@ -193,6 +193,7 @@
     <Compile Include="Tools\Tool.cs" />
     <Compile Include="Tools\RotationTool.cs" />
     <Compile Include="Tools\TranslationTool.cs" />
+    <Compile Include="Decoder.cs" />
     <Compile Include="Utilities.cs" />
     <EmbeddedResource Include="CustomControls\ObjectTreeView.resx">
       <DependentUpon>ObjectTreeView.cs</DependentUpon>

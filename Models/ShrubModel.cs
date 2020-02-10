@@ -23,40 +23,40 @@ namespace RatchetEdit.Models
         public uint off_3C { get; set; }
 
 
-        public ShrubModel(FileStream fs, byte[] tieBlock, int num)
+        public ShrubModel(Decoder decoder, FileStream fs, byte[] tieBlock, int num)
         {
             int offset = num * 0x40;
-            cullingX = ReadFloat(tieBlock, offset + 0x00);
-            cullingY = ReadFloat(tieBlock, offset + 0x04);
-            cullingZ = ReadFloat(tieBlock, offset + 0x08);
-            cullingRadius = ReadFloat(tieBlock, offset + 0x0C);
+            cullingX = decoder.Float(tieBlock, offset + 0x00);
+            cullingY = decoder.Float(tieBlock, offset + 0x04);
+            cullingZ = decoder.Float(tieBlock, offset + 0x08);
+            cullingRadius = decoder.Float(tieBlock, offset + 0x0C);
 
-            int vertexPointer = ReadInt(tieBlock, offset + 0x10);
-            int UVPointer = ReadInt(tieBlock, offset + 0x14);
-            int indexPointer = ReadInt(tieBlock, offset + 0x18);
-            int texturePointer = ReadInt(tieBlock, offset + 0x1C);
+            int vertexPointer = decoder.Int(tieBlock, offset + 0x10);
+            int UVPointer = decoder.Int(tieBlock, offset + 0x14);
+            int indexPointer = decoder.Int(tieBlock, offset + 0x18);
+            int texturePointer = decoder.Int(tieBlock, offset + 0x1C);
 
-            off_20 = ReadUint(tieBlock, offset + 0x20);
-            int vertexCount = ReadInt(tieBlock, offset + 0x24);
-            short textureCount = ReadShort(tieBlock, offset + 0x28);
-            off_2A = ReadShort(tieBlock, offset + 0x2A);
-            off_2C = ReadUint(tieBlock, offset + 0x2C);
+            off_20 = decoder.Uint(tieBlock, offset + 0x20);
+            int vertexCount = decoder.Int(tieBlock, offset + 0x24);
+            short textureCount = decoder.Short(tieBlock, offset + 0x28);
+            off_2A = decoder.Short(tieBlock, offset + 0x2A);
+            off_2C = decoder.Uint(tieBlock, offset + 0x2C);
 
-            id = ReadShort(tieBlock, offset + 0x30);
-            off_34 = ReadUint(tieBlock, offset + 0x34);
-            off_38 = ReadUint(tieBlock, offset + 0x38);
-            off_3C = ReadUint(tieBlock, offset + 0x3C);
+            id = decoder.Short(tieBlock, offset + 0x30);
+            off_34 = decoder.Uint(tieBlock, offset + 0x34);
+            off_38 = decoder.Uint(tieBlock, offset + 0x38);
+            off_3C = decoder.Uint(tieBlock, offset + 0x3C);
 
             size = 1.0f;
 
-            textureConfig = GetTextureConfigs(fs, texturePointer, textureCount, SHRUBTEXELEMSIZE);
+            textureConfig = GetTextureConfigs(decoder, fs, texturePointer, textureCount, SHRUBTEXELEMSIZE);
             int faceCount = GetFaceCount();
 
             //Get vertex buffer float[vertX, vertY, vertZ, normX, normY, normZ] and UV array float[U, V] * vertexCount
-            vertexBuffer = GetVertices(fs, vertexPointer, UVPointer, vertexCount, SHRUBVERTELEMSIZE, SHRUBUVELEMSIZE);
+            vertexBuffer = GetVertices(decoder, fs, vertexPointer, UVPointer, vertexCount, SHRUBVERTELEMSIZE, SHRUBUVELEMSIZE);
 
             //Get index buffer ushort[i] * faceCount
-            indexBuffer = GetIndices(fs, indexPointer, faceCount);
+            indexBuffer = GetIndices(decoder, fs, indexPointer, faceCount);
         }
 
         public byte[] SerializeHead(int offStart)

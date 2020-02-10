@@ -9,13 +9,13 @@ namespace RatchetEdit.Models.Animations
         public float unk3;
         public float unk4;
 
-        public BoneData(byte[] boneDataBlock, int num)
+        public BoneData(Decoder decoder, byte[] boneDataBlock, int num)
         {
             int offset = num * 0x10;
-            unk1 = ReadFloat(boneDataBlock, offset + 0x00);
-            unk2 = ReadFloat(boneDataBlock, offset + 0x04);
-            unk3 = ReadFloat(boneDataBlock, offset + 0x08);
-            unk4 = ReadFloat(boneDataBlock, offset + 0x0C);
+            unk1 = decoder.Float(boneDataBlock, offset + 0x00);
+            unk2 = decoder.Float(boneDataBlock, offset + 0x04);
+            unk3 = decoder.Float(boneDataBlock, offset + 0x08);
+            unk4 = decoder.Float(boneDataBlock, offset + 0x0C);
 
             //unk4 = 0;
         }

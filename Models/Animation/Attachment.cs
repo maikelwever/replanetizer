@@ -9,11 +9,11 @@ namespace RatchetEdit.Models
         List<byte> aBones;
         List<byte> bBones;
 
-        public Attachment(FileStream fs, int offset)
+        public Attachment(Decoder decoder, FileStream fs, int offset)
         {
-            byte[] counts = ReadBlock(fs, offset, 4);
-            short aBoneCount = ReadShort(counts, 0);
-            short bBoneCount = ReadShort(counts, 2);
+            byte[] counts = decoder.Block(fs, offset, 4);
+            short aBoneCount = decoder.Short(counts, 0);
+            short bBoneCount = decoder.Short(counts, 2);
             byte[] data = ReadBlock(fs, offset + 4, aBoneCount + bBoneCount);
 
             aBones = new List<byte>();

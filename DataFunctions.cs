@@ -40,6 +40,11 @@ namespace RatchetEdit
             return buf[offset + 0] << 24 | buf[offset + 1] << 16 | buf[offset + 2] << 8 | buf[offset + 3];
         }
 
+        public static int ReadIntLE(byte[] buf, int offset)
+        {
+            return buf[offset + 3] << 24 | buf[offset + 2] << 16 | buf[offset + 1] << 8 | buf[offset];
+        }
+
         public static short ReadShort(byte[] buf, int offset)
         {
             return (short)(buf[offset + 0] << 8 | buf[offset + 1]);
@@ -141,6 +146,15 @@ namespace RatchetEdit
             byteArr[offset + 1] = byt[2];
             byteArr[offset + 2] = byt[1];
             byteArr[offset + 3] = byt[0];
+        }
+
+        public static void WriteIntLE(byte[] byteArr, int offset, int input)
+        {
+            byte[] byt = BitConverter.GetBytes(input);
+            byteArr[offset + 0] = byt[0];
+            byteArr[offset + 1] = byt[1];
+            byteArr[offset + 2] = byt[2];
+            byteArr[offset + 3] = byt[3];
         }
 
         public static void WriteFloat(byte[] byteArr, int offset, float input)

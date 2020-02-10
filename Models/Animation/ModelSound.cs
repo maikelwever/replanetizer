@@ -20,18 +20,18 @@ namespace RatchetEdit.Models.Animations
         public short listIndex;
         public int off_1C;
 
-        public ModelSound(byte[] soundBlock, int num)
+        public ModelSound(Decoder decoder, byte[] soundBlock, int num)
         {
             int offset = num * 0x20;
-            off_00 = ReadInt(soundBlock, offset+ 0x00);
-            distance = ReadFloat(soundBlock, offset + 0x04);
-            masterVolume = ReadInt(soundBlock, offset + 0x08);
-            volume = ReadInt(soundBlock, offset + 0x0C);
-            distortion = ReadInt(soundBlock, offset + 0x10);
-            distortion2 = ReadInt(soundBlock, offset + 0x14);
-            off_18 = ReadShort(soundBlock, offset + 0x18);
-            listIndex = ReadShort(soundBlock, offset + 0x1A);
-            off_1C = ReadInt(soundBlock, offset + 0x1C);
+            off_00 = decoder.Int(soundBlock, offset+ 0x00);
+            distance = decoder.Float(soundBlock, offset + 0x04);
+            masterVolume = decoder.Int(soundBlock, offset + 0x08);
+            volume = decoder.Int(soundBlock, offset + 0x0C);
+            distortion = decoder.Int(soundBlock, offset + 0x10);
+            distortion2 = decoder.Int(soundBlock, offset + 0x14);
+            off_18 = decoder.Short(soundBlock, offset + 0x18);
+            listIndex = decoder.Short(soundBlock, offset + 0x1A);
+            off_1C = decoder.Int(soundBlock, offset + 0x1C);
         }
 
         public byte[] Serialize()
