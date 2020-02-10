@@ -4,3 +4,4 @@
 /[Oo]bj
 /[Bb]in
 RatchetEdit.csproj.user
+mono_crash*.json

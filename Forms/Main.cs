@@ -57,6 +57,13 @@ namespace RatchetEdit
             tieNames = GetModelNames("/ModelLists/TieModelsRC1.txt");
             objectTree.Init(mobNames, tieNames);
             glControl.SelectTool(glControl.translateTool);
+
+
+            string[] arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length > 1) {
+                LoadLevel(arguments[1]);
+            }
+
         }
 
         private void mapOpenBtn_Click(object sender, EventArgs e)
