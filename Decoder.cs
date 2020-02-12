@@ -33,10 +33,28 @@ namespace RatchetEdit
 
         public float Float(byte[] buf, int offset)
         {
+            if (littleEndian) {
+                return FloatLE(buf, offset);
+            } else {
+                return FloatBE(buf, offset);
+            }
+        }
+
+        public float FloatBE(byte[] buf, int offset)
+        {
             flt.byte0 = buf[offset + 3];
             flt.byte1 = buf[offset + 2];
             flt.byte2 = buf[offset + 1];
             flt.byte3 = buf[offset];
+            return flt.value;
+        }
+
+        public float FloatLE(byte[] buf, int offset)
+        {
+            flt.byte0 = buf[offset];
+            flt.byte1 = buf[offset + 1];
+            flt.byte2 = buf[offset + 2];
+            flt.byte3 = buf[offset + 3];
             return flt.value;
         }
 
