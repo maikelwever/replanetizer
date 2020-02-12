@@ -7,6 +7,8 @@ namespace RatchetEdit.Models
 {
     public class SkyboxModel : Model
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public const int VERTELEMSIZE = 0x18;
 
         //Unhandled offsets for serialization
@@ -50,7 +52,7 @@ namespace RatchetEdit.Models
             }
 
             int faceCount = GetFaceCount();
-            Console.WriteLine("vertexCount: " + vertexCount.ToString());
+            Logger.Info("vertexCount: " + vertexCount.ToString());
             vertexBuffer = GetVerticesUV(fs, vertOffset, vertexCount, VERTELEMSIZE);
 
             indexBuffer = GetIndices(decoder, fs, faceOffset, faceCount);

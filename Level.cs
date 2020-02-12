@@ -11,6 +11,8 @@ namespace RatchetEdit
 {
     public class Level
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public bool valid;
         public bool isVita = false;
         public Decoder decoder;
@@ -94,7 +96,7 @@ namespace RatchetEdit
 
         ~Level()
         {
-            Console.WriteLine("Level destroyed");
+            Logger.Info("Level destroyed");
         }
 
         //New file constructor
@@ -108,7 +110,7 @@ namespace RatchetEdit
             var vitaVertFile = Path.Combine(path, "engine_vert.ps3");
 
             if (File.Exists(vitaVertFile)) {
-                Console.WriteLine("Using Vita parsing logic.");
+                Logger.Info("Using Vita parsing logic.");
                 isVita = true;
                 decoder = new Decoder(true);
             } else {
@@ -137,7 +139,7 @@ namespace RatchetEdit
             vramParser.Close();
 
 
-            Console.WriteLine("Level parsing done");
+            Logger.Info("Level parsing done");
             valid = true;
         }
 
@@ -151,52 +153,52 @@ namespace RatchetEdit
             billboardBytes = engineParser.GetBillboardBytes();
             soundConfigBytes = engineParser.GetSoundConfigBytes();
 
-            Console.WriteLine("Parsing skybox...");
+            Logger.Info("Parsing skybox...");
             skybox = engineParser.GetSkyboxModel(decoder);
-            Console.WriteLine("Success");
+            Logger.Info("Success");
 
-            Console.WriteLine("Parsing moby models...");
+            Logger.Info("Parsing moby models...");
             mobyModels = engineParser.GetMobyModels(decoder);
-            Console.WriteLine("Added " + mobyModels.Count + " moby models");
+            Logger.Info("Added " + mobyModels.Count + " moby models");
 
-            Console.WriteLine("Parsing tie models...");
+            Logger.Info("Parsing tie models...");
             tieModels = engineParser.GetTieModels();
-            Console.WriteLine("Added " + tieModels.Count + " tie models");
+            Logger.Info("Added " + tieModels.Count + " tie models");
 
-            Console.WriteLine("Parsing shrub models...");
+            Logger.Info("Parsing shrub models...");
             shrubModels = engineParser.GetShrubModels();
-            Console.WriteLine("Added " + shrubModels.Count + " shrub models");
+            Logger.Info("Added " + shrubModels.Count + " shrub models");
 
-            Console.WriteLine("Parsing weapons...");
+            Logger.Info("Parsing weapons...");
             weaponModels = engineParser.GetWeapons(decoder);
-            Console.WriteLine("Added " + weaponModels.Count + " weapons");
+            Logger.Info("Added " + weaponModels.Count + " weapons");
 
-            Console.WriteLine("Parsing textures...");
+            Logger.Info("Parsing textures...");
             textures = engineParser.GetTextures();
-            Console.WriteLine("Added " + textures.Count + " textures");
+            Logger.Info("Added " + textures.Count + " textures");
 
-            Console.WriteLine("Parsing ties...");
+            Logger.Info("Parsing ties...");
             ties = engineParser.GetTies(tieModels);
-            Console.WriteLine("Added " + ties.Count + " ties");
+            Logger.Info("Added " + ties.Count + " ties");
 
-            Console.WriteLine("Parsing Shrubs...");
+            Logger.Info("Parsing Shrubs...");
             shrubs = engineParser.GetShrubs(shrubModels);
-            Console.WriteLine("Added " + shrubs.Count + " Shrubs");
+            Logger.Info("Added " + shrubs.Count + " Shrubs");
 
-            Console.WriteLine("Parsing Lights...");
+            Logger.Info("Parsing Lights...");
             lights = engineParser.GetLights();
-            Console.WriteLine("Added " + lights.Count + " lights");
+            Logger.Info("Added " + lights.Count + " lights");
 
-            Console.WriteLine("Parsing terrain elements...");
+            Logger.Info("Parsing terrain elements...");
             terrains = engineParser.GetTerrainModels();
-            Console.WriteLine("Added " + terrains?.Count + " terrain elements");
+            Logger.Info("Added " + terrains?.Count + " terrain elements");
 
-            Console.WriteLine("Parsing player animations...");
+            Logger.Info("Parsing player animations...");
             playerAnimations = engineParser.GetPlayerAnimations((MobyModel)mobyModels[0]);
-            Console.WriteLine("Added " + playerAnimations?.Count + " player animations");
+            Logger.Info("Added " + playerAnimations?.Count + " player animations");
 
             uiElements = engineParser.GetUiElements();
-            Console.WriteLine("Added " + uiElements?.Count + " ui elements");
+            Logger.Info("Added " + uiElements?.Count + " ui elements");
 
             lightConfig = engineParser.GetLightConfig();
             textureConfigMenus = engineParser.GetTextureConfigMenu();
@@ -204,18 +206,18 @@ namespace RatchetEdit
         }
 
         void ParseGameplayData(GameplayParser gameplayParser) {
-            Console.WriteLine("Parsing Level variables...");
+            Logger.Info("Parsing Level variables...");
             levelVariables = gameplayParser.GetLevelVariables();
 
-            Console.WriteLine("Parsing mobs...");
+            Logger.Info("Parsing mobs...");
             mobs = gameplayParser.GetMobies(game, mobyModels);
-            Console.WriteLine("Added " + mobs?.Count + " mobs");
+            Logger.Info("Added " + mobs?.Count + " mobs");
 
-            Console.WriteLine("Parsing splines...");
+            Logger.Info("Parsing splines...");
             splines = gameplayParser.GetSplines();
-            //Console.WriteLine("Added " + splines.Count + " splines");
+            //Logger.Info("Added " + splines.Count + " splines");
 
-            Console.WriteLine("Parsing languages...");
+            Logger.Info("Parsing languages...");
             english = gameplayParser.GetEnglish();
             lang2 = gameplayParser.GetLang2();
             french = gameplayParser.GetFrench();
@@ -225,7 +227,7 @@ namespace RatchetEdit
             lang7 = gameplayParser.GetLang7();
             lang8 = gameplayParser.GetLang8();
 
-            Console.WriteLine("Parsing other gameplay assets...");
+            Logger.Info("Parsing other gameplay assets...");
             unk6 = gameplayParser.GetUnk6();
             unk7 = gameplayParser.GetUnk7();
             unk13 = gameplayParser.GetUnk13();

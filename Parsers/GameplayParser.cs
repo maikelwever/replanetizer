@@ -11,6 +11,8 @@ namespace RatchetEdit.Parsers
 {
     class GameplayParser : IDisposable
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         FileStream fileStream;
         GameplayHeader gameplayHeader;
 
@@ -22,7 +24,7 @@ namespace RatchetEdit.Parsers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.Info(e);
                 MessageBox.Show("gameplay file missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 Application.Exit();
                 return;

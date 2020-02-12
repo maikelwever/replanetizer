@@ -108,7 +108,7 @@ namespace RatchetEdit.LevelObjects
                 GL.GenBuffers(1, out VBO);
                 GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
                 GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.DynamicDraw);
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
+                //Logger.Info("Generated VBO with ID: " + VBO.ToString());
             }
             else
             {

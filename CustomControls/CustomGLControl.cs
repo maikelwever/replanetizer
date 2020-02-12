@@ -533,7 +533,7 @@ namespace RatchetEdit
             Pixel pixel = new Pixel();
             GL.ReadPixels(x, Height - y, 1, 1, PixelFormat.Rgba, PixelType.UnsignedByte, ref pixel);
 
-            //Console.WriteLine("R: {0}, G: {1}, B: {2}, A: {3}", pixel.R, pixel.G, pixel.B, pixel.A);
+            //Logger.Info("R: {0}, G: {1}, B: {2}, A: {3}", pixel.R, pixel.G, pixel.B, pixel.A);
 
             GL.ClearColor(Color.SkyBlue);
 
@@ -609,7 +609,7 @@ namespace RatchetEdit
         {
             base.OnPaint(e);
             if (DesignMode) { return; }
-            //Console.WriteLine("Painting");
+            //Logger.Info("Painting");
 
             worldView = view * projection;
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);

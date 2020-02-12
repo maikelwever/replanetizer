@@ -12,6 +12,8 @@ namespace RatchetEdit.Models
 
     public abstract class Model
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public short id { get; set; }
         public float size;
         public float[] vertexBuffer = {  };
@@ -66,7 +68,7 @@ namespace RatchetEdit.Models
                 GL.GenBuffers(1, out VBO);
                 GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
                 GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
+                //Logger.Info("Generated VBO with ID: " + VBO.ToString());
             }
             else
             {
@@ -84,7 +86,7 @@ namespace RatchetEdit.Models
                 GL.GenBuffers(1, out IBO);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
                 GL.BufferData(BufferTarget.ElementArrayBuffer, indexBuffer.Length * sizeof(ushort), indexBuffer, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated IBO with ID: " + IBO.ToString());
+                //Logger.Info("Generated IBO with ID: " + IBO.ToString());
             }
             else
             {

@@ -8,6 +8,8 @@ namespace RatchetEdit.Models
 {
     public class MobyModel : Model
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         const int VERTELEMENTSIZE = 0x28;
         const int TEXTUREELEMENTSIZE = 0x10;
         const int MESHHEADERSIZE = 0x20;
@@ -80,7 +82,7 @@ namespace RatchetEdit.Models
 
             if (boneCount == 0) boneCount = lpBoneCount;
 
-            Console.WriteLine("bonecount: " + boneCount + "lpBoneCOunt: " + lpBoneCount);
+            Logger.Debug("Bonecount: {0}, lpBoneCount: {1}", boneCount, lpBoneCount);
             count3 = headBlock[0x0A];
             count4 = headBlock[0x0B];
             byte animationCount = headBlock[0x0C];
@@ -98,7 +100,7 @@ namespace RatchetEdit.Models
             int soundPointer = decoder.Int(headBlock, 0x28);
             null3 = decoder.Int(headBlock, 0x2C);
 
-            if (null1 != 0 || null2 != 0 || null3 != 0) { Console.WriteLine("Warning: null in model header wan't null"); }
+            if (null1 != 0 || null2 != 0 || null3 != 0) { Logger.Warn("Warning: null in model header wan't null"); }
 
             unk1 = decoder.Float(headBlock, 0x30);
             unk2 = decoder.Float(headBlock, 0x34);

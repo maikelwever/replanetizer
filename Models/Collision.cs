@@ -166,7 +166,7 @@ namespace RatchetEdit.Models
                 GL.GenBuffers(1, out IBO);
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
                 GL.BufferData(BufferTarget.ElementArrayBuffer, indBuff.Length * sizeof(int), indBuff, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated IBO with ID: " + IBO.ToString());
+                //Logger.Info("Generated IBO with ID: " + IBO.ToString());
             }
             else
             {
@@ -184,7 +184,7 @@ namespace RatchetEdit.Models
                 GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
                 GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.StaticDraw);
 
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
+                //Logger.Info("Generated VBO with ID: " + VBO.ToString());
             }
             else
             {

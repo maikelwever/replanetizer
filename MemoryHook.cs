@@ -20,6 +20,8 @@ namespace RatchetEdit
     }
     class MemoryHook
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         // Read and write acceess
         const int PROCESS_WM_READ = 0x38;
 
@@ -77,7 +79,7 @@ namespace RatchetEdit
         {
             if (!hookWorking) return;
             if (!IsX64()) return;
-            Console.WriteLine("gaming");
+            Logger.Trace("Updating Mobys from rpcs3 memory");
 
             int bytesRead = 0;
             byte[] ptrbuf = new byte[0xC];

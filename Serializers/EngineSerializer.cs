@@ -12,6 +12,8 @@ namespace RatchetEdit.Serializers
 {
     class EngineSerializer
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public string pathName;
 
         public void Save(Level level, string pathName)
@@ -156,7 +158,7 @@ namespace RatchetEdit.Serializers
             WriteInt(outByteArr, 0x28, uvOffset);
             WriteInt(outByteArr, 0x38, indexOffset);
 
-            Console.WriteLine(outByteArr.Length);
+            Logger.Info(outByteArr.Length);
             return outByteArr;
         }
         private byte[] WriteTerrainBytes(byte[] terrainBlock, int fileOffset, int textureCount)
@@ -190,9 +192,9 @@ namespace RatchetEdit.Serializers
                 WriteInt(terrainBlock, texOffset0 + i * 0x10, texId + textureCount);
             }
 
-            Console.WriteLine("Texutre0offset: " + texOffset0);
-            Console.WriteLine("textureCount: " + textureCount);
-            Console.WriteLine("texCount: " + texCount);
+            Logger.Info("Texutre0offset: " + texOffset0);
+            Logger.Info("textureCount: " + textureCount);
+            Logger.Info("texCount: " + texCount);
 
             return terrainBlock;
         }

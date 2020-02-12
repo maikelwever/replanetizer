@@ -12,6 +12,8 @@ namespace RatchetEdit.Parsers
 {
     public class RatchetFileParser
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         protected FileStream fileStream;
         public Decoder decoder;
 
@@ -25,8 +27,8 @@ namespace RatchetEdit.Parsers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                Console.WriteLine("Couldn't load engine file.");
+                Logger.Info(e);
+                Logger.Info("Couldn't load engine file.");
                 Application.Exit();
                 return;
             }
@@ -312,9 +314,9 @@ namespace RatchetEdit.Parsers
                 WriteInt(terrainBlock, texOffset0 + i * 0x10, texId - lowestOffset);
             }
 
-            Console.WriteLine("Lowest offset: " + lowestOffset);
-            Console.WriteLine("Texture cout: " + texCount);
-            Console.WriteLine("tex0offset: " + texOffset0);
+            Logger.Info("Lowest offset: " + lowestOffset);
+            Logger.Info("Texture cout: " + texCount);
+            Logger.Info("tex0offset: " + texOffset0);
 
             return terrainBlock;
         }

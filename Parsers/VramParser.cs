@@ -8,6 +8,8 @@ namespace RatchetEdit.Parsers
 {
     class VramParser
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         FileStream fileStream;
         public bool valid = false;
 
@@ -19,7 +21,7 @@ namespace RatchetEdit.Parsers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.Info(e);
                 MessageBox.Show("vram.ps3 missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 //Application.Exit();
                 return;

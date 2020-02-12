@@ -13,6 +13,8 @@ namespace RatchetEdit
 {
     public class CustomGLControl : GLControl
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Matrix4 worldView;
         public Matrix4 projection;
         public Matrix4 view;
@@ -28,7 +30,7 @@ namespace RatchetEdit
 
         public void InitializeGLConfig()
         {
-            Console.WriteLine("Initialized");
+            Logger.Info("Initialized");
             int VAO;
             GL.GenVertexArrays(1, out VAO);
             GL.BindVertexArray(VAO);
@@ -67,7 +69,7 @@ namespace RatchetEdit
             }
             GL.CompileShader(address);
             GL.AttachShader(program, address);
-            Console.WriteLine(GL.GetShaderInfoLog(address));
+            Logger.Info(GL.GetShaderInfoLog(address));
         }
 
         protected override void OnPaint(PaintEventArgs e)

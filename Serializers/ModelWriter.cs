@@ -10,9 +10,11 @@ namespace RatchetEdit
 {
     public static class ModelWriter
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public static void WriteIqe(string fileName, Level level, Model model)
         {
-            Console.WriteLine(fileName);
+            Logger.Info(fileName);
 
             string filePath = Path.GetDirectoryName(fileName);
 
@@ -37,7 +39,7 @@ namespace RatchetEdit
                     float zz = mobyModel.boneDatas[i].unk3 / 1024f;
 
                     short par = (short)(mobyModel.boneMatrices[i].bb / 0x40);
-                    Console.WriteLine(par.ToString());
+                    Logger.Info(par.ToString());
                     spookyStream.WriteLine("joint h" + i.ToString() + " " + (par == 0 ? "" : par.ToString()));
                     spookyStream.WriteLine("pq " + xx.ToString() + " " + yy.ToString() + " " + zz.ToString());
                 }
