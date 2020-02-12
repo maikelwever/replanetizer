@@ -18,6 +18,8 @@ namespace RatchetEdit
 {
     public class CustomGLControl : GLControl
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         public Level level;
 
         public Matrix4 worldView;
@@ -112,7 +114,7 @@ namespace RatchetEdit
 
             //ratchet.position = new Vector3(0, 0, 100);
 
-            Console.WriteLine(level.mobs.Count);
+            Logger.Info("Number of mobs in level: {0}", level.mobs.Count);
 
             camera.MoveBehind(ratchet);
 
@@ -414,7 +416,7 @@ namespace RatchetEdit
             }
             GL.CompileShader(address);
             GL.AttachShader(program, address);
-            Console.WriteLine(GL.GetShaderInfoLog(address));
+            Logger.Info("Shader info log: {0}", GL.GetShaderInfoLog(address));
         }
 
         protected override void OnResize(EventArgs e)

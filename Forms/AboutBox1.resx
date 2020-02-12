@@ -605,6 +605,7 @@
 Replanetizer is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. Please see the https://github.com/game-fuckery-inc/replanetizer/blob/master/LICENSE.md or the included LICENSE.md file for more details.
 Replanetizer includes icons from the materials icon pack located at https://material.io/tools/icons/?style=baseline, which is protected under the apache 2.0 license available at https://www.apache.org/licenses/LICENSE-2.0.html
 Replanetizer uses OpenTK, which is protected under the MIT license available at https://github.com/opentk/opentk/blob/master/LICENSE.md
-Replanetizer uses Magick.NET, which is protected under the Apache 2.0 license available at https://github.com/dlemstra/Magick.NET/blob/master/License.txt</value>
+Replanetizer uses Magick.NET, which is protected under the Apache 2.0 license available at https://github.com/dlemstra/Magick.NET/blob/master/License.txt
+Replanetizer uses NLog, which is protected under the BSD 3-clause license available at https://github.com/NLog/NLog/blob/dev/LICENSE.txt</value>
   </data>
 </root>
