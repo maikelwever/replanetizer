@@ -97,6 +97,7 @@ namespace RatchetEdit.Models
         //Get texture configs of different types using elemsize
         public static List<TextureConfig> GetTextureConfigs(Decoder decoder, FileStream fs, int texturePointer, int textureCount, int elemSize, bool negate = false)
         {
+            Logger.Debug("Attempting to load {0} textures from address {1}", textureCount, texturePointer);
             int IDoffset = 0, startOffset = 0, sizeOffset = 0, modeOffset = 0;
 
             switch (elemSize)
@@ -139,6 +140,7 @@ namespace RatchetEdit.Models
         //Get vertices with UV's baked in
         public float[] GetVertices(Decoder decoder, FileStream fs, int vertexPointer, int vertexCount, int elemSize)
         {
+            Logger.Debug("Attempting to load {0} vertices from address {1}", vertexCount, vertexPointer);
             float[] vertexBuffer = new float[vertexCount * 8];
             weights = new uint[vertexCount];
             ids = new uint[vertexCount];
@@ -224,6 +226,7 @@ namespace RatchetEdit.Models
         //Get vertices with UV's baked in, but no normals
         public static float[] GetVerticesUV(FileStream fs, int vertexPointer, int vertexCount, int elemSize)
         {
+            Logger.Debug("Attempting to load {0} vertices UV from address {1}", vertexCount, vertexPointer);
             float[] vertexBuffer = new float[vertexCount * 8];
 
             //List<float> vertexBuffer = new List<float>();
@@ -272,6 +275,7 @@ namespace RatchetEdit.Models
         //Get vertices with UV's located somewhere else
         public static float[] GetVertices(Decoder decoder, FileStream fs, int vertexPointer, int UVPointer, int vertexCount, int vertexElemSize, int UVElemSize)
         {
+            Logger.Debug("Attempting to load {0} vertices from address {1} with UV located at {2}", vertexCount, vertexPointer, UVPointer);
             float[] vertexBuffer = new float[vertexCount * 8];
 
             byte[] vertBlock = ReadBlock(fs, vertexPointer, vertexCount * vertexElemSize);
@@ -294,6 +298,7 @@ namespace RatchetEdit.Models
         //Get indices
         public static ushort[] GetIndices(Decoder decoder, FileStream fs, int indexPointer, int faceCount, int offset = 0)
         {
+            Logger.Debug("Attempting to load {0} indices from address {1}", indexPointer, faceCount);
             ushort[] indexBuffer = new ushort[faceCount];
             byte[] indexBlock = ReadBlock(fs, indexPointer, faceCount * sizeof(ushort));
 

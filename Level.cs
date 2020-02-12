@@ -153,52 +153,18 @@ namespace RatchetEdit
             billboardBytes = engineParser.GetBillboardBytes();
             soundConfigBytes = engineParser.GetSoundConfigBytes();
 
-            Logger.Info("Parsing skybox...");
-            skybox = engineParser.GetSkyboxModel(decoder);
-            Logger.Info("Success");
-
-            Logger.Info("Parsing moby models...");
-            mobyModels = engineParser.GetMobyModels(decoder);
-            Logger.Info("Added " + mobyModels.Count + " moby models");
-
-            Logger.Info("Parsing tie models...");
+            skybox = engineParser.GetSkyboxModel();
+            mobyModels = engineParser.GetMobyModels();
             tieModels = engineParser.GetTieModels();
-            Logger.Info("Added " + tieModels.Count + " tie models");
-
-            Logger.Info("Parsing shrub models...");
             shrubModels = engineParser.GetShrubModels();
-            Logger.Info("Added " + shrubModels.Count + " shrub models");
-
-            Logger.Info("Parsing weapons...");
-            weaponModels = engineParser.GetWeapons(decoder);
-            Logger.Info("Added " + weaponModels.Count + " weapons");
-
-            Logger.Info("Parsing textures...");
+            weaponModels = engineParser.GetWeapons();
             textures = engineParser.GetTextures();
-            Logger.Info("Added " + textures.Count + " textures");
-
-            Logger.Info("Parsing ties...");
             ties = engineParser.GetTies(tieModels);
-            Logger.Info("Added " + ties.Count + " ties");
-
-            Logger.Info("Parsing Shrubs...");
             shrubs = engineParser.GetShrubs(shrubModels);
-            Logger.Info("Added " + shrubs.Count + " Shrubs");
-
-            Logger.Info("Parsing Lights...");
             lights = engineParser.GetLights();
-            Logger.Info("Added " + lights.Count + " lights");
-
-            Logger.Info("Parsing terrain elements...");
             terrains = engineParser.GetTerrainModels();
-            Logger.Info("Added " + terrains?.Count + " terrain elements");
-
-            Logger.Info("Parsing player animations...");
             playerAnimations = engineParser.GetPlayerAnimations((MobyModel)mobyModels[0]);
-            Logger.Info("Added " + playerAnimations?.Count + " player animations");
-
             uiElements = engineParser.GetUiElements();
-            Logger.Info("Added " + uiElements?.Count + " ui elements");
 
             lightConfig = engineParser.GetLightConfig();
             textureConfigMenus = engineParser.GetTextureConfigMenu();

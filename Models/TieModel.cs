@@ -5,6 +5,8 @@ namespace RatchetEdit.Models
 {
     public class TieModel : Model
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         const int TIETEXELEMSIZE = 0x18;
         const int TIEVERTELEMSIZE = 0x18;
         const int TIEUVELEMSIZE = 0x08;
@@ -37,7 +39,7 @@ namespace RatchetEdit.Models
             int texturePointer = decoder.Int(tieBlock, offset + 0x1C);
 
             off_20 = decoder.Uint(tieBlock, offset + 0x20);                 //null
-            int vertexCount = decoder.Int(tieBlock, offset + 0x24);
+            int vertexCount = decoder.IntBE(tieBlock, offset + 0x24);
             short textureCount = decoder.Short(tieBlock, offset + 0x28);
             wiggleMode = decoder.Short(tieBlock, offset + 0x2A);
             off_2C = decoder.Float(tieBlock, offset + 0x2C);
@@ -57,6 +59,8 @@ namespace RatchetEdit.Models
 
             //Get index buffer ushort[i] * faceCount
             indexBuffer = GetIndices(decoder, fs, indexPointer, faceCount);
+
+            Logger.Debug("Created Tie Model with ID {0}", id);
         }
 
         public byte[] SerializeHead(int offStart)

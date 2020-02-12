@@ -37,7 +37,7 @@ namespace RatchetEdit.Models
             int texturePointer = decoder.Int(tieBlock, offset + 0x1C);
 
             off_20 = decoder.Uint(tieBlock, offset + 0x20);
-            int vertexCount = decoder.Int(tieBlock, offset + 0x24);
+            int vertexCount = decoder.IntBE(tieBlock, offset + 0x24);
             short textureCount = decoder.Short(tieBlock, offset + 0x28);
             off_2A = decoder.Short(tieBlock, offset + 0x2A);
             off_2C = decoder.Uint(tieBlock, offset + 0x2C);

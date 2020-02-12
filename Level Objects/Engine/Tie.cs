@@ -11,6 +11,8 @@ namespace RatchetEdit.LevelObjects
 {
     public class Tie : ModelObject
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         const int ELEMENTSIZE = 0x70;
 
         public short off_50 { get; set; }
@@ -29,11 +31,11 @@ namespace RatchetEdit.LevelObjects
             modelMatrix = matrix4;
         }
 
-        public Tie(byte[] levelBlock, int num, List<Model> tieModels, FileStream fs)
+        public Tie(Decoder decoder, byte[] levelBlock, int num, List<Model> tieModels, FileStream fs)
         {
             int offset = num * ELEMENTSIZE;
 
-            Matrix4 mat1 = ReadMatrix4(levelBlock, offset + 0x00);
+            Matrix4 mat1 = decoder.Matrix4(levelBlock, offset + 0x00);
 
             /* These offsets are just placeholders for the render distance quaternion which is set in-game
             off_40 =    BAToUInt32(levelBlock, offset + 0x40);
@@ -42,17 +44,18 @@ namespace RatchetEdit.LevelObjects
             off_4C =    BAToUInt32(levelBlock, offset + 0x4C);
             */
 
-            off_50 = ReadShort(levelBlock, offset + 0x50);
-            modelID = ReadUshort(levelBlock, offset + 0x52);
-            off_54 = ReadUint(levelBlock, offset + 0x54);
-            off_58 = ReadUint(levelBlock, offset + 0x58);
-            off_5C = ReadUint(levelBlock, offset + 0x5C);
+            off_50 = decoder.Short(levelBlock, offset + 0x50);
+            modelID = decoder.Ushort(levelBlock, offset + 0x52);
+            off_54 = decoder.Uint(levelBlock, offset + 0x54);
+            off_58 = decoder.Uint(levelBlock, offset + 0x58);
+            off_5C = decoder.Uint(levelBlock, offset + 0x5C);
 
-            int colorOffset = ReadInt(levelBlock, offset + 0x60);
-            off_64 = ReadUint(levelBlock, offset + 0x64);
-            off_68 = ReadUint(levelBlock, offset + 0x68);
-            off_6C = ReadUint(levelBlock, offset + 0x6C);
+            int colorOffset = decoder.Int(levelBlock, offset + 0x60);
+            off_64 = decoder.Uint(levelBlock, offset + 0x64);
+            off_68 = decoder.Uint(levelBlock, offset + 0x68);
+            off_6C = decoder.Uint(levelBlock, offset + 0x6C);
 
+            Logger.Debug("Searching for Tie with ID {0}", modelID);
             model = tieModels.Find(tieModel => tieModel.id == modelID);
             colorBytes = ReadBlock(fs, colorOffset, (model.vertexBuffer.Length / 8) * 4);
 

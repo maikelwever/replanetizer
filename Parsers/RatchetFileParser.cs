@@ -34,11 +34,12 @@ namespace RatchetEdit.Parsers
             }
         }
 
-        protected List<Model> GetMobyModels(Decoder decoder, int mobyModelPointer)
+        protected List<Model> GetMobyModels(int mobyModelPointer)
         {
             //Get the moby count from the start of the section
             int mobyModelCount = decoder.Int(ReadBlock(fileStream, mobyModelPointer, 4), 0);
 
+            Logger.Info("Parsing {0} moby models from address {1}...", mobyModelCount, mobyModelPointer);
             List<Model> mobyModels = new List<Model>(mobyModelCount);
 
             //Each moby is stored as a [MobyID, offset] pair
@@ -49,11 +50,13 @@ namespace RatchetEdit.Parsers
                 int offset = decoder.Int(mobyIDBlock, (i * 8) + 4);
                 mobyModels.Add(new MobyModel(decoder, fileStream, modelID, offset));
             }
+            Logger.Info("Added {0} moby models", mobyModels.Count);
             return mobyModels;
         }
 
         protected List<Model> GetTieModels(int tieModelPointer, int tieModelCount)
         {
+            Logger.Info("Parsing {0} tie models from address {1}...", tieModelCount, tieModelPointer);
             List<Model> tieModelList = new List<Model>(tieModelCount);
 
             //Read the whole header block, and add models based on the count
@@ -63,11 +66,13 @@ namespace RatchetEdit.Parsers
                 tieModelList.Add(new TieModel(decoder, fileStream, levelBlock, i));
             }
 
+            Logger.Info("Added {0} tie models", tieModelList.Count);
             return tieModelList;
         }
 
         protected List<Model> GetShrubModels(int shrubModelPointer, int shrubModelCount)
         {
+            Logger.Info("Parsing {0} shrub models from address {1}...", shrubModelCount, shrubModelPointer);
             List<Model> shrubModelList = new List<Model>(shrubModelCount);
 
             //Read the whole header block, and add models based on the count
@@ -76,11 +81,13 @@ namespace RatchetEdit.Parsers
             {
                 shrubModelList.Add(new ShrubModel(decoder, fileStream, shrubBlock, i));
             }
+            Logger.Info("Added {0} shrub models", shrubModelList.Count);
             return shrubModelList;
         }
 
         protected List<Texture> GetTextures(int texturePointer, int textureCount)
         {
+            Logger.Info("Parsing {0} textures from address {1}...", textureCount, texturePointer);
             List<Texture> textureList = new List<Texture>(textureCount);
 
             //Read the whole texture header block, and add textures based on the count
@@ -89,25 +96,29 @@ namespace RatchetEdit.Parsers
             {
                 textureList.Add(new Texture(textureBlock, i));
             }
+            Logger.Info("Added {0} textures", textureList.Count);
             return textureList;
         }
 
         protected List<Tie> GetTies(List<Model> tieModels, int tiePointer, int tieCount)
         {
+            Logger.Info("Parsing {0} ties from address {1}...", tieCount, tiePointer);
             List<Tie> ties = new List<Tie>(tieCount);
 
             //Read the whole texture header block, and add textures based on the count
             byte[] tieBlock = ReadBlock(fileStream, tiePointer, tieCount * 0x70);
             for (int i = 0; i < tieCount; i++)
             {
-                Tie tie = new Tie(tieBlock, i, tieModels, fileStream);
+                Tie tie = new Tie(decoder, tieBlock, i, tieModels, fileStream);
                 ties.Add(tie);
             }
+            Logger.Info("Added {0} ties", ties.Count);
             return ties;
         }
 
         protected List<Shrub> GetShrubs(List<Model> shrubModels, int shrubPointer, int shrubCount)
         {
+            Logger.Info("Parsing {0} Shrubs from address {1}...", shrubCount, shrubPointer);
             List<Shrub> shrubs = new List<Shrub>(shrubCount);
 
             //Read the whole texture header block, and add models based on the count
@@ -117,11 +128,13 @@ namespace RatchetEdit.Parsers
                 Shrub shrub = new Shrub(shrubBlock, i, shrubModels);
                 shrubs.Add(shrub);
             }
+            Logger.Info("Added {0} Shrubs", shrubs.Count);
             return shrubs;
         }
 
         protected List<Light> GetLights(int lightPointer, int lightCount)
         {
+            Logger.Info("Parsing {0} Lights from address {1}...", lightCount, lightPointer);
             List<Light> lightList = new List<Light>(lightCount);
 
             //Read the whole header block, and add lights based on the count
@@ -130,18 +143,21 @@ namespace RatchetEdit.Parsers
             {
                 lightList.Add(new Light(lightBlock, i));
             }
+            Logger.Info("Added {0} lights", lightList.Count);
             return lightList;
         }
 
 
         protected List<TerrainFragment> GetTerrainModels(int terrainModelPointer)
         {
+            Logger.Info("Parsing terrain elements header from address {0}...", terrainModelPointer);
             List<TerrainFragment> tFrags = new List<TerrainFragment>();
 
             //Read the whole terrain header
             byte[] terrainBlock = ReadBlock(fileStream, terrainModelPointer, 0x60);
             TerrainHead head = new TerrainHead(terrainBlock);
 
+            Logger.Info("Parsing {0} terrain elements from address {1}...", head.headCount, terrainModelPointer + 0x60);
             byte[] tfragBlock = ReadBlock(fileStream, terrainModelPointer + 0x60, head.headCount * 0x30);
 
             for (int i = 0; i < head.headCount; i++)
@@ -170,12 +186,16 @@ namespace RatchetEdit.Parsers
                 terrainModels.Add(new TerrainModel(fileStream, hd));
             }*/
 
+            Logger.Info("Added {0} terrain elements", tFrags.Count);
             return tFrags;
         }
 
-        protected SkyboxModel GetSkyboxModel(Decoder decoder, int skyboxPointer)
+        protected SkyboxModel GetSkyboxModel(int skyboxPointer)
         {
-            return new SkyboxModel(decoder, fileStream, skyboxPointer);
+            Logger.Info("Parsing skybox from address {0}...", skyboxPointer);
+            SkyboxModel result = new SkyboxModel(decoder, fileStream, skyboxPointer);
+            Logger.Info("Success");
+            return result;
         }
 
         protected GameType DetectGame(int offset)
@@ -196,12 +216,14 @@ namespace RatchetEdit.Parsers
 
         protected List<UiElement> GetUiElements(int offset)
         {
+            Logger.Info("Parsing UI Elements header from address {0}...", offset);
             byte[] headBlock = ReadBlock(fileStream, offset, 0x10);
             short elemCount = ReadShort(headBlock, 0x00);
             short spriteCount = ReadShort(headBlock, 0x02);
             int elemOffset = ReadInt(headBlock, 0x04);
             int spriteOffset = ReadInt(headBlock, 0x08);
 
+            Logger.Info("Parsing {0} UI Elements and {1} Sprites...", elemCount, spriteCount);
             byte[] elemBlock = ReadBlock(fileStream, elemOffset, elemCount * 8);
             byte[] spriteBlock = ReadBlock(fileStream, spriteOffset, spriteCount * 4);
 
@@ -210,13 +232,15 @@ namespace RatchetEdit.Parsers
             {
                 list.Add(new UiElement(elemBlock, i, spriteBlock));
             }
+            Logger.Info("Added {0} UI elements", list.Count);
             return list;
         }
 
         protected List<Animation> GetPlayerAnimations(int offset, MobyModel ratchet)
         {
             int count = ratchet.animations.Count;
-            List<Animation> animations = new List<Animation>(ratchet.animations.Count);
+            Logger.Info("Parsing {0} player animations from address {1}...", count, offset);
+            List<Animation> animations = new List<Animation>(count);
             if(offset > 0)
             {
                 byte boneCount = (byte)ratchet.boneMatrices.Count;
@@ -229,11 +253,13 @@ namespace RatchetEdit.Parsers
                 }
             }
 
+            Logger.Info("Added {0} player animations", animations.Count);
             return animations;
         }
 
-        protected List<Model> GetWeapons(Decoder decoder, int weaponPointer, int count)
+        protected List<Model> GetWeapons(int weaponPointer, int count)
         {
+            Logger.Info("Parsing {0} weapons from address {1}...", count, weaponPointer);
             List<Model> weaponModels = new List<Model>(count);
 
             //Each moby is stored as a [MobyID, offset] pair
@@ -244,6 +270,7 @@ namespace RatchetEdit.Parsers
                 int offset = decoder.Int(mobyIDBlock, (i * 0x10) + 4);
                 weaponModels.Add(new MobyModel(decoder, fileStream, modelID, offset));
             }
+            Logger.Info("Added {0} weapons", weaponModels.Count);
             return weaponModels;
         }
 
