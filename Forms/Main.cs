@@ -6,12 +6,10 @@ using System.Collections.Generic;
 using RatchetEdit.Serializers;
 using RatchetEdit.LevelObjects;
 using static RatchetEdit.Utilities;
-using System.Drawing;
-using ImageMagick;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using static RatchetEdit.DataFunctions;
 using RatchetEdit.Forms;
+
+using NLua;
 
 namespace RatchetEdit
 {
@@ -474,6 +472,13 @@ namespace RatchetEdit
         {
             AboutBox1 box = new AboutBox1();
             box.Show();
+        }
+
+        private void luaConsoleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Lua context = new Lua();
+            context.LoadCLRPackage();
+            context.DoFile("lconsole.lua");
         }
 
         private void mapSaveAsBtn_Click(object sender, EventArgs e)

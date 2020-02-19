@@ -36,6 +36,7 @@ namespace RatchetEdit
             this.mapSaveBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.mapSaveAsBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolBtn = new System.Windows.Forms.ToolStripMenuItem();
             this.ViewToolStipItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mobyCheck = new System.Windows.Forms.ToolStripMenuItem();
@@ -81,7 +82,7 @@ namespace RatchetEdit
             this.camZLabel = new System.Windows.Forms.Label();
             this.pitchLabel = new System.Windows.Forms.Label();
             this.mapSaveDialog = new System.Windows.Forms.SaveFileDialog();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.luaConsoleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -115,6 +116,7 @@ namespace RatchetEdit
             this.mapSaveBtn,
             this.mapSaveAsBtn,
             this.toolStripSeparator1,
+            this.luaConsoleToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.exitToolBtn});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
@@ -153,6 +155,13 @@ namespace RatchetEdit
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // exitToolBtn
             // 
@@ -609,12 +618,12 @@ namespace RatchetEdit
             // 
             this.mapSaveDialog.FileName = "gameplay_ntsc";
             // 
-            // aboutToolStripMenuItem
+            // luaConsoleToolStripMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aboutToolStripMenuItem.Text = "About";
-            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            this.luaConsoleToolStripMenuItem.Name = "luaConsoleToolStripMenuItem";
+            this.luaConsoleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.luaConsoleToolStripMenuItem.Text = "Lua Console";
+            this.luaConsoleToolStripMenuItem.Click += new System.EventHandler(this.luaConsoleToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -701,6 +710,7 @@ namespace RatchetEdit
         private CustomGLControl glControl;
         private System.Windows.Forms.ToolStripMenuItem languageDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem luaConsoleToolStripMenuItem;
     }
 }
 
