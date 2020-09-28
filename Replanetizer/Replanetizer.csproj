@@ -307,5 +307,11 @@
   <ItemGroup>
     <None Include="Resources\spline_tool.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LibReplanetizer\LibReplanetizer.csproj">
+      <Project>{2834446d-b36c-4ce0-9629-fcf43f8f2acd}</Project>
+      <Name>LibReplanetizer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
