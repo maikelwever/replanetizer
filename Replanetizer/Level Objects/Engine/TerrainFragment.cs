@@ -4,13 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibReplanetizer.Headers;
 using OpenTK;
-using RatchetEdit.Headers;
-using RatchetEdit.Models;
+using LibReplanetizer.Models;
 
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
 
 

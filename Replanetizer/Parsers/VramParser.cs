@@ -2,9 +2,9 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Parsers
+namespace LibReplanetizer.Parsers
 {
     class VramParser
     {

@@ -2,13 +2,13 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using RatchetEdit.Models;
-using RatchetEdit.Headers;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models.Animations;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Models;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models.Animations;
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer.Headers;
 
-namespace RatchetEdit.Parsers
+namespace LibReplanetizer.Parsers
 {
     public class RatchetFileParser
     {

@@ -5,7 +5,8 @@ using System.IO;
 using System.Windows.Forms;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using RatchetEdit.Models;
+using LibReplanetizer;
+using LibReplanetizer.Models;
 
 namespace RatchetEdit
 {

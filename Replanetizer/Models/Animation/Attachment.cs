@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Models
+namespace LibReplanetizer.Models
 {
     public class Attachment
     {

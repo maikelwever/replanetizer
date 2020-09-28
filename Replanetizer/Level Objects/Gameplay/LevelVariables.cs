@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class LevelVariables
     {

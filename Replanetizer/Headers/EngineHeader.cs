@@ -1,7 +1,7 @@
 ﻿using System.IO;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Headers
+namespace LibReplanetizer.Headers
 {
     public class EngineHeader
     {

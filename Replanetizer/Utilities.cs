@@ -4,7 +4,7 @@ using System.ComponentModel;
 using OpenTK;
 using OpenTK.Graphics.ES10;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public static class Utilities
     {

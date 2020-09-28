@@ -1,5 +1,5 @@
 ﻿
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public interface ISerializable {
         byte[] ToByteArray();

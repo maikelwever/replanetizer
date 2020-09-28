@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using RatchetEdit.Headers;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Headers;
+using static LibReplanetizer.DataFunctions;
 
 
-namespace RatchetEdit.Models
+namespace LibReplanetizer.Models
 {
     public class TerrainModel : Model
     {

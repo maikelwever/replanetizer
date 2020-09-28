@@ -7,25 +7,32 @@ using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL;
-using RatchetEdit.Tools;
-using RatchetEdit.Models;
-using RatchetEdit.LevelObjects;
-using static RatchetEdit.Utilities;
-using static RatchetEdit.DataFunctions;
 
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer;
+using LibReplanetizer.Models;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.CustomControls;
+
+using static LibReplanetizer.Utilities;
+using RatchetEdit.Tools;
 
 namespace RatchetEdit
 {
-    public class CustomGLControl : GLControl
+    public class CustomGLControl : GLControl, ICustomGLControl
     {
-        public Level level;
+        public Level level { get; set; }
 
-        public Matrix4 worldView;
-        private Matrix4 projection;
-        private Matrix4 view;
+        public Matrix4 worldView { get; set; }
 
-        public int shaderID, colorShaderID, collisionShaderID;
-        public int matrixID, colorID;
+        public int shaderID { get; set; }
+        public int colorShaderID { get; set; }
+        public int collisionShaderID { get; set; }
+        public int matrixID { get; set; }
+        public int colorID { get; set; }
+
+        private Matrix4 projection { get; set; }
+        private Matrix4 view { get; set; }
 
         private int currentSplineVertex;
         public LevelObject selectedObject;
@@ -329,7 +336,9 @@ namespace RatchetEdit
                 Spline spline = splines[i];
                 GL.UseProgram(colorShaderID);
                 GL.EnableVertexAttribArray(0);
+                Matrix4 worldView = this.worldView;
                 GL.UniformMatrix4(matrixID, false, ref worldView);
+                this.worldView = worldView;
 
                 byte[] cols = BitConverter.GetBytes(i + offset);
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));

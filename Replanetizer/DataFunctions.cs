@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public static class DataFunctions
     {

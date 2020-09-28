@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel;
+using LibReplanetizer.CustomControls;
 using OpenTK;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public abstract class LevelObject : ITransformable, ISerializable
     {
@@ -19,7 +20,7 @@ namespace RatchetEdit.LevelObjects
         public abstract byte[] ToByteArray();
 
         public abstract LevelObject Clone();
-        public abstract void Render(CustomGLControl glControl, bool selected);
+        public abstract void Render(ICustomGLControl glControl, bool selected);
 
         // Virtual, since some objects (moby) override it
         public virtual void UpdateTransformMatrix()

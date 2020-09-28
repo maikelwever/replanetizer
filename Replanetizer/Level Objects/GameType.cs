@@ -1,5 +1,5 @@
 ﻿
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public class GameType
     {

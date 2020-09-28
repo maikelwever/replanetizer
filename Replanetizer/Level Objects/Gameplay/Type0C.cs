@@ -1,9 +1,10 @@
 ﻿using System;
+using LibReplanetizer.CustomControls;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Type0C : MatrixObject
     {
@@ -101,7 +102,7 @@ namespace RatchetEdit.LevelObjects
             throw new NotImplementedException();
         }
 
-        public override void Render(CustomGLControl glControl, bool selected = false) {
+        public override void Render(ICustomGLControl glControl, bool selected = false) {
             GL.UseProgram(glControl.colorShaderID);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
             Matrix4 mvp = modelMatrix * glControl.worldView;

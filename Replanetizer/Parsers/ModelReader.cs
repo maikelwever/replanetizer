@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using RatchetEdit.Models;
+using LibReplanetizer.Models;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public static class ModelReader
     {

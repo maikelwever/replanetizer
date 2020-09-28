@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public interface ITransformable
     {

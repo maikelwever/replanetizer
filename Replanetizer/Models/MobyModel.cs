@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using static RatchetEdit.DataFunctions;
-using RatchetEdit.Models.Animations;
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer.Models.Animations;
 
-namespace RatchetEdit.Models
+namespace LibReplanetizer.Models
 {
     public class MobyModel : Model
     {

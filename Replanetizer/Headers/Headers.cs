@@ -1,9 +1,7 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using static RatchetEdit.DataFunctions;
-using System;
+﻿using System.Collections.Generic;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Headers
+namespace LibReplanetizer.Headers
 {
     class Headers
     {

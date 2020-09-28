@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer.CustomControls;
 
-namespace RatchetEdit.Models
+namespace LibReplanetizer.Models
 {
     /*
         General purpose 3D model used for rendering
@@ -51,7 +52,7 @@ namespace RatchetEdit.Models
             }
         }
 
-        public void Draw(CustomGLControl glControl)
+        public void Draw(ICustomGLControl glControl)
         {
             Matrix4 worldView = glControl.worldView;
             GL.UniformMatrix4(glControl.matrixID, false, ref worldView);

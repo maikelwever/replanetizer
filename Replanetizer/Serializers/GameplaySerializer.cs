@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-using RatchetEdit.Headers;
-using RatchetEdit.LevelObjects;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Headers;
+using LibReplanetizer.LevelObjects;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Serializers
+namespace LibReplanetizer.Serializers
 {
     class GameplaySerializer
     {

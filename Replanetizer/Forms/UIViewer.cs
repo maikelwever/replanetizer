@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using RatchetEdit.LevelObjects;
+using LibReplanetizer.LevelObjects;
 
 namespace RatchetEdit
 {

@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models;
-using RatchetEdit.Parsers;
-using RatchetEdit.Headers;
-using RatchetEdit.Models.Animations;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
+using LibReplanetizer.Parsers;
+using LibReplanetizer.Headers;
+using LibReplanetizer.Models.Animations;
 using System.Drawing;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public class Level
     {

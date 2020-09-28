@@ -1,14 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using RatchetEdit.Models;
-using RatchetEdit.Headers;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models.Animations;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Models;
+using LibReplanetizer.Headers;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models.Animations;
+using static LibReplanetizer.DataFunctions;
 
 
-namespace RatchetEdit.Serializers
+namespace LibReplanetizer.Serializers
 {
     class EngineSerializer
     {

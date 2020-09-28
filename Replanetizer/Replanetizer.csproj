@@ -80,6 +80,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="CustomControls\ICustomGLControl.cs" />
     <Compile Include="CustomControls\ObjectTreeView.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -3,16 +3,15 @@ using System.IO;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Collections.Generic;
-using RatchetEdit.Serializers;
-using RatchetEdit.LevelObjects;
-using static RatchetEdit.Utilities;
-using System.Drawing;
-using ImageMagick;
 using System.Runtime.InteropServices;
-using System.Diagnostics;
-using static RatchetEdit.DataFunctions;
+
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer;
+using LibReplanetizer.Serializers;
+using LibReplanetizer.LevelObjects;
+
 using RatchetEdit.Forms;
-using RatchetEdit.Parsers;
+using static LibReplanetizer.Utilities;
 
 namespace RatchetEdit
 {

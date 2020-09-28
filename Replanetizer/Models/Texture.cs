@@ -3,10 +3,10 @@ using System.IO;
 using System.Drawing;
 using System.Runtime.InteropServices;
 using OpenTK.Graphics.OpenGL;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 using System.Drawing.Imaging;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public class Texture
     {

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using OpenTK;
-using RatchetEdit.Models;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Models;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Moby : ModelObject
     {

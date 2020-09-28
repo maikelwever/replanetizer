@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using RatchetEdit.LevelObjects;
+using LibReplanetizer.LevelObjects;
 
 namespace RatchetEdit
 {

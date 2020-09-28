@@ -1,4 +1,4 @@
-﻿namespace RatchetEdit
+﻿namespace LibReplanetizer
 {
     public class TextureConfig
     {

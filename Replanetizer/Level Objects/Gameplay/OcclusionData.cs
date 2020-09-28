@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using RatchetEdit.Headers;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.Headers;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class OcclusionData : ISerializable
     {

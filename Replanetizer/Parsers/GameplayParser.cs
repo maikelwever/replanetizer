@@ -2,12 +2,12 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models;
-using RatchetEdit.Headers;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
+using LibReplanetizer.Headers;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Parsers
+namespace LibReplanetizer.Parsers
 {
     class GameplayParser : IDisposable
     {

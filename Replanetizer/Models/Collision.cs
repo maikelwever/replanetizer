@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
+using LibReplanetizer.CustomControls;
 
-namespace RatchetEdit.Models
+namespace LibReplanetizer.Models
 {
     [StructLayout(LayoutKind.Explicit)]
     struct FloatColor
@@ -143,7 +144,7 @@ namespace RatchetEdit.Models
             indBuff = indexList.ToArray();
         }
 
-        public void DrawCol(CustomGLControl glControl)
+        public void DrawCol(ICustomGLControl glControl)
         {
             Matrix4 worldView = glControl.worldView;
             GL.UniformMatrix4(glControl.matrixID, false, ref worldView);

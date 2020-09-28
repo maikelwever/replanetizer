@@ -1,9 +1,10 @@
 ﻿using System;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using LibReplanetizer.CustomControls;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Cuboid : MatrixObject
     {
@@ -104,7 +105,7 @@ namespace RatchetEdit.LevelObjects
             return bytes;
         }
 
-		public override void Render(CustomGLControl glControl, bool selected = false)
+		public override void Render(ICustomGLControl glControl, bool selected = false)
 		{
 			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
 				Matrix4 mvp = modelMatrix * glControl.worldView;

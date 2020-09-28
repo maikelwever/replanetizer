@@ -1,6 +1,6 @@
-﻿using static RatchetEdit.DataFunctions;
+﻿using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Type7C
     {

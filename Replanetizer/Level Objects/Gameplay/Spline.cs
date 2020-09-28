@@ -1,10 +1,11 @@
-﻿using static RatchetEdit.DataFunctions;
+﻿using static LibReplanetizer.DataFunctions;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
-using static RatchetEdit.Utilities;
+using static LibReplanetizer.Utilities;
 using System.ComponentModel;
+using LibReplanetizer.CustomControls;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Spline : LevelObject, ITransformable
     {
@@ -222,7 +223,7 @@ namespace RatchetEdit.LevelObjects
             _scale *= scale;
         }*/
 
-        public override void Render(CustomGLControl glControl, bool selected = false)
+        public override void Render(ICustomGLControl glControl, bool selected = false)
         {
             var worldView = glControl.worldView;
             

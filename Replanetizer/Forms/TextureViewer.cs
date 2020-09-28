@@ -5,7 +5,8 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using ImageMagick;
-using static RatchetEdit.DataFunctions;
+using LibReplanetizer;
+using static LibReplanetizer.DataFunctions;
 
 namespace RatchetEdit
 {

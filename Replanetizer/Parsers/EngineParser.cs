@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models;
-using RatchetEdit.Models.Animations;
-using RatchetEdit.Headers;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
+using LibReplanetizer.Models.Animations;
+using LibReplanetizer.Headers;
 
-namespace RatchetEdit.Parsers
+namespace LibReplanetizer.Parsers
 {
     public class EngineParser : RatchetFileParser, IDisposable
     {

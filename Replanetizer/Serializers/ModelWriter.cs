@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using RatchetEdit.Models;
-using RatchetEdit.Models.Animations;
+using LibReplanetizer.Models;
+using LibReplanetizer.Models.Animations;
 
-namespace RatchetEdit
+namespace LibReplanetizer
 {
     public static class ModelWriter
     {

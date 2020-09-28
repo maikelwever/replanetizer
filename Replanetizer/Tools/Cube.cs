@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using RatchetEdit.LevelObjects;
+using LibReplanetizer.LevelObjects;
 
 namespace RatchetEdit
 {

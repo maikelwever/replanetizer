@@ -1,6 +1,6 @@
-﻿using static RatchetEdit.DataFunctions;
+﻿using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.Models.Animations
+namespace LibReplanetizer.Models.Animations
 {
     public class ModelSound
     {

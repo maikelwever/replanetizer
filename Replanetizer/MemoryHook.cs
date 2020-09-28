@@ -1,6 +1,6 @@
 ﻿using OpenTK;
-using RatchetEdit.LevelObjects;
-using RatchetEdit.Models;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
 namespace RatchetEdit
 {

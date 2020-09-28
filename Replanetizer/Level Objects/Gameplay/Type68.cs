@@ -1,8 +1,9 @@
 ﻿using System;
+using LibReplanetizer.CustomControls;
 using OpenTK;
-using static RatchetEdit.DataFunctions;
+using static LibReplanetizer.DataFunctions;
 
-namespace RatchetEdit.LevelObjects
+namespace LibReplanetizer.LevelObjects
 {
     public class Type68 : MatrixObject
     {
@@ -26,7 +27,7 @@ namespace RatchetEdit.LevelObjects
             throw new NotImplementedException();
         }
 
-        public override void Render(CustomGLControl glControl, bool selected) {
+        public override void Render(ICustomGLControl glControl, bool selected) {
             throw new NotImplementedException();
         }
 
