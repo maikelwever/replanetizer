@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using LibReplanetizer.LevelObjects;
 using LibReplanetizer.Models;
@@ -16,17 +15,7 @@ namespace LibReplanetizer.Parsers
 
         public GameplayParser(GameType game, string gameplayFilepath)
         {
-            try
-            {
-                fileStream = File.OpenRead(gameplayFilepath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                MessageBox.Show("gameplay file missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                Application.Exit();
-                return;
-            }
+            fileStream = File.OpenRead(gameplayFilepath);
             gameplayHeader = new GameplayHeader(game, fileStream);
         }
 

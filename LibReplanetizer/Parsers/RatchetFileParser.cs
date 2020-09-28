@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using LibReplanetizer.Models;
 using LibReplanetizer.LevelObjects;
@@ -16,17 +15,7 @@ namespace LibReplanetizer.Parsers
 
         protected RatchetFileParser(string filePath)
         {
-            try
-            {
-                fileStream = File.OpenRead(filePath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Console.WriteLine("Couldn't load engine file.");
-                Application.Exit();
-                return;
-            }
+            fileStream = File.OpenRead(filePath);
         }
 
         protected List<Model> GetMobyModels(int mobyModelPointer)

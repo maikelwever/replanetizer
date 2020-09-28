@@ -10,7 +10,7 @@ using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Serializers
 {
-    class EngineSerializer
+    public class EngineSerializer
     {
         public string pathName;
 

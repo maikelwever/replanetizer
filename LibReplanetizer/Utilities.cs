@@ -110,7 +110,7 @@ namespace LibReplanetizer
         }
     }
 
-    struct Pixel
+    public struct Pixel
     {
         public byte R, G, B, A;
 

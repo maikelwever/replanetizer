@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Collections.Generic;
 using static LibReplanetizer.DataFunctions;
 
@@ -13,17 +12,7 @@ namespace LibReplanetizer.Parsers
 
         public VramParser(string filepath)
         {
-            try
-            {
-                fileStream = File.OpenRead(filepath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                MessageBox.Show("vram.ps3 missing!", "Missing file", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                //Application.Exit();
-                return;
-            }
+            fileStream = File.OpenRead(filepath);
             valid = true;
         }
 

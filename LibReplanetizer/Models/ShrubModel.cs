@@ -3,7 +3,7 @@ using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Models
 {
-    class ShrubModel : Model
+    public class ShrubModel : Model
     {
         const int SHRUBTEXELEMSIZE = 0x10;
         const int SHRUBVERTELEMSIZE = 0x18;

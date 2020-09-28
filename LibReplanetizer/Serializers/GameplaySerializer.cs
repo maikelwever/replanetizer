@@ -8,7 +8,7 @@ using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Serializers
 {
-    class GameplaySerializer
+    public class GameplaySerializer
     {
         public const int MOBYLENGTH = 0x78;
 
