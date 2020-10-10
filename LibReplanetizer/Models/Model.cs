@@ -4,6 +4,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using static LibReplanetizer.DataFunctions;
 using LibReplanetizer.CustomControls;
+using LibReplanetizer.LevelObjects;
 
 namespace LibReplanetizer.Models
 {
@@ -11,7 +12,7 @@ namespace LibReplanetizer.Models
         General purpose 3D model used for rendering
     */
 
-    public abstract class Model
+    public abstract class Model : IRenderable
     {
         public short id { get; set; }
         public float size;
@@ -25,6 +26,16 @@ namespace LibReplanetizer.Models
         public List<TextureConfig> textureConfig { get; set; } = new List<TextureConfig>();
         public int VBO = 0;
         public int IBO = 0;
+
+        public ushort[] GetIndices()
+        {
+            return indexBuffer;
+        }
+
+        public float[] GetVertices()
+        {
+            return vertexBuffer;
+        }
 
         protected int GetFaceCount()
         {

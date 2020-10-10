@@ -16,6 +16,7 @@ using LibReplanetizer.CustomControls;
 
 using static LibReplanetizer.Utilities;
 using RatchetEdit.Tools;
+using System.Runtime.CompilerServices;
 
 namespace RatchetEdit
 {
@@ -52,10 +53,13 @@ namespace RatchetEdit
         public event EventHandler<RatchetEventArgs> ObjectClick;
         public event EventHandler<RatchetEventArgs> ObjectDeleted;
 
+        private ConditionalWeakTable<IRenderable, BufferContainer> bufferTable;
+
         MemoryHook hook;
 
         public CustomGLControl()
         {
+            bufferTable = new ConditionalWeakTable<IRenderable, BufferContainer>();
             InitializeComponent();
         }
 
@@ -342,7 +346,8 @@ namespace RatchetEdit
 
                 byte[] cols = BitConverter.GetBytes(i + offset);
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
-                spline.GetVBO();
+
+                ActivateBuffersForModel(spline);
                 GL.DrawArrays(PrimitiveType.LineStrip, 0, spline.vertexBuffer.Length / 3);
             }
         }
@@ -361,8 +366,7 @@ namespace RatchetEdit
                 byte[] cols = BitConverter.GetBytes(i + offset);
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
 
-                cuboid.GetVBO();
-                cuboid.GetIBO();
+                ActivateBuffersForModel(cuboid);
 
                 GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 
@@ -382,14 +386,19 @@ namespace RatchetEdit
                 Matrix4 mvp = levelObject.modelMatrix * worldView;  //Has to be done in this order to work correctly
                 GL.UniformMatrix4(matrixID, false, ref mvp);
 
-                levelObject.model.GetVBO();
-                levelObject.model.GetIBO();
+                ActivateBuffersForModel(levelObject.model);
 
                 byte[] cols = BitConverter.GetBytes(i + offset);
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
                 GL.DrawElements(PrimitiveType.Triangles, levelObject.model.indexBuffer.Length, DrawElementsType.UnsignedShort, 0);
 
             }
+        }
+
+        public void ActivateBuffersForModel(IRenderable renderable)
+        {
+            BufferContainer container = bufferTable.GetValue(renderable, BufferContainer.FromRenderable);
+            container.Bind();
         }
 
         public void RenderTool()

@@ -7,7 +7,7 @@ using LibReplanetizer.CustomControls;
 
 namespace LibReplanetizer.LevelObjects
 {
-    public class Spline : LevelObject, ITransformable
+    public class Spline : LevelObject, ITransformable, IRenderable
     {
         public int name;
         public float[] vertexBuffer;
@@ -231,6 +231,16 @@ namespace LibReplanetizer.LevelObjects
             GL.Uniform4(glControl.colorID, selected ? selectedColor : normalColor);
             GetVBO();
             GL.DrawArrays(PrimitiveType.LineStrip, 0, vertexBuffer.Length / 3);
+        }
+
+        public ushort[] GetIndices()
+        {
+            return new ushort[] { };
+        }
+
+        public float[] GetVertices()
+        {
+            return vertexBuffer;
         }
     }
 }

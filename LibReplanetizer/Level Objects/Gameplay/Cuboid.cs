@@ -6,7 +6,7 @@ using LibReplanetizer.CustomControls;
 
 namespace LibReplanetizer.LevelObjects
 {
-    public class Cuboid : MatrixObject
+    public class Cuboid : MatrixObject, IRenderable
     {
         public const int ELEMENTSIZE = 0x80;
 
@@ -120,5 +120,15 @@ namespace LibReplanetizer.LevelObjects
 				GL.DrawElements(PrimitiveType.Triangles, cubeElements.Length, DrawElementsType.UnsignedShort, 0);
 			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
 		}
-	}
+
+        public ushort[] GetIndices()
+        {
+            return cubeElements;
+        }
+
+        public float[] GetVertices()
+        {
+            return cube;
+        }
+    }
 }

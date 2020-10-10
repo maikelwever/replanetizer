@@ -83,6 +83,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BufferContainer.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="CustomControls\ObjectTreeView.cs">
       <SubType>Component</SubType>

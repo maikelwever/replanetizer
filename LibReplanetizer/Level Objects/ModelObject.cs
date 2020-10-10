@@ -6,7 +6,7 @@ using LibReplanetizer.CustomControls;
 
 namespace LibReplanetizer.LevelObjects
 {
-    public abstract class ModelObject : LevelObject
+    public abstract class ModelObject : LevelObject, IRenderable
     {
 
         [Category("Attributes"), DisplayName("Model ID")]
@@ -15,6 +15,16 @@ namespace LibReplanetizer.LevelObjects
 
         [Category("Attributes"), TypeConverter(typeof(ExpandableObjectConverter)), DisplayName("Model")]
         public Model model { get; set; }
+
+        public ushort[] GetIndices()
+        {
+            return model.GetIndices();
+        }
+
+        public float[] GetVertices()
+        {
+            return model.GetVertices();
+        }
 
         public override void Render(ICustomGLControl glControl, bool selected = false)
         {
