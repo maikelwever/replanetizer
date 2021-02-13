@@ -20,7 +20,6 @@ namespace LibReplanetizer
         public short mipMapCount;
         public int vramPointer;
         public byte[] data;
-        int textureID = 0;
 
         public short off_06;
         public int off_08;
@@ -88,44 +87,6 @@ namespace LibReplanetizer
 
             return outBytes;
         }
-
-        public int getTexture()
-        {
-            if (textureID == 0)
-            {
-                GL.GenTextures(1, out textureID);
-                GL.BindTexture(TextureTarget.Texture2D, textureID);
-                int offset = 0;
-
-                if (mipMapCount > 1)
-                {
-                    int mipWidth = width;
-                    int mipHeight = height;
-
-                    for (int level = 0; level < mipMapCount; level++)
-                    {
-                        if (mipWidth > 0 && mipHeight > 0)
-                        {
-                            int size = ((mipWidth + 3) / 4) * ((mipHeight + 3) / 4) * 16;
-                            byte[] texPart = new byte[size];
-                            Array.Copy(data, offset, texPart, 0, size);
-                            GL.CompressedTexImage2D(TextureTarget.Texture2D, level, InternalFormat.CompressedRgbaS3tcDxt5Ext, mipWidth, mipHeight, 0, size, texPart);
-                            offset += size;
-                            mipWidth /= 2;
-                            mipHeight /= 2;
-                        }
-                    }
-                }
-                else
-                {
-                    int size = ((width + 3) / 4) * ((height + 3) / 4) * 16;
-                    GL.CompressedTexImage2D(TextureTarget.Texture2D, 0, InternalFormat.CompressedRgbaS3tcDxt5Ext, width, height, 0, size, data);
-                    GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-                }
-            }
-            return textureID;
-        }
-
 
         public Bitmap getTextureImage()
         {

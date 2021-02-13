@@ -4,5 +4,7 @@
     {
         ushort[] GetIndices();
         float[] GetVertices();
+
+        bool IsDynamic();
     }
 }

@@ -178,7 +178,12 @@ namespace RatchetEdit
             GL.EnableVertexAttribArray(0);
             GL.EnableVertexAttribArray(1);
 
-            selectedModel.Draw(level.textures);
+            //Bind textures one by one, applying it to the relevant vertices based on the index array
+            foreach (TextureConfig conf in selectedModel.textureConfig)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, (conf.ID > 0) ? mainForm.GetTextureIds()[level.textures[conf.ID]] : 0);
+                GL.DrawElements(PrimitiveType.Triangles, conf.size, DrawElementsType.UnsignedShort, conf.start * sizeof(ushort));
+            }
 
             GL.DisableVertexAttribArray(1);
             GL.DisableVertexAttribArray(0);

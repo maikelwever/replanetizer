@@ -22,5 +22,10 @@ namespace LibReplanetizer.LevelObjects
         {
             return model.GetVertices();
         }
+
+        public bool IsDynamic() { 
+            return model.IsDynamic();  
+        }
+
     }
 }

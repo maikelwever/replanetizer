@@ -35,6 +35,10 @@ namespace LibReplanetizer.Models
             return vertexBuffer;
         }
 
+        public bool IsDynamic() { 
+            return false;  
+        }
+
         protected int GetFaceCount()
         {
             int faceCount = 0;
@@ -46,16 +50,6 @@ namespace LibReplanetizer.Models
                 }
             }
             return faceCount;
-        }
-
-        public void Draw(List<Texture> textures)
-        {
-            //Bind textures one by one, applying it to the relevant vertices based on the index array
-            foreach (TextureConfig conf in textureConfig)
-            {
-                GL.BindTexture(TextureTarget.Texture2D, (conf.ID > 0) ? textures[conf.ID].getTexture() : 0);
-                GL.DrawElements(PrimitiveType.Triangles, conf.size, DrawElementsType.UnsignedShort, conf.start * sizeof(ushort));
-            }
         }
 
         //Get texture configs of different types using elemsize

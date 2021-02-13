@@ -534,5 +534,10 @@ namespace RatchetEdit
             }
             InvalidateView();
         }
+
+        public Dictionary<Texture, int> GetTextureIds()
+        {
+            return glControl.textureIds;
+        }
     }
 }

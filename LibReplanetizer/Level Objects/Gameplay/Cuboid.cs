@@ -86,5 +86,10 @@ namespace LibReplanetizer.LevelObjects
         {
             return cube;
         }
+
+        public bool IsDynamic()
+        {
+            return false;
+        }
     }
 }

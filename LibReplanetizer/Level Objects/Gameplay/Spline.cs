@@ -219,5 +219,9 @@ namespace LibReplanetizer.LevelObjects
         {
             return vertexBuffer;
         }
+        public bool IsDynamic()
+        {
+            return true;
+        }
     }
 }
