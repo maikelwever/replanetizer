@@ -142,42 +142,5 @@ namespace LibReplanetizer.Models
             vertexBuffer = vertexList.ToArray();
             indBuff = indexList.ToArray();
         }
-
-
-        public void GetBBO()
-        {
-            //Get the index buffer object, or create one if one doesn't exist
-            if (IBO == 0)
-            {
-                GL.GenBuffers(1, out IBO);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, indBuff.Length * sizeof(int), indBuff, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated IBO with ID: " + IBO.ToString());
-            }
-            else
-            {
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-            }
-        }
-
-
-        public void GetUBO()
-        {
-            //Get the vertex buffer object, or create one if one doesn't exist
-            if (VBO == 0)
-            {
-                GL.GenBuffers(1, out VBO);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.StaticDraw);
-
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
-            }
-            else
-            {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            }
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
-            GL.VertexAttribPointer(1, 4, VertexAttribPointerType.UnsignedByte, false, sizeof(float) * 4, sizeof(float) * 3);
-        }
     }
 }

@@ -15,8 +15,6 @@ namespace LibReplanetizer.LevelObjects
 
         static int cnt = 0;
 
-        int VBO;
-
         /*public override Vector3 position
         {
             get { return _position; }

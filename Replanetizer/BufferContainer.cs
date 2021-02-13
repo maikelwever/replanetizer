@@ -1,4 +1,5 @@
 ﻿using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
 using OpenTK.Graphics.OpenGL;
 
 namespace RatchetEdit
@@ -54,8 +55,6 @@ namespace RatchetEdit
             if (vbo != 0)
             {
                 GL.BindBuffer(BufferTarget.ArrayBuffer, this.vbo);
-                GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
-                GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, sizeof(float) * 6);
             }
         }
     }

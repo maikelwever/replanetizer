@@ -12,8 +12,6 @@ namespace LibReplanetizer.LevelObjects
         public Matrix4 mat1;
         public Matrix4 mat2;
 
-        int IBO;
-        int VBO;
         // Try to refactor this away at some point
         private readonly float originalM44;
 

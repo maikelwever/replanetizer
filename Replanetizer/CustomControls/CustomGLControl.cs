@@ -54,6 +54,8 @@ namespace RatchetEdit
 
         MemoryHook hook;
 
+        private int collisionVbo, collisionIbo = 0;
+
         public CustomGLControl()
         {
             bufferTable = new ConditionalWeakTable<IRenderable, BufferContainer>();
@@ -148,10 +150,23 @@ namespace RatchetEdit
             }
         }
 
+        void LoadCollisionBOs()
+        {
+            Collision col = (Collision) level.collisionModel;
+            GL.GenBuffers(1, out collisionVbo);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, collisionVbo);
+            GL.BufferData(BufferTarget.ArrayBuffer, col.vertexBuffer.Length * sizeof(float), col.vertexBuffer, BufferUsageHint.StaticDraw);
+
+            GL.GenBuffers(1, out collisionIbo);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, collisionIbo);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, col.indBuff.Length * sizeof(int), col.indBuff, BufferUsageHint.StaticDraw);
+        }
+
         public void LoadLevel(Level level)
         {
             this.level = level;
             LoadLevelTextures();
+            LoadCollisionBOs();
             enableMoby = true;
             enableTie = true;
             enableShrub = true;
@@ -386,6 +401,7 @@ namespace RatchetEdit
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
 
                 ActivateBuffersForModel(spline);
+                GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 3, 0);
                 GL.DrawArrays(PrimitiveType.LineStrip, 0, spline.vertexBuffer.Length / 3);
             }
         }
@@ -405,7 +421,6 @@ namespace RatchetEdit
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
 
                 ActivateBuffersForModel(cuboid);
-
                 GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 
                 GL.DrawElements(PrimitiveType.Triangles, Cuboid.cubeElements.Length, DrawElementsType.UnsignedShort, 0);
@@ -425,6 +440,8 @@ namespace RatchetEdit
                 GL.UniformMatrix4(matrixID, false, ref mvp);
 
                 ActivateBuffersForModel(levelObject.model);
+                GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
+                GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, sizeof(float) * 6);
 
                 byte[] cols = BitConverter.GetBytes(i + offset);
                 GL.Uniform4(colorID, new Vector4(cols[0] / 255f, cols[1] / 255f, cols[2] / 255f, 1));
@@ -661,6 +678,8 @@ namespace RatchetEdit
             Matrix4 mvp = modelObject.modelMatrix * worldView;  //Has to be done in this order to work correctly
             GL.UniformMatrix4(matrixID, false, ref mvp);
             ActivateBuffersForModel(modelObject);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, sizeof(float) * 6);
 
             //Bind textures one by one, applying it to the relevant vertices based on the index array
             foreach (TextureConfig conf in modelObject.model.textureConfig)
@@ -738,6 +757,7 @@ namespace RatchetEdit
                     GL.UniformMatrix4(matrixID, false, ref worldView);
                     GL.Uniform4(colorID, spline == selectedObject ? LevelObject.selectedColor : LevelObject.normalColor);
                     ActivateBuffersForModel(spline);
+                    GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 3, 0);
                     GL.DrawArrays(PrimitiveType.LineStrip, 0, spline.vertexBuffer.Length / 3);
                 }
 
@@ -778,7 +798,12 @@ namespace RatchetEdit
                 Matrix4 worldView = this.worldView;
                 GL.UniformMatrix4(matrixID, false, ref worldView);
                 GL.Uniform4(colorID, new Vector4(1, 1, 1, 1));
-                ActivateBuffersForModel(col);
+
+                GL.BindBuffer(BufferTarget.ArrayBuffer, collisionVbo);
+                GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 4, 0);
+                GL.VertexAttribPointer(1, 4, VertexAttribPointerType.UnsignedByte, false, sizeof(float) * 4, sizeof(float) * 3);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, collisionIbo);
+
                 GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
                 GL.DrawElements(PrimitiveType.Triangles, col.indBuff.Length, DrawElementsType.UnsignedInt, 0);
                 GL.UseProgram(collisionShaderID);

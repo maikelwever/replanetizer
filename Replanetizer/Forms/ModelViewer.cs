@@ -29,6 +29,8 @@ namespace RatchetEdit
 
         private TreeNode mobyNode, tieNode, shrubNode, weaponNode;
 
+        private BufferContainer container;
+
         public ModelViewer(Main main, Model model)
         {
             InitializeComponent();
@@ -89,6 +91,9 @@ namespace RatchetEdit
             invalidate = true;
             modelProperties.SelectedObject = selectedModel;
             UpdateTextures();
+
+            container = BufferContainer.FromRenderable(selectedModel);
+            container.Bind();
         }
 
         private void UpdateTextures()
@@ -177,6 +182,10 @@ namespace RatchetEdit
 
             GL.EnableVertexAttribArray(0);
             GL.EnableVertexAttribArray(1);
+
+            container.Bind();
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
+            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, sizeof(float) * 6);
 
             //Bind textures one by one, applying it to the relevant vertices based on the index array
             foreach (TextureConfig conf in selectedModel.textureConfig)
