@@ -1,9 +1,7 @@
 ﻿using System.IO;
 using System.Collections.Generic;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.CustomControls;
 using LibReplanetizer.LevelObjects;
 
 namespace LibReplanetizer.Models
@@ -52,55 +50,11 @@ namespace LibReplanetizer.Models
 
         public void Draw(List<Texture> textures)
         {
-            GetVBO();
-            GetIBO();
-
             //Bind textures one by one, applying it to the relevant vertices based on the index array
             foreach (TextureConfig conf in textureConfig)
             {
                 GL.BindTexture(TextureTarget.Texture2D, (conf.ID > 0) ? textures[conf.ID].getTexture() : 0);
                 GL.DrawElements(PrimitiveType.Triangles, conf.size, DrawElementsType.UnsignedShort, conf.start * sizeof(ushort));
-            }
-        }
-
-        public void Draw(ICustomGLControl glControl)
-        {
-            Matrix4 worldView = glControl.worldView;
-            GL.UniformMatrix4(glControl.matrixID, false, ref worldView);
-            Draw(glControl.level.textures);
-        }
-
-        public void GetVBO()
-        {
-            //Get the vertex buffer object, or create one if one doesn't exist
-            if (VBO == 0)
-            {
-                GL.GenBuffers(1, out VBO);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
-            }
-            else
-            {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            }
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 8, 0);
-            GL.VertexAttribPointer(1, 2, VertexAttribPointerType.Float, false, sizeof(float) * 8, sizeof(float) * 6);
-        }
-
-        public void GetIBO()
-        {
-            //Get the index buffer object, or create one if one doesn't exist
-            if (IBO == 0)
-            {
-                GL.GenBuffers(1, out IBO);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, indexBuffer.Length * sizeof(ushort), indexBuffer, BufferUsageHint.StaticDraw);
-                //Console.WriteLine("Generated IBO with ID: " + IBO.ToString());
-            }
-            else
-            {
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
             }
         }
 

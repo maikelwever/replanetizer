@@ -1,12 +1,10 @@
-﻿using LibReplanetizer.Models;
-using LibReplanetizer.LevelObjects;
-using OpenTK;
+﻿using LibReplanetizer.LevelObjects;
 using OpenTK.Graphics.OpenGL;
 
 namespace RatchetEdit
 {
     /*
-     * A very simple container to store IBO and VBO references for a Model
+     * A container to store IBO and VBO references for a Model
      */
     public class BufferContainer
     {

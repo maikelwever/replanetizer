@@ -1,6 +1,4 @@
 ﻿using System;
-using LibReplanetizer.CustomControls;
-using OpenTK;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects
@@ -68,12 +66,6 @@ namespace LibReplanetizer.LevelObjects
         public override LevelObject Clone() {
             throw new NotImplementedException();
         }
-
-        public override void Render(ICustomGLControl glControl, bool selected) {
-            throw new NotImplementedException();
-        }
-
-
 
     }
 }

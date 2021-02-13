@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
-using LibReplanetizer.CustomControls;
 using OpenTK;
 
 namespace LibReplanetizer.LevelObjects
 {
     public abstract class LevelObject : ITransformable, ISerializable
     {
-        protected static Vector4 normalColor = new Vector4(1, 1, 1, 1); // White
-        protected static Vector4 selectedColor = new Vector4(1, 0, 1, 1); // Purple
+        public static Vector4 normalColor = new Vector4(1, 1, 1, 1); // White
+        public static Vector4 selectedColor = new Vector4(1, 0, 1, 1); // Purple
 
         public Matrix4 modelMatrix;
 
@@ -20,7 +19,6 @@ namespace LibReplanetizer.LevelObjects
         public abstract byte[] ToByteArray();
 
         public abstract LevelObject Clone();
-        public abstract void Render(ICustomGLControl glControl, bool selected);
 
         // Virtual, since some objects (moby) override it
         public virtual void UpdateTransformMatrix()

@@ -1,8 +1,6 @@
 ﻿using System;
 using static LibReplanetizer.DataFunctions;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using LibReplanetizer.CustomControls;
 
 namespace LibReplanetizer.LevelObjects
 {
@@ -61,34 +59,7 @@ namespace LibReplanetizer.LevelObjects
             scale = mat1.ExtractScale();
 
             UpdateTransformMatrix();
-
-            GetVBO();
-            GetIBO();
 		}
-
-        public void GetVBO() {
-            //Get the vertex buffer object, or create one if one doesn't exist
-            if (VBO == 0) {
-                GL.GenBuffers(1, out VBO);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, cube.Length * sizeof(float), cube, BufferUsageHint.StaticDraw);
-
-            }
-            else {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            }
-        }
-
-        public void GetIBO() {
-            if (IBO == 0) {
-                GL.GenBuffers(1, out IBO);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, cubeElements.Length * sizeof(ushort), cubeElements, BufferUsageHint.StaticDraw);
-            }
-            else {
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-            }
-        }
 
         public override LevelObject Clone() {
             throw new NotImplementedException();
@@ -104,22 +75,6 @@ namespace LibReplanetizer.LevelObjects
 
             return bytes;
         }
-
-		public override void Render(ICustomGLControl glControl, bool selected = false)
-		{
-			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-				Matrix4 mvp = modelMatrix * glControl.worldView;
-				GL.UniformMatrix4(glControl.matrixID, false, ref mvp);
-				GL.Uniform4(glControl.colorID, selected ? selectedColor : normalColor);
-
-				GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-				GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-
-				GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-
-				GL.DrawElements(PrimitiveType.Triangles, cubeElements.Length, DrawElementsType.UnsignedShort, 0);
-			GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-		}
 
         public ushort[] GetIndices()
         {

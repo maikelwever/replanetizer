@@ -1,12 +1,10 @@
 ﻿using System;
-using LibReplanetizer.CustomControls;
 using OpenTK;
-using OpenTK.Graphics.OpenGL;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects
 {
-    public class Type0C : MatrixObject
+    public class Type0C : MatrixObject, IRenderable
     {
         //Looks like 0C can be some sort of trigger that is tripped off when you go near them. They're generally placed in rivers with current and in front of unlockable doors.
         public const int ELEMENTSIZE = 0x90;
@@ -16,8 +14,6 @@ namespace LibReplanetizer.LevelObjects
         public int off_08;
         public int off_0C;
 
-        int IBO;
-        int VBO;
         private readonly float originalM44;
         static readonly float[] cube = new float[]
 {
@@ -31,7 +27,7 @@ namespace LibReplanetizer.LevelObjects
             1.0f,  1.0f, -1.0f,
             -1.0f,  1.0f, -1.0f
         };
-        static readonly ushort[] cubeElements = new ushort[] { 0, 1, 2, 2, 3, 0, 1, 5, 6, 6, 2, 1, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 4, 5, 1, 1, 0, 4, 3, 2, 6, 6, 7, 3 };
+        public static readonly ushort[] cubeElements = new ushort[] { 0, 1, 2, 2, 3, 0, 1, 5, 6, 6, 2, 1, 7, 6, 5, 5, 4, 7, 4, 0, 3, 3, 7, 4, 4, 5, 1, 1, 0, 4, 3, 2, 6, 6, 7, 3 };
 
         public Matrix4 mat1; //Definitely a matrix. Contains logically positioned and rotated points.
         public Matrix4 mat2; //Not entirely sure if is a matrix. If it is, it has to be relative to mat1.
@@ -53,33 +49,6 @@ namespace LibReplanetizer.LevelObjects
             position = mat1.ExtractTranslation();
             scale = mat1.ExtractScale();
             UpdateTransformMatrix();
-
-            GetVBO();
-            GetIBO();
-        }
-
-        public void GetVBO() {
-            //Get the vertex buffer object, or create one if one doesn't exist
-            if (VBO == 0) {
-                GL.GenBuffers(1, out VBO);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, cube.Length * sizeof(float), cube, BufferUsageHint.StaticDraw);
-
-            }
-            else {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            }
-        }
-
-        public void GetIBO() {
-            if (IBO == 0) {
-                GL.GenBuffers(1, out IBO);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, cubeElements.Length * sizeof(ushort), cubeElements, BufferUsageHint.StaticDraw);
-            }
-            else {
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-            }
         }
 
         public override byte[] ToByteArray()
@@ -102,21 +71,14 @@ namespace LibReplanetizer.LevelObjects
             throw new NotImplementedException();
         }
 
-        public override void Render(ICustomGLControl glControl, bool selected = false) {
-            GL.UseProgram(glControl.colorShaderID);
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-            Matrix4 mvp = modelMatrix * glControl.worldView;
-            GL.UniformMatrix4(glControl.matrixID, false, ref mvp);
-            GL.Uniform4(glControl.colorID, selected ? selectedColor : normalColor);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
-
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
-
-            GL.DrawElements(PrimitiveType.Triangles, cubeElements.Length, DrawElementsType.UnsignedShort, 0);
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+        public ushort[] GetIndices()
+        {
+            return cubeElements;
         }
 
+        public float[] GetVertices()
+        {
+            return cube;
+        }
     }
 }

@@ -1,10 +1,9 @@
 ﻿using System.IO;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.CustomControls;
+using LibReplanetizer.LevelObjects;
 
 namespace LibReplanetizer.Models
 {
@@ -24,10 +23,10 @@ namespace LibReplanetizer.Models
         public float value;
     }
 
-    public class Collision : Model
+    public class Collision : Model, IRenderable
     {
-        uint[] indBuff = { };
-        uint[] colorBuff = { };
+        public uint[] indBuff = { };
+        public uint[] colorBuff = { };
 
         public Collision(FileStream fs, int collisionPointer)
         {
@@ -107,7 +106,7 @@ namespace LibReplanetizer.Models
                             }
 
                             for (int v = 0; v < vertexCount; v++)
-                            {                                
+                            {
                                 int pOffset = vOffset + (12 * v) + 4;
                                 vertexList.Add(ReadFloat(collision, pOffset + 0) / div + 4 * (xShift + x + 0.5f));  //Vertex X
                                 vertexList.Add(ReadFloat(collision, pOffset + 4) / div + 4 * (yShift + y + 0.5f));  //Vertex Y
@@ -144,20 +143,6 @@ namespace LibReplanetizer.Models
             indBuff = indexList.ToArray();
         }
 
-        public void DrawCol(ICustomGLControl glControl)
-        {
-            Matrix4 worldView = glControl.worldView;
-            GL.UniformMatrix4(glControl.matrixID, false, ref worldView);
-            GL.Uniform4(glControl.colorID, new Vector4(1, 1, 1, 1));
-            GetUBO();
-            GetBBO();
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-            GL.DrawElements(PrimitiveType.Triangles, indBuff.Length, DrawElementsType.UnsignedInt, 0);
-            GL.UseProgram(glControl.collisionShaderID);
-            GL.UniformMatrix4(glControl.matrixID, false, ref worldView);
-            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-            GL.DrawElements(PrimitiveType.Triangles, indBuff.Length, DrawElementsType.UnsignedInt, 0);
-        }
 
         public void GetBBO()
         {

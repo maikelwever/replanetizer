@@ -1,9 +1,6 @@
 ﻿using static LibReplanetizer.DataFunctions;
-using OpenTK.Graphics.OpenGL;
 using OpenTK;
-using static LibReplanetizer.Utilities;
 using System.ComponentModel;
-using LibReplanetizer.CustomControls;
 
 namespace LibReplanetizer.LevelObjects
 {
@@ -99,24 +96,6 @@ namespace LibReplanetizer.LevelObjects
                 WriteFloat(bytes, (i * 0x10) + 0x1C, wVals[i]);
             }
             return bytes;
-        }
-
-        public void GetVBO()
-        {
-            //Get the vertex buffer object, or create one if one doesn't exist
-            if (VBO == 0)
-            {
-                GL.GenBuffers(1, out VBO);
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.DynamicDraw);
-                //Console.WriteLine("Generated VBO with ID: " + VBO.ToString());
-            }
-            else
-            {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BufferData(BufferTarget.ArrayBuffer, vertexBuffer.Length * sizeof(float), vertexBuffer, BufferUsageHint.DynamicDraw);
-            }
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, sizeof(float) * 3, 0);
         }
 
         public Vector3 GetVertex(int index) {
@@ -222,16 +201,6 @@ namespace LibReplanetizer.LevelObjects
             }
             _scale *= scale;
         }*/
-
-        public override void Render(ICustomGLControl glControl, bool selected = false)
-        {
-            var worldView = glControl.worldView;
-            
-            GL.UniformMatrix4(glControl.matrixID, false, ref worldView);
-            GL.Uniform4(glControl.colorID, selected ? selectedColor : normalColor);
-            GetVBO();
-            GL.DrawArrays(PrimitiveType.LineStrip, 0, vertexBuffer.Length / 3);
-        }
 
         public ushort[] GetIndices()
         {

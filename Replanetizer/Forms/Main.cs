@@ -41,11 +41,6 @@ namespace RatchetEdit
         public LightConfigViewer lightConfigViewer;
         public LevelVariableViewer levelVariableViewer;
 
-        //Process process;
-        //IntPtr processHandle;
-
-        int oldTextureCount;
-
         bool suppressTreeViewSelectEvent = false;
 
         public Main()
@@ -66,7 +61,6 @@ namespace RatchetEdit
             if (mapOpenDialog.ShowDialog() == DialogResult.OK)
             {
                 LoadLevel(mapOpenDialog.FileName);
-                //oldTextureCount = level.terrains[0].textureConfig[0].ID;
             }
         }
 

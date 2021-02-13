@@ -12,7 +12,6 @@ using static LibReplanetizer.DataFunctions;
 using LibReplanetizer;
 using LibReplanetizer.Models;
 using LibReplanetizer.LevelObjects;
-using LibReplanetizer.CustomControls;
 
 using static LibReplanetizer.Utilities;
 using RatchetEdit.Tools;
@@ -20,7 +19,7 @@ using System.Runtime.CompilerServices;
 
 namespace RatchetEdit
 {
-    public class CustomGLControl : GLControl, ICustomGLControl
+    public class CustomGLControl : GLControl
     {
         public Level level { get; set; }
 
@@ -617,6 +616,33 @@ namespace RatchetEdit
             invalidate = true;
         }
 
+        void RenderModelObject(ModelObject modelObject, bool selected)
+        {
+            if (modelObject.model == null || modelObject.model.vertexBuffer == null || modelObject.model.textureConfig.Count == 0) return;
+            Matrix4 mvp = modelObject.modelMatrix * worldView;  //Has to be done in this order to work correctly
+            GL.UniformMatrix4(matrixID, false, ref mvp);
+            ActivateBuffersForModel(modelObject);
+
+            //Bind textures one by one, applying it to the relevant vertices based on the index array
+            foreach (TextureConfig conf in modelObject.model.textureConfig)
+            {
+                GL.BindTexture(TextureTarget.Texture2D, (conf.ID > 0) ? level.textures[conf.ID].getTexture() : 0);
+                GL.DrawElements(PrimitiveType.Triangles, conf.size, DrawElementsType.UnsignedShort, conf.start * sizeof(ushort));
+            }
+
+            if (selected)
+            {
+                GL.UseProgram(colorShaderID);
+                GL.Uniform4(colorID, new Vector4(1, 1, 1, 1));
+                GL.UniformMatrix4(matrixID, false, ref mvp);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.DrawElements(PrimitiveType.Triangles, modelObject.model.indexBuffer.Length, DrawElementsType.UnsignedShort, 0);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                GL.UseProgram(shaderID);
+            }
+
+        }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -640,45 +666,86 @@ namespace RatchetEdit
 
                 foreach (Moby mob in level.mobs)
                 {
-                    mob.Render(this, mob == selectedObject);
+                    RenderModelObject(mob, mob == selectedObject);
                 }
             }
 
 
             if (enableTie)
                 foreach (Tie tie in level.ties)
-                    tie.Render(this, tie == selectedObject);
+                    RenderModelObject(tie, tie == selectedObject);
 
             if (enableShrub)
                 foreach (Shrub shrub in level.shrubs)
-                    shrub.Render(this, shrub == selectedObject);
+                    RenderModelObject(shrub, shrub == selectedObject);
 
             if (enableTerrain)
                 foreach (TerrainFragment tFrag in level.terrains)
-                    tFrag.Render(this, tFrag == selectedObject);
+                    RenderModelObject(tFrag, tFrag == selectedObject);
 
             if (enableSkybox)
-                level.skybox.Draw(this);
+                foreach (TextureConfig conf in level.skybox.textureConfig)
+                {
+                    GL.BindTexture(TextureTarget.Texture2D, (conf.ID > 0) ? level.textures[conf.ID].getTexture() : 0);
+                    GL.DrawElements(PrimitiveType.Triangles, conf.size, DrawElementsType.UnsignedShort, conf.start * sizeof(ushort));
+                }
 
             GL.UseProgram(colorShaderID);
 
             if (enableSpline)
                 foreach (Spline spline in level.splines)
-                    //if(selectedObject == spline)
-                    spline.Render(this, spline == selectedObject);
+                {
+                    var worldView = this.worldView;
+                    GL.UniformMatrix4(matrixID, false, ref worldView);
+                    GL.Uniform4(colorID, spline == selectedObject ? LevelObject.selectedColor : LevelObject.normalColor);
+                    ActivateBuffersForModel(spline);
+                    GL.DrawArrays(PrimitiveType.LineStrip, 0, spline.vertexBuffer.Length / 3);
+                }
 
             if (enableCuboid)
                 foreach (Cuboid cuboid in level.cuboids)
-                    cuboid.Render(this, cuboid == selectedObject);
+                {
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                    Matrix4 mvp = cuboid.modelMatrix * worldView;
+                    GL.UniformMatrix4(matrixID, false, ref mvp);
+                    GL.Uniform4(colorID, selectedObject == cuboid ? LevelObject.selectedColor : LevelObject.normalColor);
+                    ActivateBuffersForModel(cuboid);
+                    GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
+                    GL.DrawElements(PrimitiveType.Triangles, Cuboid.cubeElements.Length, DrawElementsType.UnsignedShort, 0);
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                }
 
             if (enableType0C)
-                foreach (Type0C cuboid in level.type0Cs)
-                    cuboid.Render(this, cuboid == selectedObject);
+                foreach (Type0C type0c in level.type0Cs)
+                {
+                    GL.UseProgram(colorShaderID);
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                    Matrix4 mvp = type0c.modelMatrix * worldView;
+                    GL.UniformMatrix4(matrixID, false, ref mvp);
+                    GL.Uniform4(colorID, type0c == selectedObject ? LevelObject.selectedColor : LevelObject.normalColor);
+
+                    ActivateBuffersForModel(type0c);
+
+                    GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
+
+                    GL.DrawElements(PrimitiveType.Triangles, Type0C.cubeElements.Length, DrawElementsType.UnsignedShort, 0);
+                    GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                }
 
             if (enableCollision)
             {
                 Collision col = (Collision)level.collisionModel;
-                col.DrawCol(this);
+
+                Matrix4 worldView = this.worldView;
+                GL.UniformMatrix4(matrixID, false, ref worldView);
+                GL.Uniform4(colorID, new Vector4(1, 1, 1, 1));
+                ActivateBuffersForModel(col);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
+                GL.DrawElements(PrimitiveType.Triangles, col.indBuff.Length, DrawElementsType.UnsignedInt, 0);
+                GL.UseProgram(collisionShaderID);
+                GL.UniformMatrix4(matrixID, false, ref worldView);
+                GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+                GL.DrawElements(PrimitiveType.Triangles, col.indBuff.Length, DrawElementsType.UnsignedInt, 0);
             }
 
             RenderTool();
