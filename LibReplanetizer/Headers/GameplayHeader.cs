@@ -52,7 +52,7 @@ namespace LibReplanetizer.Headers
         public int type88Pointer;
         public int occlusionPointer;
 
-        public GameplayHeader(){}
+        public GameplayHeader() { }
 
         public GameplayHeader(GameType game, FileStream gameplayFile)
         {

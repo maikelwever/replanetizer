@@ -1,6 +1,6 @@
-﻿using OpenTK;
+﻿using LibReplanetizer.LevelObjects;
+using OpenTK;
 using System;
-using LibReplanetizer.LevelObjects;
 
 namespace RatchetEdit
 {
@@ -49,7 +49,7 @@ namespace RatchetEdit
 
             // If object is moby, load its rotation.
             if (levelObject is Moby moby)
-            { 
+            {
                 yaw = moby.rotation.Z;
             }
 
@@ -86,11 +86,13 @@ namespace RatchetEdit
             rotation += vector;
         }
 
-        public void Scale(Vector3 scale) {
-           //Not used
+        public void Scale(Vector3 scale)
+        {
+            //Not used
         }
 
-        public void Scale(float x, float y, float z) {
+        public void Scale(float x, float y, float z)
+        {
             //Not used
         }
     }

@@ -1,5 +1,5 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
+using System;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects
@@ -22,7 +22,8 @@ namespace LibReplanetizer.LevelObjects
             position = modelMatrix.ExtractTranslation();
         }
 
-        public override LevelObject Clone() {
+        public override LevelObject Clone()
+        {
             throw new NotImplementedException();
         }
 

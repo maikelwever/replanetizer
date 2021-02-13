@@ -1,14 +1,10 @@
-﻿using OpenTK;
-using LibReplanetizer.LevelObjects;
+﻿using LibReplanetizer.LevelObjects;
 using LibReplanetizer.Models;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
 using static LibReplanetizer.DataFunctions;
 
 namespace RatchetEdit
@@ -36,7 +32,7 @@ namespace RatchetEdit
         private readonly IntPtr processHandle;
         private readonly MemoryAddresses addresses;
 
-        public bool hookWorking = false; 
+        public bool hookWorking = false;
 
         public MemoryHook(int gameNum)
         {

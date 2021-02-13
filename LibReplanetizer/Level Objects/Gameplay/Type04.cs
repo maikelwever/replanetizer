@@ -82,7 +82,8 @@ namespace LibReplanetizer.LevelObjects
         }
 
 
-        public override LevelObject Clone() {
+        public override LevelObject Clone()
+        {
             throw new NotImplementedException();
         }
 

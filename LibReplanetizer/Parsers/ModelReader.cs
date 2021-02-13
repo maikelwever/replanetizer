@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using LibReplanetizer.Models;
+using System.Collections.Generic;
 using System.IO;
-using LibReplanetizer.Models;
 
 namespace LibReplanetizer
 {

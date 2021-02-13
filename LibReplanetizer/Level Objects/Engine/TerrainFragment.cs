@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LibReplanetizer.Headers;
-using OpenTK;
+﻿using LibReplanetizer.Headers;
 using LibReplanetizer.Models;
-
+using OpenTK;
+using System;
+using System.IO;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects

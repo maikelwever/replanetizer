@@ -1,9 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
+﻿using LibReplanetizer.Headers;
 using LibReplanetizer.LevelObjects;
 using LibReplanetizer.Models;
-using LibReplanetizer.Headers;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Parsers
@@ -204,7 +204,7 @@ namespace LibReplanetizer.Parsers
 
             return type64s;
         }
-        
+
         public List<Type68> GetType68s()
         {
             var type68s = new List<Type68>();
@@ -302,7 +302,7 @@ namespace LibReplanetizer.Parsers
             byte[] bytes;
             for (int i = 0; (bytes = ReadBlock(fileStream, gameplayHeader.type50Pointer + i * 8, 8))[0] != 0xFF; i++)
             {
-                int id =    ReadInt(bytes, 0);
+                int id = ReadInt(bytes, 0);
                 int value = ReadInt(bytes, 4);
                 keyValuePairs.Add(new KeyValuePair<int, int>(id, value));
             }
@@ -313,7 +313,7 @@ namespace LibReplanetizer.Parsers
         public byte[] GetUnk13()
         {
             int sectionLength = gameplayHeader.occlusionPointer - gameplayHeader.unkPointer13;
-            if(sectionLength > 0)
+            if (sectionLength > 0)
             {
                 return ReadBlock(fileStream, gameplayHeader.unkPointer13, sectionLength);
             }
@@ -421,7 +421,7 @@ namespace LibReplanetizer.Parsers
             int pvarCount = 0;
             foreach (Moby mob in mobs)
             {
-                if(mob.pvarIndex > pvarCount)
+                if (mob.pvarIndex > pvarCount)
                 {
                     pvarCount = mob.pvarIndex;
                 }

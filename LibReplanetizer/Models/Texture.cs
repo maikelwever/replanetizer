@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
-using OpenTK.Graphics.OpenGL;
-using static LibReplanetizer.DataFunctions;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.InteropServices;
+using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer
 {

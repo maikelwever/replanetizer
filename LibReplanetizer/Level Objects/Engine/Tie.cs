@@ -1,9 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using OpenTK;
 using LibReplanetizer.Models;
+using OpenTK;
+using System.Collections.Generic;
+using System.IO;
 using static LibReplanetizer.DataFunctions;
 
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using OpenTK;
+﻿using OpenTK;
 
 namespace LibReplanetizer.LevelObjects
 {
@@ -48,16 +47,20 @@ namespace LibReplanetizer.LevelObjects
         }
 
 
-        public void Scale(float val) { //To uniformly scale object
+        public void Scale(float val)
+        { //To uniformly scale object
             Scale(new Vector3(val));
         }
-        public void Scale(float x, float y, float z) {
+        public void Scale(float x, float y, float z)
+        {
             Rotate(new Vector3(x, y, z));
         }
-        public void Rotate(float x, float y, float z) {
+        public void Rotate(float x, float y, float z)
+        {
             Rotate(new Vector3(x, y, z));
         }
-        public void Translate(float x, float y, float z) {
+        public void Translate(float x, float y, float z)
+        {
             Translate(new Vector3(x, y, z));
         }
 

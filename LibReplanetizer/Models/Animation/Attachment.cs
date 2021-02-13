@@ -17,7 +17,7 @@ namespace LibReplanetizer.Models
             byte[] data = ReadBlock(fs, offset + 4, aBoneCount + bBoneCount);
 
             aBones = new List<byte>();
-            for(int i = 0; i < aBoneCount; i++)
+            for (int i = 0; i < aBoneCount; i++)
             {
                 aBones.Add(data[i]);
             }
@@ -36,7 +36,7 @@ namespace LibReplanetizer.Models
             WriteShort(outBytes, 2, (short)bBones.Count);
 
             int offs = 4;
-            for(int i = 0; i < aBones.Count; i++)
+            for (int i = 0; i < aBones.Count; i++)
             {
                 outBytes[offs] = aBones[i];
                 offs++;
@@ -53,7 +53,7 @@ namespace LibReplanetizer.Models
 
         public int GetLength4(int length)
         {
-            while(length % 4 != 0)
+            while (length % 4 != 0)
             {
                 length++;
             }

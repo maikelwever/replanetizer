@@ -1,8 +1,7 @@
-﻿using System;
-using System.Drawing;
+﻿using OpenTK;
+using System;
 using System.ComponentModel;
-using OpenTK;
-using OpenTK.Graphics.ES10;
+using System.Drawing;
 
 namespace LibReplanetizer
 {
@@ -62,11 +61,13 @@ namespace LibReplanetizer
             return new Vector3(vec.X, vec.Y, vec.Z);
         }
 
-        public static Matrix3 GetRotationMatrix(Vector3 rotation) {
+        public static Matrix3 GetRotationMatrix(Vector3 rotation)
+        {
             return Matrix3.CreateRotationX(rotation.X) * Matrix3.CreateRotationY(rotation.Y) * Matrix3.CreateRotationZ(rotation.Z);
         }
 
-        public static Matrix4 TranslateMatrixTo(Matrix4 sourceMatrix, Vector3 position) {
+        public static Matrix4 TranslateMatrixTo(Matrix4 sourceMatrix, Vector3 position)
+        {
             Matrix4 translationMatrix = Matrix4.CreateTranslation(position);
             Matrix4 sourceWithoutTranslation = sourceMatrix.ClearTranslation();
             sourceWithoutTranslation.M41 = position.X;
@@ -75,31 +76,36 @@ namespace LibReplanetizer
             return sourceWithoutTranslation;
         }
 
-        public static float piClamp(float input) {
+        public static float piClamp(float input)
+        {
             float pi = (float)Math.PI;
             float val = input;
-            while (val < -2 * pi) {
+            while (val < -2 * pi)
+            {
                 val += 2 * pi;
             }
-            while (val > 2 * pi) {
+            while (val > 2 * pi)
+            {
                 val -= 2 * pi;
             }
             return val;
         }
 
-        public static Matrix4 RotateMatrixTo(Matrix4 sourceMatrix, Vector3 rotation) {
+        public static Matrix4 RotateMatrixTo(Matrix4 sourceMatrix, Vector3 rotation)
+        {
             Matrix4 xrot = Matrix4.CreateRotationX(rotation.X);
             //Matrix4 yrot = Matrix4.CreateRotationY(rotation.Y);
             //Matrix4 zrot = Matrix4.CreateRotationZ(rotation.Z);
 
 
             //Matrix4 rotationMatrix = xrot * yrot * zrot;
-            
+
             Matrix4 result = xrot * sourceMatrix.ClearRotation();
             return result;
         }
 
-        public static Matrix4 ScaleMatrixTo(Matrix4 sourceMatrix, Vector3 scale) {
+        public static Matrix4 ScaleMatrixTo(Matrix4 sourceMatrix, Vector3 scale)
+        {
             Matrix4 scaleMatrix = Matrix4.CreateScale(scale);
             Matrix4 sourceWithoutScale = sourceMatrix.ClearScale();
             sourceWithoutScale.M11 = scale.X;
@@ -134,13 +140,17 @@ namespace LibReplanetizer
         }
     }
 
-    public class Vector3Converter : TypeConverter {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
+    public class Vector3Converter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
             return sourceType == typeof(string);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
-            try {
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            try
+            {
                 string[] tokens = ((string)value).Split(' ');
                 return new Vector3(
                     float.Parse(tokens[0]),
@@ -148,12 +158,14 @@ namespace LibReplanetizer
                     float.Parse(tokens[2])
                 );
             }
-            catch {
+            catch
+            {
                 return context.PropertyDescriptor.GetValue(context.Instance);
             }
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) {
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
             Vector3 p = (Vector3)value;
             return String.Format(
                 "{0} {1} {2}",
@@ -163,13 +175,17 @@ namespace LibReplanetizer
             );
         }
     }
-    public class Vector3RadiansConverter : TypeConverter {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType) {
+    public class Vector3RadiansConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
             return sourceType == typeof(string);
         }
 
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value) {
-            try {
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            try
+            {
                 string[] tokens = ((string)value).Split(' ');
                 return new Vector3(
                     Utilities.fToRadians(float.Parse(tokens[0])),
@@ -177,12 +193,14 @@ namespace LibReplanetizer
                     Utilities.fToRadians(float.Parse(tokens[2]))
                 );
             }
-            catch {
+            catch
+            {
                 return context.PropertyDescriptor.GetValue(context.Instance);
             }
         }
 
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType) {
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
             Vector3 p = (Vector3)value;
             return String.Format(
                 "{0} {1} {2}",

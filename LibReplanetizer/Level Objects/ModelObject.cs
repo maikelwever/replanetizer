@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using LibReplanetizer.Models;
+﻿using LibReplanetizer.Models;
+using System.ComponentModel;
 
 namespace LibReplanetizer.LevelObjects
 {

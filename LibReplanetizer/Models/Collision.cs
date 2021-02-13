@@ -1,9 +1,9 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using LibReplanetizer.LevelObjects;
 using OpenTK.Graphics.OpenGL;
+using System.Collections.Generic;
+using System.IO;
+using System.Runtime.InteropServices;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.LevelObjects;
 
 namespace LibReplanetizer.Models
 {

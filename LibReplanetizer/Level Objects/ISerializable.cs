@@ -1,7 +1,8 @@
 ﻿
 namespace LibReplanetizer.LevelObjects
 {
-    public interface ISerializable {
+    public interface ISerializable
+    {
         byte[] ToByteArray();
     }
 }

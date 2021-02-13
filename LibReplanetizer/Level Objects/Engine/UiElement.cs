@@ -18,7 +18,7 @@ namespace LibReplanetizer.LevelObjects
             short spriteOffset = ReadShort(headBlock, offset + 0x04);
 
             sprites = new List<int>();
-            for(int i = 0; i < spriteCount; i++)
+            for (int i = 0; i < spriteCount; i++)
             {
                 sprites.Add(ReadInt(texBlock, (spriteOffset + i) * 4));
             }

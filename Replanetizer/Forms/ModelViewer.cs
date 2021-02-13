@@ -1,12 +1,12 @@
-﻿using System;
+﻿using LibReplanetizer;
+using LibReplanetizer.Models;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using LibReplanetizer;
-using LibReplanetizer.Models;
 
 namespace RatchetEdit
 {
@@ -60,7 +60,7 @@ namespace RatchetEdit
             GL.Enable(EnableCap.DepthTest);
             GL.EnableClientState(ArrayCap.VertexArray);
 
-            
+
 
             worldView = CreateWorldView();
             trans = Matrix4.CreateTranslation(0.0f, 0.0f, -5.0f);

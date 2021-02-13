@@ -26,7 +26,7 @@ namespace LibReplanetizer.Models.Animations
         {
 
         }
-        public Animation(FileStream fs, int modelOffset, int animationOffset, int boneCount, bool force=false)
+        public Animation(FileStream fs, int modelOffset, int animationOffset, int boneCount, bool force = false)
         {
             //Only try to parse if the offset is non-zero
             if (animationOffset == 0 && !force)
@@ -96,7 +96,7 @@ namespace LibReplanetizer.Models.Animations
             // Frames
             int framesSize = 0;
             var frameBytes = new List<byte[]>();
-            foreach(Frame frame in frames)
+            foreach (Frame frame in frames)
             {
                 byte[] frameByte = frame.Serialize();
                 frameBytes.Add(frameByte);
@@ -108,7 +108,8 @@ namespace LibReplanetizer.Models.Animations
             if ((fileOffset + baseOffset) % 0x20 == 0)
             {
                 offs = GetLength20(0x1C + frames.Count * 4 + soundBytes.Length);
-            } else
+            }
+            else
             {
                 offs = GetLength20(0x1C + frames.Count * 4 + soundBytes.Length + 0x10) - 0x10;
             }
@@ -119,7 +120,7 @@ namespace LibReplanetizer.Models.Animations
             soundBytes.CopyTo(outBytes, 0x1C + frames.Count * 4);
             unknownBytes.CopyTo(outBytes, offs);
             offs += unknownBytes.Count;
-            for(int i = 0; i < frameBytes.Count; i++)
+            for (int i = 0; i < frameBytes.Count; i++)
             {
                 WriteInt(outBytes, 0x1C + i * 4, offs + baseOffset);
                 frameBytes[i].CopyTo(outBytes, offs);

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Collections.Generic;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Models
@@ -60,7 +59,7 @@ namespace LibReplanetizer.Models
         {
             int faceStart = GetLength(0x1C + textureConfigs.Count * 4);
             int faceLength = textureConfigs.Count * 0x10;
-            foreach(List<TextureConfig> conf in textureConfigs)
+            foreach (List<TextureConfig> conf in textureConfigs)
             {
                 faceLength += conf.Count * 0x10;
             }
@@ -76,10 +75,10 @@ namespace LibReplanetizer.Models
 
             int offs = faceStart;
             int[] headList = new int[textureConfigs.Count];
-            for(int i = 0; i < textureConfigs.Count; i++)
+            for (int i = 0; i < textureConfigs.Count; i++)
             {
                 headList[i] = startOffset + offs;
-                if(textureConfigs[i][0].ID == 0)
+                if (textureConfigs[i][0].ID == 0)
                 {
                     WriteShort(headBytes, offs + 0x00, 1);
                 }
@@ -96,7 +95,7 @@ namespace LibReplanetizer.Models
                     offs += 8;
                 }
             }
-            for(int i = 0; i < headList.Length; i++)
+            for (int i = 0; i < headList.Length; i++)
             {
                 WriteInt(headBytes, 0x1C + i * 4, headList[i]);
             }

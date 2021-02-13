@@ -1,21 +1,18 @@
-﻿using System;
+﻿using LibReplanetizer;
+using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
+using OpenTK;
+using OpenTK.Graphics.OpenGL;
+using OpenTK.Input;
+using RatchetEdit.Tools;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using OpenTK;
-using OpenTK.Input;
-using OpenTK.Graphics.OpenGL;
-
-using static LibReplanetizer.DataFunctions;
-using LibReplanetizer;
-using LibReplanetizer.Models;
-using LibReplanetizer.LevelObjects;
-
-using static LibReplanetizer.Utilities;
-using RatchetEdit.Tools;
 using System.Runtime.CompilerServices;
+using System.Windows.Forms;
+using static LibReplanetizer.Utilities;
 
 namespace RatchetEdit
 {
@@ -579,33 +576,33 @@ namespace RatchetEdit
 
 
 
-               int id = (int)pixel.ToUInt32();
-               if (enableMoby && id < level.mobs?.Count)
-               {
-                   returnObject = level.mobs[id];
-               }
-               else if (enableTie && id - tieOffset < level.ties.Count)
-               {
-                   returnObject = level.ties[id - tieOffset];
-               }
-               else if (enableShrub && id - shrubOffset < level.shrubs.Count)
-               {
-                   returnObject = level.shrubs[id - shrubOffset];
-               }
-               else if (enableSpline && id - splineOffset < level.splines.Count)
-               {
-                   returnObject = level.splines[id - splineOffset];
-               }
-               else if (enableCuboid && id - cuboidOffset < level.cuboids.Count)
-               {
-                   returnObject = level.cuboids[id - cuboidOffset];
-               }
-               else if (enableTerrain && id - tfragOffset < level.terrains.Count)
-               {
-                   returnObject = level.terrains[id - tfragOffset];
-               }
+                int id = (int)pixel.ToUInt32();
+                if (enableMoby && id < level.mobs?.Count)
+                {
+                    returnObject = level.mobs[id];
+                }
+                else if (enableTie && id - tieOffset < level.ties.Count)
+                {
+                    returnObject = level.ties[id - tieOffset];
+                }
+                else if (enableShrub && id - shrubOffset < level.shrubs.Count)
+                {
+                    returnObject = level.shrubs[id - shrubOffset];
+                }
+                else if (enableSpline && id - splineOffset < level.splines.Count)
+                {
+                    returnObject = level.splines[id - splineOffset];
+                }
+                else if (enableCuboid && id - cuboidOffset < level.cuboids.Count)
+                {
+                    returnObject = level.cuboids[id - cuboidOffset];
+                }
+                else if (enableTerrain && id - tfragOffset < level.terrains.Count)
+                {
+                    returnObject = level.terrains[id - tfragOffset];
+                }
             }
-           
+
             hitTool = false;
             return returnObject;
         }

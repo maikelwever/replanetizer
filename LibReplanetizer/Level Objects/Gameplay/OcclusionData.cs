@@ -1,6 +1,6 @@
-﻿using System;
+﻿using LibReplanetizer.Headers;
+using System;
 using System.Collections.Generic;
-using LibReplanetizer.Headers;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects

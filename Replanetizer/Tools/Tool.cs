@@ -5,7 +5,8 @@ namespace RatchetEdit.Tools
 {
     public abstract class Tool
     {
-        public enum ToolType {
+        public enum ToolType
+        {
             None,
             Translate,
             Rotate,

@@ -2,7 +2,7 @@
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.Models.Animations
-{ 
+{
     public class BoneMatrix
     {
         public Matrix4 mat1;
@@ -15,7 +15,7 @@ namespace LibReplanetizer.Models.Animations
             mat1 = ReadMatrix4(boneBlock, offset);
 
             col3 = mat1.Column3;
-            
+
             mat1.M14 = 0;
             mat1.M24 = 0;
             mat1.M34 = 0;

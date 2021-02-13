@@ -115,7 +115,7 @@ namespace LibReplanetizer
             int pos = offset;
 
             byte[] buffer = new byte[4];
-            do 
+            do
             {
                 fs.Read(buffer, 0, 4);
                 output += System.Text.Encoding.ASCII.GetString(buffer);

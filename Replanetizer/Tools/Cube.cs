@@ -1,6 +1,6 @@
-﻿using OpenTK;
+﻿using LibReplanetizer.LevelObjects;
+using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using LibReplanetizer.LevelObjects;
 
 namespace RatchetEdit
 {
@@ -44,16 +44,16 @@ namespace RatchetEdit
         {
             GL.UseProgram(glControl.colorShaderID);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-                Matrix4 mvp = sp.modelMatrix * glControl.worldView;
-                GL.UniformMatrix4(glControl.matrixID, false, ref mvp);
-                GL.Uniform4(glControl.colorID, new Vector4(1, 1, 1, 1));
+            Matrix4 mvp = sp.modelMatrix * glControl.worldView;
+            GL.UniformMatrix4(glControl.matrixID, false, ref mvp);
+            GL.Uniform4(glControl.colorID, new Vector4(1, 1, 1, 1));
 
-                GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VBO);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, IBO);
 
-                GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
+            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 0, 0);
 
-                GL.DrawElements(PrimitiveType.Triangles, cubeElements.Length, DrawElementsType.UnsignedShort, 0);
+            GL.DrawElements(PrimitiveType.Triangles, cubeElements.Length, DrawElementsType.UnsignedShort, 0);
             GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
         }
     }

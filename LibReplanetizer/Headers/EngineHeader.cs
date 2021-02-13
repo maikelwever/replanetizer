@@ -96,50 +96,50 @@ namespace LibReplanetizer.Headers
         {
             byte[] bytes = new byte[0x90];
 
-                WriteInt(bytes, 0x00, mobyModelPointer);
-                WriteInt(bytes, 0x04, renderDefPointer);
-                WriteInt(bytes, 0x08, type08Pointer);
-                WriteInt(bytes, 0x0C, type0CPointer);
+            WriteInt(bytes, 0x00, mobyModelPointer);
+            WriteInt(bytes, 0x04, renderDefPointer);
+            WriteInt(bytes, 0x08, type08Pointer);
+            WriteInt(bytes, 0x0C, type0CPointer);
 
-                WriteInt(bytes, 0x10, skyboxPointer);
-                WriteInt(bytes, 0x14, collisionPointer);
-                WriteInt(bytes, 0x18, playerAnimationPointer);
-                WriteInt(bytes, 0x1C, tieModelPointer);
+            WriteInt(bytes, 0x10, skyboxPointer);
+            WriteInt(bytes, 0x14, collisionPointer);
+            WriteInt(bytes, 0x18, playerAnimationPointer);
+            WriteInt(bytes, 0x1C, tieModelPointer);
 
-                WriteInt(bytes, 0x20, tieModelCount);
-                WriteInt(bytes, 0x24, tiePointer);
-                WriteInt(bytes, 0x28, tieCount);
-                WriteInt(bytes, 0x2C, shrubModelPointer);
+            WriteInt(bytes, 0x20, tieModelCount);
+            WriteInt(bytes, 0x24, tiePointer);
+            WriteInt(bytes, 0x28, tieCount);
+            WriteInt(bytes, 0x2C, shrubModelPointer);
 
-                WriteInt(bytes, 0x30, shrubModelCount);
-                WriteInt(bytes, 0x34, shrubPointer);
-                WriteInt(bytes, 0x38, shrubCount);
-                WriteInt(bytes, 0x3C, terrainPointer);
+            WriteInt(bytes, 0x30, shrubModelCount);
+            WriteInt(bytes, 0x34, shrubPointer);
+            WriteInt(bytes, 0x38, shrubCount);
+            WriteInt(bytes, 0x3C, terrainPointer);
 
-                WriteInt(bytes, 0x40, type40Pointer);
-                WriteInt(bytes, 0x44, type44Pointer);
-                WriteInt(bytes, 0x48, soundConfigPointer);
-                WriteInt(bytes, 0x4C, weaponPointer);
+            WriteInt(bytes, 0x40, type40Pointer);
+            WriteInt(bytes, 0x44, type44Pointer);
+            WriteInt(bytes, 0x48, soundConfigPointer);
+            WriteInt(bytes, 0x4C, weaponPointer);
 
-                WriteInt(bytes, 0x50, weaponCount);
-                WriteInt(bytes, 0x54, texturePointer);
-                WriteInt(bytes, 0x58, textureCount);
-                WriteInt(bytes, 0x5C, lightPointer);
+            WriteInt(bytes, 0x50, weaponCount);
+            WriteInt(bytes, 0x54, texturePointer);
+            WriteInt(bytes, 0x58, textureCount);
+            WriteInt(bytes, 0x5C, lightPointer);
 
-                WriteInt(bytes, 0x60, lightCount);
-                WriteInt(bytes, 0x64, lightConfigPointer);
-                WriteInt(bytes, 0x68, textureConfigMenuPointer);
-                WriteInt(bytes, 0x6C, textureConfigMenuCount);
+            WriteInt(bytes, 0x60, lightCount);
+            WriteInt(bytes, 0x64, lightConfigPointer);
+            WriteInt(bytes, 0x68, textureConfigMenuPointer);
+            WriteInt(bytes, 0x6C, textureConfigMenuCount);
 
-                WriteInt(bytes, 0x70, texture2dPointer);
-                WriteInt(bytes, 0x74, uiElementPointer);
-                //0x78 always 0
-                WriteInt(bytes, 0x7C, 1);
+            WriteInt(bytes, 0x70, texture2dPointer);
+            WriteInt(bytes, 0x74, uiElementPointer);
+            //0x78 always 0
+            WriteInt(bytes, 0x7C, 1);
 
-                WriteInt(bytes, 0x80, 2);
-                //0x84 always 0
-                //0x88 always 0
-                //0x8C always 0
+            WriteInt(bytes, 0x80, 2);
+            //0x84 always 0
+            //0x88 always 0
+            //0x8C always 0
 
             return bytes;
         }

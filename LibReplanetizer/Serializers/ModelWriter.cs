@@ -1,10 +1,10 @@
-﻿using OpenTK;
+﻿using LibReplanetizer.Models;
+using LibReplanetizer.Models.Animations;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using LibReplanetizer.Models;
-using LibReplanetizer.Models.Animations;
 
 namespace LibReplanetizer
 {
@@ -18,7 +18,7 @@ namespace LibReplanetizer
 
             if (!(model is MobyModel mobyModel)) return;
 
-            using(StreamWriter spookyStream = new StreamWriter(fileName))
+            using (StreamWriter spookyStream = new StreamWriter(fileName))
             {
                 spookyStream.WriteLine("# Inter-Quake Export");
 
@@ -145,7 +145,7 @@ namespace LibReplanetizer
             using (StreamWriter MTLfs = new StreamWriter(pathName + "\\" + fileNameNoExtension + ".mtl"))
             {
                 // List used mtls to prevent it from making duplicate entries
-                List<int> usedMtls = new List<int>(); 
+                List<int> usedMtls = new List<int>();
 
                 for (int i = 0; i < model.textureConfig.Count; i++)
                 {
@@ -165,7 +165,7 @@ namespace LibReplanetizer
                 }
             }
 
-            using(StreamWriter OBJfs = new StreamWriter(fileName))
+            using (StreamWriter OBJfs = new StreamWriter(fileName))
             {
                 OBJfs.WriteLine("o Object_" + model.id.ToString("X4"));
                 if (model.textureConfig != null)

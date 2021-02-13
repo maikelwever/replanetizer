@@ -42,7 +42,8 @@ namespace LibReplanetizer.LevelObjects
             off_2C = ReadInt(block, offset + 0x2C);
         }
 
-        public override byte[] ToByteArray() {
+        public override byte[] ToByteArray()
+        {
             byte[] bytes = new byte[ELEMENTSIZE];
 
             WriteFloat(bytes, 0x00, off_00);
@@ -63,7 +64,8 @@ namespace LibReplanetizer.LevelObjects
             return bytes;
         }
 
-        public override LevelObject Clone() {
+        public override LevelObject Clone()
+        {
             throw new NotImplementedException();
         }
 

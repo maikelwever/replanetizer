@@ -1,8 +1,8 @@
-﻿using System;
+﻿using LibReplanetizer.Models.Animations;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.Models.Animations;
 
 namespace LibReplanetizer.Models
 {
@@ -15,7 +15,7 @@ namespace LibReplanetizer.Models
 
         public int null1 { get; set; }
 
-        public byte boneCount { get; set;  }
+        public byte boneCount { get; set; }
         public byte lpBoneCount { get; set; }            // Low poly bone count
         public byte count3 { get; set; }
         public byte count4 { get; set; }
@@ -41,8 +41,8 @@ namespace LibReplanetizer.Models
         public List<byte> indexAttachments { get; set; } = new List<byte>();
         public List<BoneMatrix> boneMatrices { get; set; } = new List<BoneMatrix>();
         public List<BoneData> boneDatas { get; set; } = new List<BoneData>();
-        
-        
+
+
         public List<byte> otherBuffer { get; set; } = new List<byte>();
         public List<TextureConfig> otherTextureConfigs { get; set; } = new List<TextureConfig>();
         public List<ushort> otherIndexBuffer { get; set; } = new List<ushort>();
@@ -53,8 +53,8 @@ namespace LibReplanetizer.Models
 
 
         // Unparsed sections
-        public byte[] type10Block = {  };                  // Hitbox
-        
+        public byte[] type10Block = { };                  // Hitbox
+
 
         public MobyModel() { }
 
@@ -68,7 +68,7 @@ namespace LibReplanetizer.Models
             }
 
 
-                
+
             // Header
             byte[] headBlock = ReadBlock(fs, offset, HEADERSIZE);
 
@@ -257,7 +257,7 @@ namespace LibReplanetizer.Models
             {
                 stupidOffset = 0x20 * 4;
             }
-            
+
 
 
             byte[] vertexBytes = SerializeVertices();
@@ -301,7 +301,7 @@ namespace LibReplanetizer.Models
             int otherTextureConfigOffset = GetLength(textureConfigOffset + textureConfig.Count * 0x10, alignment);
 
             int file80 = 0;
-            if(vertexBuffer.Length != 0)
+            if (vertexBuffer.Length != 0)
                 file80 = DistToFile80(offset + otherTextureConfigOffset + otherTextureConfigs.Count * 0x10);
             int vertOffset = GetLength(otherTextureConfigOffset + otherTextureConfigs.Count * 0x10 + file80, alignment);
             int otherOffset = vertOffset + vertexBytes.Length;
@@ -326,9 +326,10 @@ namespace LibReplanetizer.Models
                     attOffset += attBytes.Length;
                 }
                 attachmentBytes.InsertRange(0, attachmentHead);
-            } else if (indexAttachments.Count > 0)
+            }
+            else if (indexAttachments.Count > 0)
             {
-                attachmentBytes.AddRange(new byte[]{ 0,0,0,0});
+                attachmentBytes.AddRange(new byte[] { 0, 0, 0, 0 });
                 attachmentBytes.AddRange(indexAttachments);
                 attachmentBytes.Add(0xff);
             }
@@ -363,7 +364,7 @@ namespace LibReplanetizer.Models
 
 
             // Header
-            if(vertexBuffer.Length != 0)
+            if (vertexBuffer.Length != 0)
                 WriteInt(outbytes, 0x00, meshDataOffset);
 
             outbytes[0x08] = boneCount;
@@ -375,24 +376,25 @@ namespace LibReplanetizer.Models
             outbytes[0x0E] = lpRenderDist;
             outbytes[0x0F] = count8;
 
-            if(type10Block.Length != 0)
+            if (type10Block.Length != 0)
                 WriteInt(outbytes, 0x10, type10Offset);
-            
-            if(id != 1 && id != 2) { 
+
+            if (id != 1 && id != 2)
+            {
                 WriteInt(outbytes, 0x14, boneMatrixOffset);
                 WriteInt(outbytes, 0x18, boneDataOffset);
             }
-            
-            if(attachments.Count != 0 || indexAttachments.Count != 0)
+
+            if (attachments.Count != 0 || indexAttachments.Count != 0)
                 WriteInt(outbytes, 0x1C, attachmentOffset);
-            
+
 
             //null
             WriteFloat(outbytes, 0x24, size);
-            if(modelSounds.Count != 0)
+            if (modelSounds.Count != 0)
                 WriteInt(outbytes, 0x28, soundOffset);
-            
-            
+
+
             //null
 
             WriteFloat(outbytes, 0x30, unk1);
@@ -413,11 +415,11 @@ namespace LibReplanetizer.Models
             faceBytes.CopyTo(outbytes, faceOffset);
             otherFaceBytes.CopyTo(outbytes, otherFaceOffset);
 
-            if(type10Block != null)
+            if (type10Block != null)
             {
                 type10Block.CopyTo(outbytes, type10Offset);
             }
-            
+
             soundBytes.CopyTo(outbytes, soundOffset);
             attachmentBytes.CopyTo(outbytes, attachmentOffset);
             boneMatrixBytes.CopyTo(outbytes, boneMatrixOffset);
@@ -437,7 +439,7 @@ namespace LibReplanetizer.Models
             if (vertexBuffer.Length != 0)
                 WriteInt(outbytes, meshDataOffset + 0x10, vertOffset);
 
-            if(faceBytes.Length != 0)
+            if (faceBytes.Length != 0)
                 WriteInt(outbytes, meshDataOffset + 0x14, faceOffset);
             WriteShort(outbytes, meshDataOffset + 0x18, (short)(vertexBytes.Length / VERTELEMENTSIZE));
             WriteShort(outbytes, meshDataOffset + 0x1a, (short)(otherBuffer.Count / 0x20));

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using LibReplanetizer.Headers;
 using LibReplanetizer.LevelObjects;
 using LibReplanetizer.Models;
 using LibReplanetizer.Models.Animations;
-using LibReplanetizer.Headers;
+using System;
+using System.Collections.Generic;
 
 namespace LibReplanetizer.Parsers
 {
@@ -66,7 +66,7 @@ namespace LibReplanetizer.Parsers
             return GetUiElements(engineHead.uiElementPointer);
         }
 
-        public List<Animation> GetPlayerAnimations( MobyModel ratchet)
+        public List<Animation> GetPlayerAnimations(MobyModel ratchet)
         {
             return GetPlayerAnimations(engineHead.playerAnimationPointer, ratchet);
         }
@@ -93,7 +93,7 @@ namespace LibReplanetizer.Parsers
 
         public byte[] GetRenderDefBytes()
         {
-            if(engineHead.renderDefPointer > 0)
+            if (engineHead.renderDefPointer > 0)
             {
                 return ReadArbBytes(engineHead.renderDefPointer, engineHead.collisionPointer - engineHead.renderDefPointer);
             }
@@ -105,7 +105,7 @@ namespace LibReplanetizer.Parsers
 
         public byte[] GetCollisionBytes()
         {
-            if(engineHead.collisionPointer > 0)
+            if (engineHead.collisionPointer > 0)
             {
                 return ReadArbBytes(engineHead.collisionPointer, engineHead.mobyModelPointer - engineHead.collisionPointer);
             }

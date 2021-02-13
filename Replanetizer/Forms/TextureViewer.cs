@@ -1,11 +1,11 @@
-﻿using System;
+﻿using ImageMagick;
+using LibReplanetizer;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using ImageMagick;
-using LibReplanetizer;
 using static LibReplanetizer.DataFunctions;
 
 namespace RatchetEdit

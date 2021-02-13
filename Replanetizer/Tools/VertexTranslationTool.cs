@@ -37,7 +37,8 @@ namespace RatchetEdit.Tools
             GL.DrawArrays(PrimitiveType.LineStrip, 4, 2);
         }
 
-        public override ToolType GetToolType() {
+        public override ToolType GetToolType()
+        {
             return ToolType.VertexTranslator;
         }
     }

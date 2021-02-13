@@ -1,5 +1,4 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
 
 namespace RatchetEdit.Tools
@@ -38,7 +37,8 @@ namespace RatchetEdit.Tools
             GL.DrawArrays(PrimitiveType.LineStrip, 4, 2);
         }
 
-        public override ToolType GetToolType() {
+        public override ToolType GetToolType()
+        {
             return ToolType.Scale;
         }
     }

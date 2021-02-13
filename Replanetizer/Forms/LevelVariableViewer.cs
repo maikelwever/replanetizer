@@ -1,7 +1,6 @@
-﻿using System;
+﻿using LibReplanetizer;
+using System;
 using System.Windows.Forms;
-
-using LibReplanetizer;
 
 namespace RatchetEdit.Forms
 {

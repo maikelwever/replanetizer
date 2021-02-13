@@ -1,5 +1,5 @@
-﻿using System;
-using OpenTK;
+﻿using OpenTK;
+using System;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects

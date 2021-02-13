@@ -1,7 +1,6 @@
-﻿using System;
+﻿using LibReplanetizer.Headers;
 using System.Collections.Generic;
 using System.IO;
-using LibReplanetizer.Headers;
 using static LibReplanetizer.DataFunctions;
 
 

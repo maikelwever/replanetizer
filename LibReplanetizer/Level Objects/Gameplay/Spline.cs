@@ -1,6 +1,6 @@
-﻿using static LibReplanetizer.DataFunctions;
-using OpenTK;
+﻿using OpenTK;
 using System.ComponentModel;
+using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects
 {
@@ -57,23 +57,27 @@ namespace LibReplanetizer.LevelObjects
             LoadFromByteArray(splineBlock, offset);
         }
 
-        public static LevelObject CreateFromByteArray(byte[] splineBlock, int offset) {
+        public static LevelObject CreateFromByteArray(byte[] splineBlock, int offset)
+        {
             return new Spline(splineBlock, offset);
         }
 
-        public void LoadFromByteArray(byte[] splineBlock, int offset) {
+        public void LoadFromByteArray(byte[] splineBlock, int offset)
+        {
             name = cnt;
             int count = ReadInt(splineBlock, offset);
             vertexBuffer = new float[count * 3];
             wVals = new float[count];
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
+            {
                 vertexBuffer[(i * 3) + 0] = ReadFloat(splineBlock, offset + 0x10 + (i * 0x10) + 0x00);
                 vertexBuffer[(i * 3) + 1] = ReadFloat(splineBlock, offset + 0x10 + (i * 0x10) + 0x04);
                 vertexBuffer[(i * 3) + 2] = ReadFloat(splineBlock, offset + 0x10 + (i * 0x10) + 0x08);
                 wVals[i] = ReadFloat(splineBlock, offset + 0x10 + (i * 0x10) + 0x0C);
             }
 
-            if (count > 0) {
+            if (count > 0)
+            {
                 //_position = new Vector3(vertexBuffer[0], vertexBuffer[1], vertexBuffer[2]);
             }
 
@@ -98,7 +102,8 @@ namespace LibReplanetizer.LevelObjects
             return bytes;
         }
 
-        public Vector3 GetVertex(int index) {
+        public Vector3 GetVertex(int index)
+        {
             float x = vertexBuffer[index * 3 + 0];
             float y = vertexBuffer[index * 3 + 1];
             float z = vertexBuffer[index * 3 + 2];
@@ -106,19 +111,22 @@ namespace LibReplanetizer.LevelObjects
             return new Vector3(x, y, z);
         }
 
-        public void SetVertex(int index, Vector3 value) {
+        public void SetVertex(int index, Vector3 value)
+        {
             vertexBuffer[(index * 3) + 0] = value.X;
             vertexBuffer[(index * 3) + 1] = value.Y;
             vertexBuffer[(index * 3) + 2] = value.Z;
         }
 
-        public void TranslateVertex(int vertexIndex, Vector3 translationVector) {
+        public void TranslateVertex(int vertexIndex, Vector3 translationVector)
+        {
             vertexBuffer[vertexIndex * 3 + 0] += translationVector.X;
             vertexBuffer[vertexIndex * 3 + 1] += translationVector.Y;
             vertexBuffer[vertexIndex * 3 + 2] += translationVector.Z;
         }
 
-        public int GetVertexCount() {
+        public int GetVertexCount()
+        {
             return vertexBuffer.Length / 3;
         }
 

@@ -1,16 +1,14 @@
-using System;
-using System.IO;
-using System.Windows.Forms;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-
-using static LibReplanetizer.DataFunctions;
 using LibReplanetizer;
-using LibReplanetizer.Serializers;
 using LibReplanetizer.LevelObjects;
-
+using LibReplanetizer.Serializers;
 using RatchetEdit.Forms;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using static LibReplanetizer.DataFunctions;
 using static LibReplanetizer.Utilities;
 
 namespace RatchetEdit
@@ -81,7 +79,8 @@ namespace RatchetEdit
             UpdateProperties(null);
         }
 
-        private Dictionary<int, string> GetModelNames(string fileName) {
+        private Dictionary<int, string> GetModelNames(string fileName)
+        {
             var modelNames = new Dictionary<int, string>();
 
             try
@@ -121,7 +120,7 @@ namespace RatchetEdit
         {
             if ((modelViewer == null || modelViewer.IsDisposed))
             {
-                if((GetSelectedObject() is ModelObject modelObj))
+                if ((GetSelectedObject() is ModelObject modelObj))
                 {
                     modelViewer = new ModelViewer(this, modelObj.model);
                     modelViewer.Show();
@@ -345,7 +344,7 @@ namespace RatchetEdit
             }
 
             if (e.Node.Parent == null) return;
-            
+
 
             if (e.Node.Parent == objectTree.splineNode)
             {

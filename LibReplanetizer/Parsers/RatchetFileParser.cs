@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using LibReplanetizer.Models;
+﻿using LibReplanetizer.Headers;
 using LibReplanetizer.LevelObjects;
+using LibReplanetizer.Models;
 using LibReplanetizer.Models.Animations;
+using System.Collections.Generic;
+using System.IO;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.Headers;
 
 namespace LibReplanetizer.Parsers
 {
@@ -169,7 +168,7 @@ namespace LibReplanetizer.Parsers
             byte[] spriteBlock = ReadBlock(fileStream, spriteOffset, spriteCount * 4);
 
             var list = new List<UiElement>(elemCount);
-            for(int i = 0; i < elemCount; i++)
+            for (int i = 0; i < elemCount; i++)
             {
                 list.Add(new UiElement(elemBlock, i, spriteBlock));
             }
@@ -180,7 +179,7 @@ namespace LibReplanetizer.Parsers
         {
             int count = ratchet.animations.Count;
             List<Animation> animations = new List<Animation>(ratchet.animations.Count);
-            if(offset > 0)
+            if (offset > 0)
             {
                 byte boneCount = (byte)ratchet.boneMatrices.Count;
 

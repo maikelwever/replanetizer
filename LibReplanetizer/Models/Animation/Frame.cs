@@ -38,7 +38,7 @@ namespace LibReplanetizer.Models.Animations
                 rotations.Add(rot);
             }
 
-            
+
             sec0s = new List<short[]>();
             for (int i = 0; i < sec0Count; i++)
             {

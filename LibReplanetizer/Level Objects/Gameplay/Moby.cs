@@ -1,9 +1,8 @@
-﻿using System;
+﻿using LibReplanetizer.Models;
+using OpenTK;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using OpenTK;
-using LibReplanetizer.Models;
 using static LibReplanetizer.DataFunctions;
 
 namespace LibReplanetizer.LevelObjects

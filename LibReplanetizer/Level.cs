@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using LibReplanetizer.Headers;
 using LibReplanetizer.LevelObjects;
 using LibReplanetizer.Models;
-using LibReplanetizer.Parsers;
-using LibReplanetizer.Headers;
 using LibReplanetizer.Models.Animations;
-using System.Drawing;
+using LibReplanetizer.Parsers;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace LibReplanetizer
 {
@@ -169,7 +168,7 @@ namespace LibReplanetizer
 
 
             // Gameplay elements
-            using(GameplayParser gameplayParser = new GameplayParser(game, path + @"/gameplay_ntsc"))
+            using (GameplayParser gameplayParser = new GameplayParser(game, path + @"/gameplay_ntsc"))
             {
                 Console.WriteLine("Parsing Level variables...");
                 levelVariables = gameplayParser.GetLevelVariables();

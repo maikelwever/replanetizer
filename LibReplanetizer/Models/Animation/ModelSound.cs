@@ -23,7 +23,7 @@ namespace LibReplanetizer.Models.Animations
         public ModelSound(byte[] soundBlock, int num)
         {
             int offset = num * 0x20;
-            off_00 = ReadInt(soundBlock, offset+ 0x00);
+            off_00 = ReadInt(soundBlock, offset + 0x00);
             distance = ReadFloat(soundBlock, offset + 0x04);
             masterVolume = ReadInt(soundBlock, offset + 0x08);
             volume = ReadInt(soundBlock, offset + 0x0C);

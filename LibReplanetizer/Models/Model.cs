@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using LibReplanetizer.LevelObjects;
 using OpenTK.Graphics.OpenGL;
+using System.Collections.Generic;
+using System.IO;
 using static LibReplanetizer.DataFunctions;
-using LibReplanetizer.LevelObjects;
 
 namespace LibReplanetizer.Models
 {
@@ -14,8 +14,8 @@ namespace LibReplanetizer.Models
     {
         public short id { get; set; }
         public float size;
-        public float[] vertexBuffer = {  };
-        public ushort[] indexBuffer = {  };
+        public float[] vertexBuffer = { };
+        public ushort[] indexBuffer = { };
         public uint[] weights;
         public uint[] ids;
         public byte[] rgbas;
@@ -118,7 +118,7 @@ namespace LibReplanetizer.Models
                 vertexBuffer[(i * 8) + 5] = (ReadFloat(vertBlock, (i * elemSize) + 0x14));    //NormZ
                 vertexBuffer[(i * 8) + 6] = (ReadFloat(vertBlock, (i * elemSize) + 0x18));    //UVu
                 vertexBuffer[(i * 8) + 7] = (ReadFloat(vertBlock, (i * elemSize) + 0x1C));    //UVv
-                if(elemSize == 0x28)
+                if (elemSize == 0x28)
                 {
                     weights[i] = (ReadUint(vertBlock, (i * elemSize) + 0x20));
                     ids[i] = (ReadUint(vertBlock, (i * elemSize) + 0x24));
