@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     
     steps:
       - uses: actions/checkout@master
@@ -15,10 +15,10 @@ jobs:
       - run: dotnet --list-runtimes && dotnet --list-sdks
       - run: git submodule update --init
       - run: mkdir -p /tmp/zips
-      - run: dotnet publish -c Release -o /tmp/out-linux/bin --self-contained --runtime linux-x64 Replanetizer
-      - run: zip -j -r /tmp/zips/replanetizer-linux.zip /tmp/out-linux/bin
-      - run: dotnet publish -c Release -o /tmp/out-win/bin --self-contained --runtime win-x64 Replanetizer
-      - run: zip -j -r /tmp/zips/replanetizer-win.zip /tmp/out-win/bin
+      - run: dotnet publish -c Release -o /tmp/out-linux/replanetizer-linux --self-contained --runtime linux-x64 Replanetizer
+      - run: zip -j -r /tmp/zips/replanetizer-linux.zip /tmp/out-linux/
+      - run: dotnet publish -c Release -o /tmp/out-win/replanetizer-win --self-contained --runtime win-x86 Replanetizer
+      - run: zip -j -r /tmp/zips/replanetizer-win.zip /tmp/out-win/
       - uses: actions/upload-artifact@v1
         with:
             name: zips
