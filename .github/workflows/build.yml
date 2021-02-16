@@ -15,10 +15,15 @@ jobs:
       - run: dotnet --list-runtimes && dotnet --list-sdks
       - run: git submodule update --init
       - run: mkdir -p /tmp/zips
-      - run: dotnet publish -c Release -o /tmp/out-linux/replanetizer-linux --self-contained --runtime linux-x64 Replanetizer
-      - run: zip -j -r /tmp/zips/replanetizer-linux.zip /tmp/out-linux/
-      - run: dotnet publish -c Release -o /tmp/out-win/replanetizer-win --self-contained --runtime win-x86 Replanetizer
-      - run: zip -j -r /tmp/zips/replanetizer-win.zip /tmp/out-win/
+
+      - run: dotnet publish -c Release -o /tmp/out-linux/replanetizer --self-contained --runtime linux-x64 Replanetizer
+      - run: cd /tmp/out-linux/
+      - run: zip -r /tmp/zips/replanetizer-linux-x64.zip replanetizer
+
+      - run: dotnet publish -c Release -o /tmp/out-win/replanetizer --self-contained --runtime win-x86 Replanetizer
+      - run: cd /tmp/out-win/
+      - run: zip -r /tmp/zips/replanetizer-win-x86.zip replanetizer
+
       - uses: actions/upload-artifact@v1
         with:
             name: zips
@@ -42,8 +47,8 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} 
-            asset_name: replanetizer-linux.zip
-            asset_path: /tmp/zips/replanetizer-linux.zip
+            asset_name: replanetizer-linux-x64.zip
+            asset_path: /tmp/zips/replanetizer-linux-x64.zip
             asset_content_type: application/zip
 
       - name: Upload Release Asset Windows
@@ -53,6 +58,6 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} 
-            asset_name: replanetizer-win.zip
-            asset_path: /tmp/zips/replanetizer-win.zip
+            asset_name: replanetizer-win-x86.zip
+            asset_path: /tmp/zips/replanetizer-win-x86.zip
             asset_content_type: application/zip
